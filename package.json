@@ -1,0 +1,12 @@
+{
+  "name": "shapeless-guide",
+  "description": "",
+  "version": "0.0.1",
+  "devDependencies": {
+    "underscore-ebook-template": "git+https://github.com/underscoreio/underscore-ebook-template.git#0.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specificed\" && exit 1"
+  },
+  "author": "Dave Gurnell"
+}

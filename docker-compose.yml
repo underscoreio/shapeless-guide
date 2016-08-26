@@ -1,0 +1,6 @@
+version: '2'
+services:
+  book:
+    image: underscoreio/book:latest
+    volumes:
+     - .:/source
