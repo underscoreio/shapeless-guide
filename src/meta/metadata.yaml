@@ -24,6 +24,7 @@ pages:
   - type-classes/index.md
   - type-classes/products.md
   - type-classes/coproducts.md
+  - type-classes/lazy.md
   - type-classes/packaging.md
   - type-classes/summary.md
   - notes/outline.md

@@ -50,7 +50,7 @@ for our `HList`, for `IceCream`,
 and for any case class involving
 combinations of `Strings`, `Ints`, and/or `Booleans`.
 
-### Deriving instances for *HLists*
+### Instances for *HLists*
 
 Let's start by building a library of `CsvEncoders`
 for the three field types in our `IceCream`:
@@ -87,7 +87,7 @@ import shapeless.{HList, HNil, ::}
 implicit val hnilEncoder: CsvEncoder[HNil] =
   createEncoder(hnil => Nil)
 
-implicit def hconsEncoder[H, T <: HList](
+implicit def hlistEncoder[H, T <: HList](
   implicit
   hEncoder: CsvEncoder[H],
   tEncoder: CsvEncoder[T]
@@ -111,14 +111,14 @@ Perhaps more importantly,
 we can also create encoders for any `HList` involving
 `Strings`, `Ints`, and/or `Booleans`:
 
-```
+```tut:book
 val encoder1 = implicitly[CsvEncoder[Int :: Boolean :: Int :: Boolean :: HNil]]
 val encoder2 = implicitly[CsvEncoder[Boolean :: String :: String :: HNil]]
 val encoder3 = implicitly[CsvEncoder[Int :: HNil]]
 // and so on...
 ```
 
-### Converting instances for *HList* instances for case classes
+### Instances for arbitrary product types
 
 Our `iceCreamHlistEncoder` from the previous section
 gets us almost all the way towards an actual encoder for `IceCream`.
@@ -145,7 +145,6 @@ that works for any family of sealed traits and case classes,
 so unless we need to explicitly override the default behaviour of the type class
 we never need to summon
 
-
 Ideally we'd like to rewrite `iceCreamEncoder` to work for
 any type `A` that has a `Generic[A]`.
 If we can do this,
@@ -157,9 +156,9 @@ However, if we try to write this code we find we have a problem:
 implicit def genericEncoder[A](
   implicit
   gen: Generic[A],
-  hlistEncoder: CsvEncoder[???]
+  rEncoder: CsvEncoder[???]
 ): CsvEncoder[A] =
-  createEncoder(value => hlistEncoder.encode(gen.to(value)))
+  createEncoder(value => rEncoder.encode(gen.to(value)))
 ```
 
 The problem is, we have to refer to the type of `gen.Repr` in the method signature.
@@ -172,12 +171,12 @@ This produces some unsightly syntax
 because `Repr` is defined as a type member on generic, not a type parameter:
 
 ```tut:book
-implicit def genericEncoder[A, R <: HList](
+implicit def genericEncoder[A, R](
   implicit
   gen: Generic[A] { type Repr = R },
-  hlistEncoder: CsvEncoder[R]
+  rEncoder: CsvEncoder[R]
 ): CsvEncoder[A] =
-  createEncoder(value => hlistEncoder.encode(gen.to(value)))
+  createEncoder(value => rEncoder.encode(gen.to(value)))
 ```
 
 Fortunately, shapeless defines a convenient type alias `Generic.Aux`
@@ -195,12 +194,12 @@ allowing a much more visually appealing definition
 in the final version of our code:
 
 ```tut:book
-implicit def genericEncoder[A, R <: HList](
+implicit def genericEncoder[A, R](
   implicit
   gen: Generic.Aux[A, R],
-  hlistEncoder: CsvEncoder[R]
+  rEncoder: CsvEncoder[R]
 ): CsvEncoder[A] =
-  createEncoder(value => hlistEncoder.encode(gen.to(value)))
+  createEncoder(value => rEncoder.encode(gen.to(value)))
 ```
 
 Intuitively, this definition says:
@@ -215,7 +214,7 @@ We can use the method in our code as follows:
 writeCsv(iceCreams)
 ```
 
-which the compiler expands to:
+The compiler expands this to:
 
 ```scala
 writeCsv(iceCreams)(
@@ -232,19 +231,20 @@ and then to:
 writeCsv(iceCreams)(
   genericEncoder(
     Generic[IceCream],
-    hconsEncoder(stringEncoder,
-      hconsEncoder(intEncoder,
-        hconsEncoder(booleanEncoder, hnilEncoder)))
+    hlistEncoder(stringEncoder,
+      hlistEncoder(intEncoder,
+        hlistEncoder(booleanEncoder, hnilEncoder)))
   )
 )
 ```
 
 all without us having to lift a finger.
-The same code works for any type
-that has an instance of `Generic` and a compatible `CsvEncoder`.
-In other words we can now serialize
-any case class with fields of type `String`, `Int`, or `Boolean`,
-all without a single additional line of code:
+
+The same rules work for any type that has an instance of `Generic`
+and a compatible `CsvEncoder`.
+In other words we can now serialize any case class
+with fields of type `String`, `Int`, and/or `Boolean`,
+without writing a single additional line of code:
 
 ```tut:book
 case class Coord(x: Int, y: Int)
