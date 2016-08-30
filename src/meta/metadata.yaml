@@ -15,6 +15,12 @@ copyright: "2016"
 # Used by Grunt to assemble pandoc command line:
 pages:
   - intro/index.md
+  - intro/generic.md
+  - intro/thisbook.md
+  - representations/index.md
+  - representations/products.md
+  - representations/coproducts.md
+  - representations/summary.md
   - notes/outline.md
   - notes/libraries.md
   - solutions.md
