@@ -1,6 +1,6 @@
-# Notes
+## Libraries
 
-## Select well-known libraries using shapeless
+### Select well-known libraries using shapeless
 
 *argonaut-shapeless*
 
@@ -251,7 +251,7 @@ JSON codec derivation.
  - shapeless.labelled.field
  - shapeless.labelled.FieldType
 
-## Select smaller-scale libraries using shapeless
+### Select smaller-scale libraries using shapeless
 
 *akka-stream-extensions*
 
@@ -338,7 +338,7 @@ Wrap and unwrap value classes.
  - shapeless.Generic
  - shapeless.Lazy
 
-## Transpose dependencies
+### Transpose dependencies (what uses what)
 
 Bits of shapeless and what uses them:
 

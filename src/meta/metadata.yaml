@@ -21,6 +21,11 @@ pages:
   - representations/products.md
   - representations/coproducts.md
   - representations/summary.md
+  - type-classes/index.md
+  - type-classes/products.md
+  - type-classes/coproducts.md
+  - type-classes/packaging.md
+  - type-classes/summary.md
   - notes/outline.md
   - notes/libraries.md
   - solutions.md

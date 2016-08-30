@@ -43,22 +43,24 @@ iceCream.tail
 iceCream.tail.head
 ```
 
-and we can prepend elements to produce larger `HLists`:
+The compiler knows the exact length of each `HList`,
+so it becomes type error to take the `head` or `tail` of an empty list:
+
+```tut:book:fail
+iceCream.tail.tail.tail.head
+```
+
+In addition to being able to inspect and traverse `HLists`,
+we can manipulate and transform them to perform various kinds of interop.
+We can do simple things like prepending an element:
 
 ```tut:book
 42L :: iceCream
 ```
 
-<div class="callout callout-info">
-  TODO: Quick discussion of infix type names like `::`?
-</div>
-
-We can write recursive methods to
-perform more complex manipulations
-such as mapping, filtering, and concatenation.
+or perform more complex manipulations
+such as mapping, filtering, and concatenation lists.
 More on these later.
-The same code works for `HLists` of any size,
-resolving the problem we had with tuples.
 
 ### Switching encodings using *Generic*
 

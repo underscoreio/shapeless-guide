@@ -7,7 +7,7 @@ we need to take a brief detour to discuss
 a common piece of functional programming theory
 called "algebraic data types".
 
-## Algebraic data types
+## Recap: algebraic data types
 
 *Algebraic data types* (*ADTs*[^adts])
 are a functional programming concept

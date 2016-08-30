@@ -1,8 +1,12 @@
-# Outline
+# Notes
+
+This stuff won't be here when the book is done.
+
+## Outline
 
 TODO: Introduce `illTyped` wherever makes sense.
 
- - Introduction
+ - DONE Introduction
 
     - What is generic programming?
        - Abstracting over types
@@ -12,7 +16,7 @@ TODO: Introduce `illTyped` wherever makes sense.
        - Type classes
     - The rest of this book
 
- - Generic representations
+ - DONE Generic representations
 
     - Products and coproducts
        - `HList`
