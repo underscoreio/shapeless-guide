@@ -22,7 +22,7 @@ we can write a common skeleton
 for deriving type class instances using shapeless:
 
 ```tut:book
-import shapeless.{HList, ::, HNil, Coproduct, :+:, CNil, Generic}
+import shapeless.{HList, ::, HNil, Coproduct, :+:, CNil, Generic, Lazy}
 
 // The type class
 
@@ -32,17 +32,17 @@ trait MyTC[A] {
 
 // Instances for HList
 
-implicit val hnilInstance: MyTC[HNil] = ???
+implicit def hnilInstance: MyTC[HNil] = ???
 
 implicit def hlistInstance[H, T <: HList](
   implicit
   hInstance: Lazy[MyTC[H]],
-  tInstance: Lazy[MyTC[T]]
+  tInstance: MyTC[T]
 ): MyTC[H :: T] = ???
 
 // Instances for Coproduct
 
-implicit val cnilInstance: MyTC[CNil] = ???
+implicit def cnilInstance: MyTC[CNil] = ???
 
 implicit def coproductInstance[H, T <: Coproduct](
   implicit
@@ -50,13 +50,13 @@ implicit def coproductInstance[H, T <: Coproduct](
   tInstance: MyTC[T]
 ): MyTC[H :+: T] = ???
 
-// Instance for generic
+// Instance for Generic
 
 implicit def genericInstance[A, R](
   implicit
   generic: Generic.Aux[A, R],
   rInstance: Lazy[MyTC[R]]
-): MyTX[A] = ???
+): MyTC[A] = ???
 ```
 
 Finally, we discussed packaging instances as part of a library,
