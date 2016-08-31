@@ -1,4 +1,4 @@
-# Deriving type class instances with *Generic*
+# Automatically deriving type class instances
 
 In the last chapter we saw how the `Generic` type class
 allowed us to convert any instance of an ADT to

@@ -338,7 +338,7 @@ Wrap and unwrap value classes.
  - shapeless.Generic
  - shapeless.Lazy
 
-### Transpose dependencies (what uses what)
+### Transposed dependencies (what uses what)
 
 Bits of shapeless and what uses them:
 

@@ -27,6 +27,13 @@ pages:
   - type-classes/lazy.md
   - type-classes/packaging.md
   - type-classes/summary.md
+  - type-metadata/index.md
+  - type-metadata/literal-types.md
+  - type-metadata/labelled-products.md
+  - type-metadata/labelled-coproducts.md
+  - type-metadata/typeable.md
+  - type-metadata/annotations.md
+  - type-metadata/summary.md
   - notes/outline.md
   - notes/libraries.md
   - solutions.md

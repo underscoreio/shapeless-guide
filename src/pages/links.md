@@ -2,14 +2,17 @@
 
 <!-- Libraries -->
 
-[link-shapeless]: https://github.com/milessabin/shapeless
+[link-argonaut]: https://argonaut.io
 [link-circe]: https://github.com/travisbrown/circe
 [link-doobie]: https://github.com/tpolecat/doobie
 [link-ensime]: https://ensime.org
 [link-finch]: https://github.com/finagle/finch
 [link-frameless]: https://github.com/adelbertc/frameless
 [link-parboiled2]: https://github.com/sirthias/parboiled2
+[link-play-json]: https://www.playframework.com/documentation/2.5.x/ScalaJson
 [link-scodec]: https://github.com/scodec/scodec
+[link-shapeless]: https://github.com/milessabin/shapeless
+[link-spray-json]: https://github.com/spray/spray-json
 
 <!-- Papers and articles -->
 
@@ -19,6 +22,9 @@
 [link-tpolecat-adts]: http://tpolecat.github.io/presentations/algebraic_types.html
 [link-travisbrown-generic-type-class-derivation]: https://meta.plasm.us/posts/2015/11/08/type-classes-and-generic-derivation/
 [link-travisbrown-incomplete-generic-type-class-derivation]: https://meta.plasm.us/posts/2015/06/21/deriving-incomplete-type-class-instances/
+
+[link-typelevel-scala-singleton-type-literals]: https://github.com/typelevel/scala#typelevel-scala-2118
+[link-lightbend-scala-singleton-type-literals]: https://github.com/scala/scala/pull/5310
 
 <!-- Other -->
 
