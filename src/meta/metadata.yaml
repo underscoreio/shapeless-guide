@@ -21,19 +21,19 @@ pages:
   - representations/products.md
   - representations/coproducts.md
   - representations/summary.md
-  - type-classes/index.md
-  - type-classes/products.md
-  - type-classes/coproducts.md
-  - type-classes/lazy.md
-  - type-classes/packaging.md
-  - type-classes/summary.md
-  - type-metadata/index.md
-  - type-metadata/literal-types.md
-  - type-metadata/labelled-products.md
-  - type-metadata/labelled-coproducts.md
-  - type-metadata/typeable.md
-  - type-metadata/annotations.md
-  - type-metadata/summary.md
+  - generic/index.md
+  - generic/products.md
+  - generic/coproducts.md
+  - generic/lazy.md
+  - generic/packaging.md
+  - generic/summary.md
+  - labelled-generic/index.md
+  - labelled-generic/literal-types.md
+  - labelled-generic/labelled-products.md
+  - labelled-generic/labelled-coproducts.md
+  - labelled-generic/summary.md
+  - misc/typeable.md
+  - misc/annotations.md
   - notes/outline.md
   - notes/libraries.md
   - solutions.md

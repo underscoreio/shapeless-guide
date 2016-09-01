@@ -9,9 +9,7 @@ based on some other criteria.
 In this chapter we will look at some of the additional tools
 shapeless gives us for type class derivation.
 We'll cover a variant of `Generic` called `LabelledGeneric`
-that gives us access to field names and type names,
-and we'll cover some additional tools
-for inspecting other aspects of the types we are manipulating.
+that gives us access to field names and type names.
 
 To begin with, though, we have some theory to cover.
 `LabelledGeneric` uses some clever techniques to expose
