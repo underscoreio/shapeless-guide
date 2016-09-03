@@ -1,108 +1,26 @@
 # Algebraic data types and generic representations
 
-In this chapter we will discuss the generic encodings
-shapeless uses to represent data.
-Before we do so, however,
-we need to take a brief detour to discuss
-a common piece of functional programming theory
-called "algebraic data types".
+The main idea behind generic programming
+is to solve problems for a wide variety of types
+by writing a small amount of generic code.
+Shapeless provides two sets of tools to this end:
 
-## Recap: algebraic data types
+ 1. a set of generic data types
+    that can be inspected, traversed, and manipulated
+    at the type level;
 
-*Algebraic data types* (*ADTs*[^adts])
-are a functional programming concept
-with a fancy name but a very simple meaning.
-They are simply an idiomatic way of representing data
-using "ands" and "ors". For example:
+ 2. automatic mapping between *algebraic data types (ADTs)*
+    (encoded in Scala as case classes and sealed traits)
+    and these generic representations.
 
- - a shape is a rectangle **or** a circle
- - a rectangle has a width **and** a height
- - a circle has a radius
-
-[^adts]: Be careful not to confuse
-algebraic data types with "abstract data types",
-which are a different modelling tool
-with little bearing on the discussion here.
-
-In ADT terminology,
-"and types" such as rectangle and circle are called *products*,
-and "or types" such as shape are called *coproducts*.
-In Scala we typically represent products using
-case classes and coproducts using sealed traits:
-
-```tut:book
-sealed trait Shape
-final case class Rectangle(width: Double, height: Double) extends Shape
-final case class Circle(radius: Double) extends Shape
-
-val rect: Shape = Rectangle(3.0, 4.0)
-val circ: Shape = Circle(1.0)
-```
-
-The beauty of ADTs is that they are completely type safe.
-The compiler has complete knowledge of the algebras we define,
-so it can support us in writing complete,
-correctly typed methods involving our types:
-
-```tut:book
-def area(shape: Shape): Double = shape match {
-  case Rectangle(w, h) => w * h
-  case Circle(r)       => math.Pi * r * r
-}
-
-area(rect)
-area(circ)
-```
-
-### Alternative encodings
-
-Sealed traits and case classes are undoubtedly
-the most convenient encoding of ADTs in Scala.
-However, they aren't the *only* encoding.
-For example, the Scala standard library provides
-generic products in the form of `Tuples`
-and a generic coproduct in the form of `Either`.
-We could have chosen these to encode our `Shape`:
-
-```tut:book
-type Rectangle2 = (Double, Double)
-type Circle2    = Double
-type Shape2     = Either[Rectangle2, Circle2]
-
-val rect2: Shape2 = Left((3.0, 4.0))
-val circ2: Shape2 = Right(1.0)
-```
-
-While this encoding is less readable
-than the sealed trait encoding above,
-it does have some of the same desirable properties.
-We can still write completely type safe operations involving `Shape2`:
-
-```tut:book
-def area2(shape: Shape2): Double = shape match {
-  case Left((w, h)) => w * h
-  case Right(r)    => math.Pi * r * r
-}
-
-area2(rect2)
-area2(circ2)
-```
-
-Importantly, `Shape2` is a more "generic" encoding than `Shape`.
-For example, any code that operates on a pair of `Doubles`
-will be able to operate on a `Rectangle2`.
-As software engineers we may see this as a bad thing:
-what havoc can we accidentally wreak across our codebase
-with such interoperability?!
-However, in many cases interoperability is a desirable feature.
-It allows us to write generic code that operates across a wide range of types.
-
-shapeless provides a convenient mechanism that allows us
-to switch back and forth between specific and generic encodings of ADTs.
-This gives us the best of both worlds:
-we can use friendly sealed traits and case classes by default,
-and switch to generic representations whenever we want interoperability.
-However, shapeless doesn't use `Tuples` and `Either` like our example here.
-In the next sections we will introduce shapeless'
-encodings of products and coproducts
-and learn how to switch back and forth between encodings.
+In this chapter we will start by recapping
+on what algebraic data types are
+and why they might be familiar to Scala developers.
+Then we will look at
+the data types shapeless uses as generic representations
+and discuss how they map on to concrete ADTs.
+Finally, we will introduce a type class called `Generic`
+that provides automatic mapping
+back and forth between ADTs and generic representations.
+We will finish with some simple examples
+using `Generic` to convert values from one type to another.

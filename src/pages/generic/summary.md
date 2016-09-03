@@ -1,66 +1,56 @@
 ## Summary
 
-In this chapter we re-acquianted ourselves with type classes
-and discussed how we can use shapeless
-to automatically derive type class instances.
-By defining implicits to produce type class instances for
-`HNil`, `::`, `CNil`, and `:+:`,
-we can derive type class instances
-for any `HList` or `Coproduct`.
-We can then map those instances onto regalar ADTs
-using `Generic`.
-
-We also covered the `Lazy` type class,
-which helps avoid infinite loops
-when summoning type class instances for recursive data types.
-When defining implicits for `HList`, `Coproduct`, and `Generic`,
-it is normally a good idea to wrap any implicit parameters
-that involve other types with `Lazy`.
+In this chapter we discussed how to use `Generic`,
+`HLists`, and `Coproducts` to automatically derive type class instances.
+We also covered the `Lazy` type as a means of handling complex/recursive types.
 
 Taking all of this into account,
-we can write a common skeleton
-for deriving type class instances using shapeless:
+we can write a common skeleton for deriving type class instances as follows:
 
-```tut:book
+```tut:book:silent
 import shapeless.{HList, ::, HNil, Coproduct, :+:, CNil, Generic, Lazy}
 
-// The type class
+// Step 1. Define the type class
 
 trait MyTC[A] {
   // etc...
 }
 
-// Instances for HList
+// Step 2. Define basic instances
+
+implicit def intInstance: MyTC[Int] = ???
+
+// Step 3. Define instances for HList and Coproduct
 
 implicit def hnilInstance: MyTC[HNil] = ???
 
 implicit def hlistInstance[H, T <: HList](
   implicit
-  hInstance: Lazy[MyTC[H]],
+  hInstance: Lazy[MyTC[H]], // wrap in Lazy
   tInstance: MyTC[T]
 ): MyTC[H :: T] = ???
-
-// Instances for Coproduct
 
 implicit def cnilInstance: MyTC[CNil] = ???
 
 implicit def coproductInstance[H, T <: Coproduct](
   implicit
-  hInstance: Lazy[MyTC[H]],
+  hInstance: Lazy[MyTC[H]], // wrap in Lazy
   tInstance: MyTC[T]
 ): MyTC[H :+: T] = ???
 
-// Instance for Generic
+// Step 4. Define an instance for Generic
 
 implicit def genericInstance[A, R](
   implicit
-  generic: Generic.Aux[A, R],
+  generic: Generic.Aux[A, R], // wrap in Lazy
   rInstance: Lazy[MyTC[R]]
 ): MyTC[A] = ???
 ```
 
-Finally, we discussed packaging instances as part of a library,
-using shapeless to provide default behaviour
-and providing custom overrides for specific types
-without running into ambiguous implicit errors.
+In the next chapter we'll cover some useful theory,
+programming patterns, and debugging techniques
+to help write code in this style.
 
+In the chapter following we will revisit type class derivation
+using a variant of `Generic` that
+allows us to inspect field and type names in our ADTs.

@@ -1,12 +1,12 @@
 # Introduction
 
-This book provides an introduction to [shapeless][link-shapeless],
+This book is a guide to using [shapeless][link-shapeless],
 a library for *generic programming* in Scala.
-Shapeless is a large library containing a wide variety of tools.
-Rather than cover everything it has to offer,
-we will concentrate on the most commonly used and useful parts.
-We will introduce the main theoretical concepts
-and provide practical examples of how you can use shapeless in your code.
+Shapeless is large library,
+so rather than cover everything it has to offer,
+we will concentrate on a few compelling use cases
+and use them to build a picture of the tools and patterns available.
 
-But first, let's talk about why shapeless is important.
-What is generic programming, and why do we need it?
+Before we start,
+let's talk about what generic programming is
+and why shapeless is such a compelling tool.

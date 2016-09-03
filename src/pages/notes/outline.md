@@ -40,14 +40,19 @@ TODO: Introduce `illTyped` wherever makes sense.
      - `LabelledGeneric`
         - `FieldType`, `KeyTag`, `field`
         - `->>` from `shapeless.syntax.singleton`
-     - Inspecting type names
-        - `Typeable`
-        - typeable syntax
 
   - Other useful tools
-
+     - `Typeable`
      - `Annotation` and `Annotations`
      - `Default`, `Default.AsRecord`, and `Default.AsOptions`
+
+ - Counting with types
+    - `Nat`
+    - `ToInt`
+
+ - Working with tuples
+    - `Tupler`
+    - `shapeless.Tuple.fill` (depends on `Nat`)
 
  - Working with functions
 
@@ -55,12 +60,9 @@ TODO: Introduce `illTyped` wherever makes sense.
     - `shapeless.syntax.std.function.{fromProduct, toProduct}`
     - `ProductArgs` and `FromProductArgs` ??
 
- - Counting with types
-    - `Nat`
-    - `ToInt`
-
  - Performance concerns
     - `Cached`
+    - `Lazy` and `Strict`
     - `cachedImplicit`
 
  - Working with HLists

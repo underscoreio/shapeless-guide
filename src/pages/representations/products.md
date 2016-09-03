@@ -3,11 +3,13 @@
 In the previous section we introduced tuples
 as a generic representation pf products.
 Unfortunately, Scala's built-in tuples have a couple of disadvantages
-that make them unsuitable for shapeless' purposes.
-First, each size of tuple has a different, unrelated type,
-making it difficult to write code that abstracts over sizes.
-Second, we don't have types for 0- and 1-length tuples,
-which are important for representing product types with 0 and 1 fields.
+that make them unsuitable for shapeless' purposes:
+
+ 1. each size of tuple has a different, unrelated type,
+    making it difficult to write code that abstracts over sizes;
+
+ 2. there are no types for 0- and 1-length tuples,
+    which are important for representing products with 0 and 1 fields.
 
 For these reasons, shapeless uses a different generic encoding
 for product types called *heterogeneous lists* or `HLists`[^hlist-name].
@@ -15,100 +17,103 @@ Here's an inheritance diagram:
 
 ![Inheritance diagram for `HList`](src/pages/representations/hlist.png)
 
-[^hlist-name]: `Product` is perhaps a better name,
-but the standard library unfortunately already has a type called `Product`.
+[^hlist-name]: `Product` is perhaps a better name for `HList`,
+but the standard library unfortunately already has a type `scala.Product`.
 
 `HLists` resemble regular lists,
 except that the type of each element
-is maintained in the overall type signature.
-The `::` type can be loosely interpreted as a `Tuple2`
-where the right side has to be another `HList`:
+is maintained in the overall type of the list:
 
-```tut:book
-import shapeless.{HList, HNil, ::}
+```tut:book:silent
+import shapeless.{HList, ::, HNil}
 
-val iceCream = "Sunday" :: 1 :: false :: HNil
+val product: String :: Int :: Boolean :: HNil =
+  "Sunday" :: 1 :: false :: HNil
 ```
 
-We can also manipulate `HLists` in various ways
-that are impossible with case classes and tuples.
-We can retrieve the `head` and `tail`,
-and all the types are preserved:
+Note that the type and value of the `HList` mirror one another.
+Both represent the `String`, `Int`, and `Boolean` members.
+We can retrieve the `head` and `tail`
+and the types of the elements are preserved:
 
 ```tut:book
-iceCream.head
+val first: String =
+  product.head
 
-iceCream.tail
+val second: Int =
+  product.tail.head
 
-iceCream.tail.head
+val rest: Boolean :: HNil =
+  product.tail.tail
 ```
 
 The compiler knows the exact length of each `HList`,
-so it becomes type error to take the `head` or `tail` of an empty list:
+so it becomes a compilation error
+to take the `head` or `tail` of an empty list:
 
 ```tut:book:fail
-iceCream.tail.tail.tail.head
+product.tail.tail.tail.head
 ```
 
-In addition to being able to inspect and traverse `HLists`,
-we can manipulate and transform them to perform various kinds of interop.
-We can do simple things like prepending an element:
+We can manipulate and transform `HLists`
+in addition to being able to inspect and traverse them.
+For example, we can prepend an element with the `::` method.
+Again, notice how the type of the result reflects
+the number and types of its elements:
 
 ```tut:book
-42L :: iceCream
+val newProduct: Long :: String :: Int :: Boolean :: HNil =
+  42L :: product
 ```
 
-or perform more complex manipulations
-such as mapping, filtering, and concatenation lists.
-More on these later.
+Shapeless also provides tools for performing more complex operations
+such as mapping, filtering, and concatenating lists.
+We'll discuss these in more detail in later chapters.
 
-### Switching encodings using *Generic*
+### Switching representations using *Generic*
 
 Shapeless provides a type class called `Generic`
 that allows us to switch back and forth between
-a regular ADT and its generic encoding.
+a concrete ADT and its generic representation.
 There's some macro magic going on behind the scenes
-that allows shapeless to summon instances of `Generic`
-without any boilerplate:
+that allows us to summon instances of `Generic` without boilerplate:
 
-```tut:book
+```tut:book:silent
 import shapeless.Generic
 
 case class IceCream(name: String, numCherries: Int, inCone: Boolean)
+```
 
+```tut:book
 val iceCreamGen = Generic[IceCream]
 ```
 
-Note that each instance of `Generic` has a type member `Repr`
-providing a convenient `HList` for the type of its generic encoding
-(in this case `String :: Int :: Boolean :: HNil`).
+Note that the instance of `Generic` has a type member `Repr`
+containing the type of its generic representation.
+In this case `iceCreamGen.Repr` is `String :: Int :: Boolean :: HNil`.
 Instances of `Generic` have two methods:
-one for converting `to` `Repr` and one for converting `from` it:
+one for converting `to` `Repr`
+and one for converting `from` it:
 
 ```tut:book
-val iceCream = IceCream("Sundae", 1, false)
+val iceCream: IceCream =
+  IceCream("Sundae", 1, false)
 
-val genericIceCream = iceCreamGen.to(iceCream)
+val repr: iceCreamGen.Repr =
+  iceCreamGen.to(iceCream)
 
-val secondIceCream = iceCreamGen.from(genericIceCream)
+val iceCream2: IceCream =
+  iceCreamGen.from(repr)
 ```
 
 If two ADTs have the same `Repr`,
 we can convert back and forth between them using their `Generics`:
 
-```tut:book
+```tut:book:silent
 case class Employee(name: String, number: Int, manager: Boolean)
 
-val employeeGen = Generic[Employee]
-
-val strangeEmployee = employeeGen.from(genericIceCream)
-```
-
-We can even manipulate `HLists` and
-decode them to completely different case classes:
-
 ```tut:book
-case class Foo(bar: Int, baz: Boolean)
-
-Generic[Foo].from(genericIceCream.tail)
+// Create an employee from an ice cream:
+val strangeEmployee: Employee =
+  Generic[Employee].from(repr)
 ```

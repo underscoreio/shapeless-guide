@@ -54,74 +54,76 @@ implicit def genericEncoder[A, R](
 
 In the last section we created a set of rules
 to automatically derive a `CsvEncoder` for any product type.
-In this section we will generalise our code
-to work with coproducts as well as products.
-
+In this section we will apply the same patterns to coproducts.
 Let's return to our shape ADT as an example:
 
-```tut:book
+```tut:book:silent
 sealed trait Shape
 final case class Rectangle(width: Double, height: Double) extends Shape
 final case class Circle(radius: Double) extends Shape
 ```
 
-Shapeless' generic representation for `Shape` is
-`Rectangle :+: Circle :+: CNil`.
-If we can write generic `CsvEncoders` for `:+:` and `CNil`,
-our existing `hlistEncoder`, `hnilEncoder`, and `genericEncoder`
-will take care of the rest.
+The generic representation for `Shape` is `Rectangle :+: Circle :+: CNil`.
+We can write generic `CsvEncoders` for `:+:` and `CNil`
+using the same principles we used for `HLists`.
+Our existing encoders will take care of `Rectangle` and `Circle`:
 
-We haven't serialized any fields of type `Double` yet,
-so before we get started we'll create an additional `CsvEncoder[Double]`:
-
-```tut:book
-implicit val doubleEncoder: CsvEncoder[Double] =
-  createEncoder(d => List(d.toString))
-```
-
-### Instances for generic *Coproducts*
-
-We can write generic encoders for `Coproducts`
-using the same technique we used for `HLists`,
-by defining cases for `:+:` and `CNil`:
-
-```tut:book
+```tut:book:silent
 import shapeless.{Coproduct, :+:, CNil, Inl, Inr}
 
 implicit val cnilEncoder: CsvEncoder[CNil] =
-  createEncoder(cnil => throw new Exception("The impossible has happened!"))
+  createEncoder(cnil => throw new Exception("Universe exploded! Abort!"))
 
 implicit def coproductEncoder[H, T <: Coproduct](
   implicit
   hEncoder: CsvEncoder[H],
   tEncoder: CsvEncoder[T]
-): CsvEncoder[H :+: T] =
-  createEncoder {
-    case Inl(h) => hEncoder.encode(h)
-    case Inr(t) => tEncoder.encode(t)
-  }
+): CsvEncoder[H :+: T] = createEncoder {
+  case Inl(h) => hEncoder.encode(h)
+  case Inr(t) => tEncoder.encode(t)
+}
 ```
 
-There are two key differences
-between the encoders for `HList` and the encoders for `Coproduct`.
-First, the encoder for `CNil` rather alarmingly throws an exception.
-Remember that we can't actually create any values of type `CNil`---it's
-just there as a marker for the compiler.
-We're free to do odd things like throw exceptions without
-worrying about runtime exceptions.
-Second, because `Coproducts` are *disjunctions* of types,
-the encoder for `:+:` has to *choose* whether to encode a left or right value.
+There are two key points of note:
+
+1. Alarmingly, the encoder for `CNil` rather throws an exception!
+   Don't panic, though.
+   Remember that we can't actually create any values of type `CNil`.
+   It's just there as a marker for the compiler.
+   We're right to fail abruptly here because we should never reach this point.
+
+2. Because `Coproducts` are *disjunctions* of types,
+   the encoder for `:+:` has to *choose* whether to encode a left or right value.
+   We pattern match on the two subtypes of `:+:`: `Inl` for left and `Inr` for right.
 
 With these definitions and the definitions we wrote for product types,
-we can serialize any shape instance to CSV.
-If we encounter a rectangle, we get two figures in the output.
-If we encounter a circle, we get one[^better-csv-encodings].
+we should be able to serialize a list of shapes.
+Let's give it a try:
+
+```tut:book:silent
+val shapes: List[Shape] = List(
+  Rectangle(3.0, 4.0),
+  Circle(1.0)
+)
+```
+
+```tut:book:fail
+writeCsv(shapes)
+```
+
+Oh no, it failed!
+The error message is unhelpful as we discussed earlier.
+The reason for the failure is we don't have a `CsvEncoder` instance for `Double`.
+
+```tut:book:silent
+implicit val doubleEncoder: CsvEncoder[Double] =
+  createEncoder(d => List(d.toString))
+```
+
+With this definition in place, everything works as expected:
 
 ```tut:book
-val shapes: List[Shape] =
-  List(Rectangle(3.0, 4.0), Circle(1.0))
-
-writeCsv[Shape](shapes)
+writeCsv(shapes)
 ```
 
 ### Exercise: Aligning columns in CSV output
@@ -130,7 +132,7 @@ It would perhaps be better if we separated
 the data for rectangles and circles into two separate sets of columns.
 We can do this by adding a `width` field to `CsvEncoder`:
 
-```tut:book
+```tut:book:silent
 trait CsvEncoder[A] {
   def width: Int
   def encode(value: A): List[String]
@@ -146,7 +148,7 @@ We will leave this as an exercise to the reader.
 We start by modifying the definition of `createEncoder`
 to accept a `width` parameter:
 
-```tut:book
+```tut:book:silent
 def createEncoder[A](cols: Int)(func: A => List[String]): CsvEncoder[A] =
   new CsvEncoder[A] {
     val width = cols
@@ -157,7 +159,7 @@ def createEncoder[A](cols: Int)(func: A => List[String]): CsvEncoder[A] =
 
 Then we modify our base encoders to each record a width of `1`:
 
-```tut:book
+```tut:book:silent
 implicit val stringEncoder: CsvEncoder[String] =
   createEncoder(1)(str => List(str))
 
@@ -175,7 +177,7 @@ Our encoders for `HNil` and `CNil` have width `0` and our
 encoders for `::` and `:+:` have a width determined by
 the encoders for their heads and tails:
 
-```tut:book
+```tut:book:silent
 import shapeless.{HList, HNil, ::}
 
 implicit val hnilEncoder: CsvEncoder[HNil] =
@@ -185,16 +187,17 @@ implicit def hlistEncoder[H, T <: HList](
   implicit
   hEncoder: CsvEncoder[H],
   tEncoder: CsvEncoder[T]
-): CsvEncoder[H :: T] = createEncoder(hEncoder.width + tEncoder.width) {
-  case h :: t =>
-    hEncoder.encode(h) ++ tEncoder.encode(t)
-}
+): CsvEncoder[H :: T] =
+  createEncoder(hEncoder.width + tEncoder.width) {
+    case h :: t =>
+      hEncoder.encode(h) ++ tEncoder.encode(t)
+  }
 ```
 
 Our `:+:` encoder pads its output with a number of columns
 equal to the width of the encoder it isn't using for serialization:
 
-```tut:book
+```tut:book:silent
 import shapeless.{Coproduct, CNil, :+:, Inl, Inr}
 
 implicit val cnilEncoder: CsvEncoder[CNil] =
@@ -216,7 +219,7 @@ implicit def coproductEncoder[H, T <: Coproduct](
 Finally, our ADT encoder mirrors the width of
 the encoder for its generic representation:
 
-```tut:book
+```tut:book:silent
 import shapeless.Generic
 
 implicit def genericEncoder[A, R](

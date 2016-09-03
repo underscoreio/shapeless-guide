@@ -1,4 +1,4 @@
-## Deriving instances for complex/recursive types
+## Deriving instances for recursive types
 
 ```tut:book:invisible
 // ----------------------------------------------
@@ -54,60 +54,54 @@ implicit def genericEncoder[A, R](
 
 Let's try something more ambitious---a binary tree:
 
-```tut:book
+```tut:book:silent
 sealed trait Tree[A]
 final case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
 final case class Leaf[A](value: A) extends Tree[A]
 ```
 
 Theoretically we should already have all of the definitions in place
-to summon a CSV writer for this definition:
+to summon a CSV writer for this definition.
+However, calls to `writeCsv` fail to compile:
 
 ```tut:book:fail
 implicitly[CsvEncoder[Tree[Int]]]
 ````
 
-Ah. Clearly something has gone wrong.
-
-The problem here is that
-the compiler is preventing itself
+The problem here is that the compiler is preventing itself
 going into an infinite loop searching for implicits.
-The `Branch` data structure is recursive,
-so the generic the `CsvEncoder` for `Branch` depends on itself.
+If it sees the same type constructor twice in any branch of search,
+it assumes implicit resolution is diverging and gives up.
+`Branch` is recursive so
+the rule for `CsvEncoder[Branch]` is triggering this behaviour.
 
 In fact, the situation is worse than this.
-The compiler uses heuristics to check
-for branches of implicit search
-that it considers unlikely to terminate.
-Even non-recursive data types can cause it to give up:
+If the compiler sees the same type constructor twice
+and the complexity of the type parameters is *increasing*,
+it also gives up.
+This is a problem for shapeless
+because types like `::[H, T]` and `:+:[H, T]`
+come up in different generic representations
+and cause the compiler to give up prematurely.
 
-```tut:book:invisible
-sealed trait Shape
-```
+### *Lazy*
 
-```tut:book
-case class ListOfShapes(list: List[Shape])
-```
+Fortunately, shapeless provides a type called `Lazy` as a workaround.
+`Lazy` does two things:
 
-```tut:book:fail
-implicitly[CsvEncoder[ListOfShapes]]
-```
+ 1. it delays resolution of an implicit parameter
+    until it is strictly needed,
+    permitting the derivation of self-referential implicits.
 
-### The *Lazy* type class
+ 2. it guards against some of the aforementioned
+    over-defensive heuristics.
 
-Fortunately, shapeless provides a mechanism to deal with this.
-The `Lazy` type class wraps up another type class instance,
-caching the result in `lazy val` and ensuring that the same instance
-is always returned for the same type within the same expansion.
-We can use `Lazy` as a guard for any implicit parameter
-involving a type that isn't an `HList` or a `Coproduct`.
+As a rule of thumb,
+it is always a good idea to wrap the "head" parameter
+of any `HList` or `Coproduct` rule
+and the "repr" parameter of any `Generic` rule in `Lazy`:
 
-Tut (the tool we're using to render the code samples in this book)
-gets a little confused when we redefine parts of the puzzle on their own.
-Here's a complete recreation from scratch.
-Note the lines marked "wrapped in Lazy":
-
-```tut:book:reset
+```tut:book:invisible:reset
 import shapeless._
 
 trait CsvEncoder[A] {
@@ -125,54 +119,54 @@ implicit val intEncoder: CsvEncoder[Int] =
 
 implicit val hnilEncoder: CsvEncoder[HNil] =
   createEncoder(hnil => Nil)
+```
 
+```tut:book:silent
 implicit def hlistEncoder[H, T <: HList](
   implicit
-  hEncoder: Lazy[CsvEncoder[H]], // wrapped in Lazy
+  hEncoder: Lazy[CsvEncoder[H]],
   tEncoder: CsvEncoder[T]
-): CsvEncoder[H :: T] =
-  createEncoder {
-    case h :: t =>
-      hEncoder.value.encode(h) ++ tEncoder.encode(t)
-  }
+): CsvEncoder[H :: T] = createEncoder {
+  case h :: t =>
+    hEncoder.value.encode(h) ++ tEncoder.encode(t)
+}
+```
 
+```tut:book:invisible
 implicit val cnilEncoder: CsvEncoder[CNil] =
   createEncoder(cnil => throw new Exception("The impossible has happened!"))
+```
 
+```tut:book:silent
 implicit def coproductEncoder[H, T <: Coproduct](
   implicit
   hEncoder: Lazy[CsvEncoder[H]], // wrapped in Lazy
   tEncoder: CsvEncoder[T]
-): CsvEncoder[H :+: T] =
-  createEncoder {
-    case Inl(h) => hEncoder.value.encode(h)
-    case Inr(t) => tEncoder.encode(t)
-  }
+): CsvEncoder[H :+: T] = createEncoder {
+  case Inl(h) => hEncoder.value.encode(h)
+  case Inr(t) => tEncoder.encode(t)
+}
+```
 
+```tut:book:silent
 implicit def genericEncoder[A, R](
   implicit
   gen: Generic.Aux[A, R],
   rEncoder: Lazy[CsvEncoder[R]] // wrapped in Lazy
-): CsvEncoder[A] =
-  createEncoder { value =>
-    rEncoder.value.encode(gen.to(value))
-  }
+): CsvEncoder[A] = createEncoder { value =>
+  rEncoder.value.encode(gen.to(value))
+}
+```
 
+```tut:book:invisible
 sealed trait Tree[A]
 final case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
 final case class Leaf[A](value: A) extends Tree[A]
 ```
 
-In this case we have protected
-`hEncoder` in `hlistEncoder` and `coproductEncoder`,
-and `rEncoder` in `genericEncoder`,
-as these are the encoders that trigger new branches of search.
-With these modifications we can write CSV for recursive structures like `Trees`:
+This prevents the compiler giving up prematurely,
+and enables the solution to work on complec/recursive types like `Tree`:
 
 ```tut:book
 implicitly[CsvEncoder[Tree[Int]]]
 ```
-
-<div class="callout callout-danger">
-  TODO: Mention `Cached` and `Strict` ??
-</div>
