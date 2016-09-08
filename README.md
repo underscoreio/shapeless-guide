@@ -4,8 +4,8 @@ Content for my Scala World 2016 workshop on [shapeless][shapeless].
 This is a very early release of this material.
 The title, repo location, and build system are likely to change.
 
-Copyright 2016 Dave Gurnell. 
-Text and diagrams licensed [CC-BY-SA 3.0][text-license]. 
+Copyright 2016 Dave Gurnell.
+Text and diagrams licensed [CC-BY-SA 3.0][text-license].
 Code samples licensed [Apache 2.0][code-license]
 
 ## Reading the Book
@@ -25,8 +25,6 @@ Then use `sbt` to build the book:
 
 ~~~
 sbt pdf
-sbt html
-sbt epub
 ~~~
 
 ## Related Material
