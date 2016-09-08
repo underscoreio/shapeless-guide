@@ -30,7 +30,7 @@ we have to write two separate serialization methods:
 def employeeCsv(e: Employee): List[String] =
   List(e.name, e.number.toString, e.manager.toString)
 
-def cocktailCsv(c: IceCream): List[String] =
+def iceCreamCsv(c: IceCream): List[String] =
   List(c.name, c.numCherries.toString, c.inCone.toString)
 ```
 
