@@ -1,0 +1,28 @@
+.callout {
+  margin: 20px 0;
+  padding: 15px 30px 15px 15px;
+  border-left: 5px solid #eee;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  .highlight {
+    background-color: #fff;
+  }
+
+  &.callout-info {
+    background-color: @state-info-bg;
+    border-color: @state-info-border;
+  }
+
+  &.callout-warning {
+    background-color: @state-warning-bg;
+    border-color: @state-warning-border;
+  }
+
+  &.callout-danger {
+    background-color: @state-danger-bg;
+    border-color: @state-danger-border;
+  }
+}

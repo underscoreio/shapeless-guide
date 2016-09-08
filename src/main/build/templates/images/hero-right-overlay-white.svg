@@ -1,0 +1,6 @@
+<?xml version="1.0" standalone="yes"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60">
+  <polygon fill="rgba(255, 255, 255, 0.1)" points="80,0 100,0 100,60" />
+  <polygon fill="rgba(255, 255, 255, 0.1)" points="100,40 100,60 80,60" />
+</svg>

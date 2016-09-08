@@ -1,0 +1,74 @@
+// For HTML:
+nav.toc {
+  .container {
+    width:100%;
+  }
+
+  h1 {
+    margin-top: @line-height-computed;
+  }
+
+  .toc-contents {
+    display: none;
+    margin-top: 1em;
+
+    ul {
+      .list-unstyled();
+
+      a { display: block; }
+
+      > li {
+        > a {
+          padding-top: 1*@line-height-computed;
+          font-size: @font-size-base * 1.2;
+        }
+        > ul > li {
+          > a {
+            padding-top: .25*@line-height-computed;
+            padding-bottom: 0*@line-height-computed;
+            font-size: @font-size-base * 1.0;
+          }
+          // > ul > li {
+          //   > a {
+          //     padding-top: .25*@line-height-computed;
+          //     padding-bottom: 0;
+          //     font-size: @font-size-base * 1.0;
+          //   }
+          // }
+        }
+      }
+    }
+  }
+
+  .toc-toggle {
+    margin-top: @line-height-computed/2;
+  }
+}
+
+// For EPUB:
+ol.toc {
+  .list-unstyled();
+
+  a { display: block; }
+
+  > li {
+    > a {
+      padding-top: 1*@line-height-computed;
+      font-size: @font-size-base * 1.5;
+    }
+    > ol > li {
+      > a {
+        padding-top: 1*@line-height-computed;
+        padding-bottom: .5*@line-height-computed;
+        font-size: @font-size-base * 1.2;
+      }
+      > ol > li {
+        > a {
+          padding-top: .25*@line-height-computed;
+          padding-bottom: 0;
+          font-size: @font-size-base * 1.0;
+        }
+      }
+    }
+  }
+}

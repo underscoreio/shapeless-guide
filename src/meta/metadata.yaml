@@ -3,9 +3,6 @@
 title: "The Type Astronaut's Guide to Shapeless"
 author: "Dave Gurnell"
 date: "August 2016"
-# Used by Pandoc to generate the PDF cover...
-# see src/css/book.css for HTML/ePub covers:
-coverColor: "25AAE1"
 # Used by Grunt to name output files:
 filenameStem: "shapeless-guide"
 # Used by Grunt to create a ZIP of source code:

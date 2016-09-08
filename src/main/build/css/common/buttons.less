@@ -1,0 +1,17 @@
+.btn {
+  border: none !important;
+}
+
+.btn-shadow(@bg) {
+  box-shadow: 0 4px 0 darken(@bg, 5%);
+  &:hover {
+    box-shadow: 0 4px 0 darken(darken(@bg, 5%), 5%);
+  }
+}
+
+.btn.btn-default { .btn-shadow(@btn-default-bg); }
+.btn.btn-primary { .btn-shadow(@btn-primary-bg); }
+.btn.btn-success { .btn-shadow(@btn-success-bg); }
+.btn.btn-info    { .btn-shadow(@btn-info-bg);    }
+.btn.btn-warning { .btn-shadow(@btn-warning-bg); }
+.btn.btn-danger  { .btn-shadow(@btn-danger-bg);  }

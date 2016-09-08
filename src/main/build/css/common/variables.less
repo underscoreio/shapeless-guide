@@ -1,0 +1,33 @@
+@book-color:               #777777;
+
+@border-radius-base:       0px;
+@border-radius-large:      0px;
+@border-radius-small:      0px;
+
+@headings-font-weight:     200;
+
+@pre-border-color:         transparent;
+
+@shadow-color:             rgba(0, 0, 0, .15);
+@shadow-default:           0 4px 0 @shadow-color;
+@shadow-active:            0 4px 0 fadeIn(@shadow-color, 10%);
+@shadow-navbar:            0 4px 0 fadeOut(@shadow-color, 7%);
+
+@btn-default-color:        #333;
+@btn-default-bg:           #f7f7f7;
+@btn-default-border:       #f7f7f7;
+
+// Small screen / tablet
+@container-tablet:             (720px + @grid-gutter-width);
+//** For `@screen-sm-min` and up.
+@container-sm:                 @container-tablet;
+
+// Medium screen / desktop
+@container-desktop:            (940px + @grid-gutter-width);
+//** For `@screen-md-min` and up.
+@container-md:                 @container-desktop;
+
+// Large screen / wide desktop
+@container-large-desktop:      (940px + @grid-gutter-width);
+//** For `@screen-lg-min` and up.
+@container-lg:                 @container-large-desktop;
