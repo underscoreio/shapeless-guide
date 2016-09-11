@@ -276,21 +276,19 @@ $endfor$
 
 \vspace{2em}
 
-$for(author)$
-{\fontsize{1cm}{1em} \color{brandcolor} \textsf{$author$}}
-$endfor$
-
-\vspace{1em}
-
 $if(date)$
 {\fontsize{.5cm}{1em} \color{brandcolor} \textsf{$date$}}
 $endif$
 
 \begin{bottompar}
 \begin{center}
-\includegraphics[width=5cm]{$lib-dir$/templates/images/brand.pdf}
+$for(author)$
+{\fontsize{1cm}{1em} \color{brandcolor} \textsf{$author$}}
+$endfor$
 
-\vspace{1cm}
+\vspace{1em}
+
+\includegraphics[width=5cm]{$lib-dir$/templates/images/brand.pdf}
 
 \end{center}
 \end{bottompar}
