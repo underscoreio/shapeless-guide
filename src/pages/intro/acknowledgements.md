@@ -1,4 +1,4 @@
-## Acknowledgements 
+## Acknowledgements
 
 Thanks to Miles Sabin and my colleagues at [Underscore][link-underscore]
 for their contributions and feedback.
