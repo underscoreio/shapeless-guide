@@ -85,6 +85,7 @@ and letting the compiler unify them with appropriate types:
 ```tut:book:invisible
 case class Vec(x: Int, y: Int)
 case class Rect(origin: Vec, extent: Vec)
+```
 
 ```tut:book:silent
 def lastField[A, Repr <: HList](input: A)(

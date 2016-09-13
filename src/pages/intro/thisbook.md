@@ -16,7 +16,7 @@ We will use CSV encoding as an example,
 but we will write one set of encoders
 that can handle any case class or sealed trait.
 We will also introduce shapeless' `Lazy` type,
-which lets us handle resursive data like lists and trees.
+which lets us handle recursive data like lists and trees.
 
 In Chapter 4 we will introduce `LabelledGeneric`,
 a variant of `Generic` that exposes field and type names
