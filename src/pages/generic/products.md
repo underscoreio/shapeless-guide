@@ -170,7 +170,7 @@ implicit def genericEncoder[A, R](
 ```
 
 We'll cover this general coding style in more detail the next chapter.
-Suffice to say, this definition now compiles and works as expected.
+Suffice to say, this definition now compiles and works as expected
 and we can use it with any case class as expected.
 Intuitively, this definition says:
 
