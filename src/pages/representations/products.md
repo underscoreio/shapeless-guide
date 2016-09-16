@@ -1,7 +1,7 @@
 ## Generic product encodings
 
 In the previous section we introduced tuples
-as a generic representation pf products.
+as a generic representation of products.
 Unfortunately, Scala's built-in tuples have a couple of disadvantages
 that make them unsuitable for shapeless' purposes:
 
@@ -109,8 +109,9 @@ val iceCream2: IceCream =
 If two ADTs have the same `Repr`,
 we can convert back and forth between them using their `Generics`:
 
-```tut:book:silent
+```tut:book
 case class Employee(name: String, number: Int, manager: Boolean)
+```
 
 ```tut:book
 // Create an employee from an ice cream:
