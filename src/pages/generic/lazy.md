@@ -165,7 +165,7 @@ final case class Leaf[A](value: A) extends Tree[A]
 ```
 
 This prevents the compiler giving up prematurely,
-and enables the solution to work on complec/recursive types like `Tree`:
+and enables the solution to work on complex/recursive types like `Tree`:
 
 ```tut:book
 implicitly[CsvEncoder[Tree[Int]]]
