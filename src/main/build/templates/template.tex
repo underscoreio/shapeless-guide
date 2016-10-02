@@ -234,6 +234,62 @@ $endfor$
 
 \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\},fontsize=\small}
 
+\usepackage{listings}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\makeatletter
+\lst@CCPutMacro\lst@ProcessOther {"2D}{\lst@ttfamily{-{}}{-{}}}
+\@empty\z@\@empty
+\makeatother
+
+\lstset{
+  basicstyle=\tt\footnotesize,
+  frame=single,
+  breaklines=true
+}
+
+\lstdefinestyle{scala}{
+  breakatwhitespace=false,
+  language=scala,
+  numbers=left,
+  numberstyle=\tt\scriptsize\color{gray},
+  captionpos=b,
+  commentstyle=\tt\color{dkgreen},
+  extendedchars=true,
+  keepspaces=true,
+  keywordstyle=\tt\color{blue},
+  emphstyle=\tt\color{cyan},
+  rulecolor=\tt\color{black},
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  stringstyle=\tt\color{mauve},
+  tabsize=2,
+  title=\lstname
+}
+
+\lstdefinelanguage{scala}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,%
+    type,val,var,while,with,yield},
+  moreemph={Byte,Short,Int,Long,Float,Double,Char,
+    String,Boolean,Unit,Null,Nothing,Any,AnyRef},
+  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  morestring=[b]"""
+}
+
 % Needed for recent update to Pandoc ------------
 
 \providecommand{\tightlist}{%
