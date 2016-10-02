@@ -33,6 +33,14 @@ The slides from my Scala World workshop can be found [here][slides]
 and the accompanying live-coding examples can be found [here][code].
 Check the `solutions` branch for complete versions of the example code.
 
+## Acknowledgements
+
+Thanks to these fine people for their contributions:
+
+- [ErunamoJAZZ][https://github.com/ErunamoJAZZ]
+- [ronanM][https://github.com/ronanM]
+- [Yoshimura Yuu][https://github.com/y-yu]
+
 [text-license]: https://creativecommons.org/licenses/by-sa/3.0/
 [code-license]: http://www.apache.org/licenses/LICENSE-2.0
 [shapeless]: https://github.com/milessabin/shapeless
