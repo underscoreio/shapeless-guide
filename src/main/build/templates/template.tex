@@ -236,9 +236,11 @@ $endfor$
 
 \usepackage{listings}
 
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{codebgcolor}{HTML}{F7F7F7}
+\definecolor{commentcolor}{HTML}{8E5A13}
+\definecolor{keywordcolor}{HTML}{234A85}
+\definecolor{literalcolor}{HTML}{0100CB}
+\definecolor{stringcolor}{HTML}{519818}
 
 \makeatletter
 \lst@CCPutMacro\lst@ProcessOther {"2D}{\lst@ttfamily{-{}}{-{}}}
@@ -254,19 +256,22 @@ $endfor$
 \lstdefinestyle{scala}{
   breakatwhitespace=false,
   language=scala,
-  numbers=left,
-  numberstyle=\tt\scriptsize\color{gray},
-  captionpos=b,
-  commentstyle=\tt\color{dkgreen},
+  frame=none,
+  framesep=6pt,
+  framexleftmargin=6pt,
+  framexrightmargin=6pt,
+  rulesep=6pt,
+  backgroundcolor=\color{codebgcolor},
+  commentstyle=\tt\color{commentcolor},
   extendedchars=true,
   keepspaces=true,
-  keywordstyle=\tt\color{blue},
+  keywordstyle=\tt\color{keywordcolor},
   emphstyle=\tt\color{cyan},
   rulecolor=\tt\color{black},
   showspaces=false,
   showstringspaces=false,
   showtabs=false,
-  stringstyle=\tt\color{mauve},
+  stringstyle=\tt\color{stringcolor},
   tabsize=2,
   title=\lstname
 }
@@ -279,8 +284,7 @@ $endfor$
     private,protected,requires,return,sealed,%
     super,this,throw,trait,true,try,%
     type,val,var,while,with,yield},
-  moreemph={Byte,Short,Int,Long,Float,Double,Char,
-    String,Boolean,Unit,Null,Nothing,Any,AnyRef},
+  moreemph={},
   otherkeywords={=>,<-,<\%,<:,>:,\#,@},
   sensitive=true,
   morecomment=[l]{//},
