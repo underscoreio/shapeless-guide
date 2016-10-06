@@ -96,9 +96,6 @@ $if(biblio-files)$
 \bibliography{$biblio-files$}
 $endif$
 $endif$
-$if(listings)$
-\usepackage{listings}
-$endif$
 $if(lhs)$
 \lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
 $endif$
@@ -207,22 +204,19 @@ $endfor$
   topline=false,bottomline=false,rightline=false,
   innertopmargin=1em,innerbottommargin=1em,
   splittopskip=1em,splitbottomskip=1em,
-  backgroundcolor=infocolor!30,
-  frametitle=Tip]{InfoCallout}
+  backgroundcolor=infocolor!30]{InfoCallout}
 \newmdenv[%
   linecolor=warningcolor,linewidth=5pt,
   topline=false,bottomline=false,rightline=false,
   innertopmargin=1em,innerbottommargin=1em,
   splittopskip=1em,splitbottomskip=1em,
-  backgroundcolor=warningcolor!30,
-  frametitle=Advanced]{WarningCallout}
+  backgroundcolor=warningcolor!30]{WarningCallout}
 \newmdenv[%
   linecolor=dangercolor!60,linewidth=5pt,
   topline=false,bottomline=false,rightline=false,
   innertopmargin=1em,innerbottommargin=1em,
   splittopskip=1em,splitbottomskip=1em,
-  backgroundcolor=dangercolor!25,
-  frametitle=Warning]{DangerCallout}
+  backgroundcolor=dangercolor!25]{DangerCallout}
 
 % \newmdenv[%
 %   topline=false,bottomline=false,leftline=false,rightline=false,

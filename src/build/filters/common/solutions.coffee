@@ -11,8 +11,11 @@ textOf = (body) =>
   ans = ""
   for item in body
     switch item.t
-      when "Str"   then ans += item.c
-      when "Space" then ans += " "
+      when "Str"    then ans += item.c
+      when "Space"  then ans += " "
+      when "Emph"   then ans += textOf(item.c)
+      when "Strong" then ans += textOf(item.c)
+      when "Span"   then ans += textOf(item.c)
   ans
 
 # string integer -> string

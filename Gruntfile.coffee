@@ -7,7 +7,7 @@ ebook = require 'underscore-ebook-template'
 module.exports = (grunt) ->
   ebook(grunt, {
     dir: {
-      lib  : "src/main/build"
+      lib  : "src/build"
       page : "target/pages"
     }
   })
