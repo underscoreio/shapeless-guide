@@ -92,7 +92,7 @@ However, syntax has been added to
 [Typelevel Scala 2.11.8][link-typelevel-scala-singleton-type-literals]
 prior to their scheduled inclusion in
 [Lightbend Scala 2.12.1][link-lightbend-scala-singleton-type-literals].
-In these versions of Scala you can write declarations like the following:
+In these versions of Scala we can write declarations like the following:
 
 ```scala
 val theAnswer: 42 = 42
@@ -208,9 +208,11 @@ data structures called *records*.
 Records are `HLists` of items that are each
 tagged with type-level identifiers:
 
-```tut:book
+```tut:book:silent
 import shapeless.{HList, ::, HNil}
+```
 
+```tut:book
 val garfield = ("cat" ->> "Garfield") :: ("orange" ->> true) :: HNil
 ```
 

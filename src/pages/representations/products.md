@@ -109,7 +109,7 @@ val iceCream2: IceCream =
 If two ADTs have the same `Repr`,
 we can convert back and forth between them using their `Generics`:
 
-```tut:book
+```tut:book:silent
 case class Employee(name: String, number: Int, manager: Boolean)
 ```
 

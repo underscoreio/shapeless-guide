@@ -106,7 +106,7 @@ LabelledGeneric[Shape].to(Circle(1.0))
 
 Here is that `Coproduct` type in a more readable format:
 
-```tut:book
+```scala
 // Rectangle with KeyTag[Symbol with Tagged[String("Rectangle")], Rectangle] :+:
 // Circle    with KeyTag[Symbol with Tagged[String("Circle")],    Circle]    :+:
 // CNil

@@ -43,9 +43,11 @@ convert employees and ice creams to values of the same type.
 Don't worry if you don't follow this example yet:
 we'll get to grips with the concepts in play later on:
 
-```tut:book
+```tut:book:silent
 import shapeless._
+```
 
+```tut:book
 val genericEmployee = Generic[Employee].to(Employee("Dave", 123, false))
 val genericIceCream = Generic[IceCream].to(IceCream("Sundae", 1, false))
 ```
@@ -56,7 +58,9 @@ we can serialize them with the same function:
 ```tut:book
 def genericCsv(gen: String :: Int :: Boolean :: HNil): List[String] =
   List(gen(0), gen(1).toString, gen(2).toString)
+```
 
+```tut:book
 genericCsv(genericEmployee)
 genericCsv(genericIceCream)
 ```
@@ -70,18 +74,3 @@ allows us to eliminate huge amounts of boilerplate,
 making Scala applications easier to read, write, and maintain.
 
 Does that sound compelling? Thought so. Let's jump in!
-
-<div class="callout callout-info">
-  *Formatting in code samples*
-
-  We're using Rob Norris' awesome tool [Tut][link-tut]
-  to type check and run the code samples in this book.
-
-  Unfortunately, as you can see,
-  shapeless tends to generate verbose output
-  and we haven't solved the problem of line wrapping in LaTeX yet.
-
-  We'll address this in a future version of the book.
-  In the mean time, we'll call it out manually
-  when we need to reference output that's wider than the page.
-</div>

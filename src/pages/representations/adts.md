@@ -35,7 +35,7 @@ The compiler has complete knowledge of the algebras we define,
 so it can support us in writing complete,
 correctly typed methods involving our types:
 
-```tut:book
+```tut:book:silent
 def area(shape: Shape): Double =
   shape match {
     case Rectangle(w, h) => w * h

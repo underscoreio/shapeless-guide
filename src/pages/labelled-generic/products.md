@@ -76,8 +76,7 @@ import shapeless.LabelledGeneric
 LabelledGeneric[IceCream].to(iceCream)
 ```
 
-For those of you who can't read off the right hand side of the page,
-the full type of the `HList` is:
+For clarity, the full type of the `HList` is:
 
 ```scala
 // String  with KeyTag[Symbol with Tagged[String("name")], String]     ::
