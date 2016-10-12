@@ -58,7 +58,7 @@ we use a `Generic` to calculate a `Repr` for a case class,
 and so on.
 
 What about calculations involving more than one step?
-Suppose, for example, we want to find the last item in an `HList`.
+Suppose, for example, we want to find the last item in a case class.
 To do this we need a combination of `Generic` and `Last`.
 Let's try writing this:
 
