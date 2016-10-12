@@ -24,6 +24,8 @@ bash$ ./go.sh
 Then use `sbt` to build the book:
 
 ~~~
+npm install grunt
+npm install
 sbt pdf
 ~~~
 
