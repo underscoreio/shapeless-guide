@@ -13,16 +13,16 @@ that make them unsuitable for shapeless' purposes:
 
 For these reasons, shapeless uses a different generic encoding
 for product types called *heterogeneous lists* or `HLists`[^hlist-name].
-Here's an inheritance diagram:
-
-![Inheritance diagram for `HList`](src/pages/representations/hlist.png)
 
 [^hlist-name]: `Product` is perhaps a better name for `HList`,
 but the standard library unfortunately already has a type `scala.Product`.
 
-`HLists` resemble regular lists,
-except that the type of each element
-is maintained in the overall type of the list:
+An `HList` is either the empty list `HNil`,
+or a pair `::[H, T]` where `H` is an arbitrary type 
+and `T` is another `HList`.
+Because every `::` has its own `H` and `T`,
+the type each element is encoded separately 
+in the type of the overall list:
 
 ```tut:book:silent
 import shapeless.{HList, ::, HNil}
@@ -31,8 +31,8 @@ val product: String :: Int :: Boolean :: HNil =
   "Sunday" :: 1 :: false :: HNil
 ```
 
-Note that the type and value of the `HList` mirror one another.
-Both represent the `String`, `Int`, and `Boolean` members.
+The types and values of the `HLists` above mirror one another.
+Both represent three members: a `String`, an `Int`, and a `Boolean`.
 We can retrieve the `head` and `tail`
 and the types of the elements are preserved:
 
@@ -69,6 +69,8 @@ val newProduct: Long :: String :: Int :: Boolean :: HNil =
 Shapeless also provides tools for performing more complex operations
 such as mapping, filtering, and concatenating lists.
 We'll discuss these in more detail in later chapters.
+
+**DJG: INSERT CHAPTER NUMBER ABOVE**
 
 ### Switching representations using *Generic*
 
@@ -116,5 +118,5 @@ case class Employee(name: String, number: Int, manager: Boolean)
 ```tut:book
 // Create an employee from an ice cream:
 val strangeEmployee: Employee =
-  Generic[Employee].from(repr)
+  Generic[Employee].from(Generic[IceCream].to(iceCream))
 ```

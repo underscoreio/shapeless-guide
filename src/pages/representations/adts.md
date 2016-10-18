@@ -16,8 +16,8 @@ which are a different modelling tool
 with little bearing on the discussion here.
 
 In ADT terminology,
-"and types" such as rectangle and circle are called *products*,
-and "or types" such as shape are called *coproducts*.
+"and" types such as rectangle and circle are called *products*,
+and "or" types such as shape are called *coproducts*.
 In Scala we typically represent products using
 case classes and coproducts using sealed traits:
 
@@ -75,7 +75,7 @@ We can still write completely type safe operations involving `Shape2`:
 def area2(shape: Shape2): Double =
   shape match {
     case Left((w, h)) => w * h
-    case Right(r)    => math.Pi * r * r
+    case Right(r)     => math.Pi * r * r
   }
 ```
 
