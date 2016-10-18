@@ -1,16 +1,16 @@
 ## What is generic programming?
 
-As Scala developers, we are used to types.
+As Scala developers we are used to types.
 Types are helpful because they are specific:
 they show us how different pieces of code fit together,
-helping us prevent bugs,
-and guiding us toward solutions when we code.
+help us prevent bugs,
+and guide us toward solutions when we code.
 
 Sometimes, however, types are *too* specific.
 There are situations where we want
 to exploit similarities between types
 to avoid repetition and boilerplate.
-For example, consider the following types:
+For example, consider the following definitions:
 
 ```tut:book:silent
 case class Employee(name: String, number: Int, manager: Boolean)
@@ -41,7 +41,7 @@ into generic ones that we can manipulate with common code.
 For example, we can use the code below to
 convert employees and ice creams to values of the same type.
 Don't worry if you don't follow this example yet:
-we'll get to grips with the concepts in play later on:
+we'll get to grips with the various concepts later on:
 
 ```tut:book:silent
 import shapeless._
@@ -65,10 +65,10 @@ genericCsv(genericEmployee)
 genericCsv(genericIceCream)
 ```
 
-This example is very basic
-but it hints at the essence of generic programming:
-reformulating problems so we can solve them use generic building blocks,
-and writing code that works with a wide variety of types as a result.
+This example is basic
+but it hints at the essence of generic programming.
+We reformulate problems so we can solve them use generic building blocks,
+and write small kernels of code that work with a wide variety of types.
 Generic programming with shapeless
 allows us to eliminate huge amounts of boilerplate,
 making Scala applications easier to read, write, and maintain.

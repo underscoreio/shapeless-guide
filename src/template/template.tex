@@ -251,11 +251,6 @@ $endfor$
   breakatwhitespace=false,
   language=scala,
   frame=none,
-  framesep=6pt,
-  framexleftmargin=6pt,
-  framexrightmargin=6pt,
-  rulesep=6pt,
-  backgroundcolor=\color{codebgcolor},
   commentstyle=\tt\color{commentcolor},
   extendedchars=true,
   keepspaces=true,
@@ -267,8 +262,18 @@ $endfor$
   showtabs=false,
   stringstyle=\tt\color{stringcolor},
   tabsize=2,
-  title=\lstname
+  aboveskip=0em,
+  belowskip=0em,
 }
+
+\surroundwithmdframed[
+  hidealllines=true,
+  backgroundcolor=codebgcolor,
+  skipabove=12pt,
+  innerleftmargin=6pt,
+  innerrightmargin=6pt,
+  innertopmargin=10pt,
+  innerbottommargin=6pt]{lstlisting}
 
 \lstdefinelanguage{scala}{
   morekeywords={abstract,case,catch,class,def,%
@@ -304,45 +309,33 @@ $endfor$
 
 \begin{titlepage}
 
-\begin{tikzpicture}[overlay, remember picture]
-\node[anchor=north west, xshift=-.2cm, yshift=.2cm]
-     at (current page.north west)
-     {\includegraphics{src/template/images/hero-left-overlay-white.pdf}};
-\end{tikzpicture}
-
-\begin{tikzpicture}[overlay, remember picture]
-\node[anchor=south east, xshift=.2cm, yshift=-.2cm]
-     at (current page.south east)
-     {\includegraphics{src/template/images/hero-right-overlay-white.pdf}};
-\end{tikzpicture}
-
 \begin{center}
 
-{\fontsize{1.3cm}{1em} \color{titlecolor} \textsf{The Type Astronaut's}}
+{\fontsize{1cm}{1em} \color{titlecolor} \textsf{The Type Astronaut's}}
 
 \vspace{.5em}
 
-{\fontsize{1.5cm}{1em} \color{titlecolor} \textsf{Guide to Shapeless}}
+{\fontsize{1.3cm}{1em} \color{titlecolor} \textsf{Guide to Shapeless}}
 
-\vspace{2em}
+\vspace{4em}
 
-\includegraphics[width=10cm]{src/template/images/spaaace.pdf}
+\includegraphics[width=9cm]{src/template/images/spaaace.pdf}
 
-\vspace{2em}
-
+\begin{bottompar}
+\begin{center}
 $if(date)$
 {\fontsize{.5cm}{1em} \color{brandcolor} \textsf{$date$}}
 $endif$
 
-\begin{bottompar}
-\begin{center}
+\vspace{1em}
+
 $for(author)$
-{\fontsize{1cm}{1em} \color{brandcolor} \textsf{$author$}}
+{\fontsize{.6cm}{1em} \color{brandcolor} \textsf{$author$}}
 $endfor$
 
 \vspace{1em}
 
-\includegraphics[width=5cm]{src/template/images/brand.pdf}
+\includegraphics[width=3cm]{src/template/images/brand.pdf}
 
 \end{center}
 \end{bottompar}

@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"$if(lang)$ lang="$lang$" xml:lang="$lang$"$endif$>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="pandoc" />
+$for(author-meta)$
+<meta name="author" content="$author-meta$" />
+$endfor$
+$if(date-meta)$
+<meta name="date" content="$date-meta$" />
+$endif$
+
+<title>$if(title-prefix)$$title-prefix$ - $endif$$pagetitle$</title>
+
+<link rel="stylesheet" href="dist/temp/html/main.css">
+$if(quotes)$
+<style type="text/css">
+q { quotes: "“" "”" "‘" "’"; }
+</style>
+$endif$
+$if(highlighting-css)$
+<style type="text/css">
+$highlighting-css$
+</style>
+$endif$
+$for(css)$
+<link rel="stylesheet" href="$css$" $if(html5)$$else$type="text/css" $endif$/>
+$endfor$
+
+$if(math)$
+$math$
+$endif$
+
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+<script src="dist/temp/main.js"></script>
+</head>
+<body>
+<header class="hero">
+<div class="hero-left-overlay-white"></div>
+<div class="hero-right-overlay-white"></div>
+<div class="hero-arrow-overlay-white"></div>
+<div class="container">
+<div class="hero-text">
+$if(title)$
+<h1 class="title$if(subtitle)$ with-subtitle$endif$">
+$title$
+$if(subtitle)$
+<span class="subtitle">$subtitle$</span>
+$endif$
+</h1>
+$for(author)$
+<h3 class="author">$author$</h3>
+$endfor$
+$if(date)$
+<p class="date">$date$</p>
+$endif$
+<img class="brand-logo" src="$lib-dir$/templates/images/brand.svg" alt="Underscore">
+</div>
+$endif$
+</div>
+</div>
+</header>
+
+<div class="container">
+
+$if(toc)$
+<nav class="toc">
+<div class="toc-contents">
+<p class="text-center">$title$$if(subtitle)$ $subtitle$$endif$</p>
+
+<p class="text-center">Copyright $copyright$ $author$.</p>
+
+<p class="text-center">Published by <a href="http://underscore.io">Underscore Consulting LLP</a>, Brighton, UK.</p>
+
+<hr>
+
+$for(include-before)$
+$include-before$
+
+$endfor$
+
+<h1>Contents</h1>
+$toc$
+</div>
+<p class="toc-toggle">
+  <a href="javascript:void 0" class="btn btn-default btn-block">Show cover notes and table of contents</a>
+</p>
+</nav>
+$endif$
+
+<article>
+$body$
+</article>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="text-center">
+      <img class="footer-brand" src="$lib-dir$/templates/images/brand.svg" alt="Underscore" width="200px">
+    </div>
+
+$for(include-after)$
+$include-after$
+$endfor$
+
+    <div class="row sitemap">
+      <div class="col-sm-6">
+        <h5><a href="http://underscore.io">Underscore</a></h5>
+        <ul class="list-unstyled">
+          <li><a href="http://underscore.io/training/bookings">Book a Private Course</a></li>
+          <li><a href="http://underscore.io/training">Our Course Directory</a></li>
+          <li><a href="http://underscore.io/consulting">Our Consulting Services</a></li>
+          <li><a href="http://underscore.io/company">About Us</a></li>
+        </ul>
+      </div>
+
+      <div class="col-sm-6">
+        <h5><a href="http://underscore.io/contact">Contact</a></h5>
+        <ul class="list-unstyled">
+          <li><a href="http://underscore.io">http://underscore.io</a></li>
+          <li><a href="tel:+442030955332">+44 (0)20 309 55332</a></li>
+          <li><a href="mailto:hello@underscore.io">hello@underscore.io</a></li>
+          <li><a href="http://twitter.com/underscoreuk">@underscoreuk</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="copyright text-center">
+      Copyright $copyright$ $author$.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

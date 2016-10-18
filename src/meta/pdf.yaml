@@ -1,4 +1,7 @@
 ---
-papersize: "a4paper"
+papersize: "a5paper"
+fontsize: "11pt"
 geometry: "margin=.75in"
+solutions:
+  headingText: "Solutions to Exercises"
 ...
