@@ -1,4 +1,4 @@
-# Working with types and implicits
+# Working with types and implicits {#sec:type-level-programming}
 
 In the last chapter we saw one of the most compelling use cases for shapeless:
 automatically deriving type class instances.

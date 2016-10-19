@@ -1,4 +1,4 @@
-## Recap: type classes
+## Recap: type classes {#sec:generic:type-classes}
 
 Before we get into the depths of instance derivation,
 let's quickly recap on the important aspects of type classes.
@@ -18,7 +18,8 @@ trait CsvEncoder[A] {
 }
 ```
 
-We implement our type class with *instances* for each type we care about:
+We implement our type class with *instances* 
+for each type we care about:
 
 ```tut:book:silent
 // Helper method for creating CsvEncoder instances:
@@ -33,7 +34,11 @@ case class Employee(name: String, number: Int, manager: Boolean)
 
 // CsvEncoder instance for the custom data type:
 implicit val employeeEncoder: CsvEncoder[Employee] =
-  createEncoder(e => List(e.name, e.number.toString, if(e.manager) "yes" else "no"))
+  createEncoder(e => List(
+    e.name, 
+    e.number.toString, 
+    if(e.manager) "yes" else "no"
+  ))
 ```
 
 We mark each instance with the keyword `implicit`,
@@ -41,13 +46,15 @@ and define a generic *entry point* method
 that accepts an implicit parameter of the corresponding type:
 
 ```tut:book:silent
-def writeCsv[A](values: List[A])(implicit encoder: CsvEncoder[A]): String =
-  values.map(value => encoder.encode(value).mkString(",")).mkString("\n")
+def writeCsv[A](values: List[A])(implicit enc: CsvEncoder[A]): String =
+  values.map(value => enc.encode(value).mkString(",")).
+    mkString("\n")
 ```
 
-When we call the entry point method,
+When we call the entry point,
 the compiler calculates the value of the type parameter
-and searches for an implicit `CsvWriter` of the corresponding type:
+and searches for an implicit `CsvWriter` 
+of the corresponding type:
 
 ```tut:book:silent
 val employees: List[Employee] = List(
@@ -62,14 +69,18 @@ val employees: List[Employee] = List(
 writeCsv(employees)
 ```
 
-We can use `writeCsv` with any data type we like
-provided we define an implicit `CsvEncoder` and place it in scope:
+We can use `writeCsv` with any data type we like,
+provided we have a corresponding implicit `CsvEncoder` in scope:
 
 ```tut:book:silent
 case class IceCream(name: String, numCherries: Int, inCone: Boolean)
 
 implicit val iceCreamEncoder: CsvEncoder[IceCream] =
-  createEncoder(i => List(i.name, i.numCherries.toString, if(i.inCone) "yes" else "no"))
+  createEncoder(i => List(
+    i.name, 
+    i.numCherries.toString, 
+    if(i.inCone) "yes" else "no"
+  ))
 
 val iceCreams: List[IceCream] = List(
   IceCream("Sundae", 1, false),
@@ -82,14 +93,15 @@ val iceCreams: List[IceCream] = List(
 writeCsv(iceCreams)
 ```
 
-### Deriving instances
+### Resolving instances
 
 Type classes are very flexible
-but they require us to define instances for every type we care about.
+but they require us to define instances 
+for every type we care about.
 Fortunately, the Scala compiler has a few tricks up its sleeve
-to create instances for us given rules.
+to resolve instances for us given sets of user-defined rules.
 For example, we can write a rule
-that creates an instance to encode pairs of type `(A, B)`
+that creates a `CsvEncoder` for `(A, B)`
 given `CsvEncoders` for `A` and `B`:
 
 ```tut:book:silent
@@ -104,24 +116,30 @@ implicit def pairEncoder[A, B](
   }
 ```
 
-When all the parameters to an `implicit def` are themselves marked as `implicit`,
-the compiler can use it as a *derivation rule* to create instances from other instances.
-For example, if we call `writeCsv` and pass in a `List[(Employee, IceCream)]`,
-the compiler is able to combine `pairEncoder`, `employeeEncoder`, and `iceCreamEncoder`
+When all the parameters to an `implicit def` 
+are themselves marked as `implicit`,
+the compiler can use it as a *resolution rule* 
+to create instances from other instances.
+For example, if we call `writeCsv` 
+and pass in a `List[(Employee, IceCream)]`,
+the compiler is able to combine 
+`pairEncoder`, `employeeEncoder`, and `iceCreamEncoder`
 to produce the required `CsvEncoder[(Employee, IceCream)]`:
 
 ```tut:book
 writeCsv(employees zip iceCreams)
 ```
 
-Given a set of rules encoded as `implicit vals` and `implicit defs`,
+Given a set of rules 
+encoded as `implicit vals` and `implicit defs`,
 the compiler is capable of *searching* for
 combinations to give it the required instances.
-This behaviour, known as "implicit derivation",
+This behaviour, known as "implicit resolution",
 is what makes the type class pattern so powerful.
 
-Traditionally the only limitation to has been ADTs.
-The compiler can't pick apart the types of case classes and sealed traits,
-so developers have always had to define instances for ADTs by hand.
+Traditionally the only limitation to this has been ADTs.
+The compiler can't pull apart 
+the types of case classes and sealed traits,
+so we have always had to define instances for ADTs by hand.
 Shapeless' generic representations change all of this,
 allowing us to derive instances for any ADT for free.
