@@ -9,6 +9,15 @@ filenameStem: "shapeless-guide"
 exercisesRepo: null
 tocDepth: 3
 copyright: "2016"
+# Enable pandoc-crossref (must be installed on user's computer)
+# There's no distinction here between section and chapter prefixes,
+# we disable all prefixes for consistency and write them by hand:
+usePandocCrossref: true
+figPrefixTemplate: "$$i$$"
+eqnPrefixTemplate: "$$i$$"
+tblPrefixTemplate: "$$i$$"
+lstPrefixTemplate: "$$i$$"
+secPrefixTemplate: "$$i$$"
 # Used by Grunt to assemble pandoc command line:
 pages:
   - intro/index.md

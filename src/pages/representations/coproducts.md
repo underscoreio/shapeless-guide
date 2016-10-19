@@ -6,24 +6,25 @@ We looked at `Either` earlier,
 but that suffers from a similar drawback to tuples:
 we have no way of representing a disjunction of fewer than two types.
 For this reason, shapeless provides a different encoding
-that is similar to `HList`:
+that is similar to `HList`.
 
-![Inheritance diagram for `Coproduct`](src/pages/representations/coproduct.png)
-
-The type of a `Coproduct` encodes all the possible types in the disjunction,
-but each concrete instantiation contains a value for just one of the possibilities:
+The type of a `Coproduct` encodes 
+all the possible types in the disjunction,
+but each concrete instantiation 
+contains a value for just one of the possibilities.
 
 ```tut:book:silent
+import shapeless.{Coproduct, :+:, CNil}
+
 case class Red()
 case class Amber()
 case class Green()
 
-import shapeless.{Coproduct, :+:, CNil}
-
 type Light = Red :+: Amber :+: Green :+: CNil
 ```
 
-General coproduct types take the form `A :+: B :+: C :+: CNil` meaning "A or B or C".
+In general, coproducts take the form 
+`A :+: B :+: C :+: CNil` meaning "A or B or C".
 `:+:` can be loosely interpreted as an `Either`,
 with subtypes `Inl` and `Inr` corresponding loosely to `Left` and `Right`.
 `CNil` is an empty type with no values, similar to `Nothing`,
@@ -34,11 +35,8 @@ We always have to have exactly one `Inl` in a value:
 ```tut:book:silent
 import shapeless.{Inl, Inr}
 
-val red: Light =
-  Inl(Red())
-
-val green: Light =
-  Inr(Inr(Inl(Green())))
+val red: Light = Inl(Red())
+val green: Light = Inr(Inr(Inl(Green())))
 ```
 
 ### Switching encodings using *Generic*

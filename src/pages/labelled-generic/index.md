@@ -1,4 +1,4 @@
-# Accessing names during implicit derivation
+# Accessing names during implicit derivation {#sec:labelled-generic}
 
 Often, the type class instances we define
 need access to more than just types.

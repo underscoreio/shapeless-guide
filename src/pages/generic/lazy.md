@@ -56,11 +56,12 @@ Let's try something more ambitious---a binary tree:
 
 ```tut:book:silent
 sealed trait Tree[A]
-final case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
-final case class Leaf[A](value: A) extends Tree[A]
+case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+case class Leaf[A](value: A) extends Tree[A]
 ```
 
-Theoretically we should already have all of the definitions in place
+Theoretically we should already have 
+all of the definitions in place
 to summon a CSV writer for this definition.
 However, calls to `writeCsv` fail to compile:
 
@@ -68,25 +69,80 @@ However, calls to `writeCsv` fail to compile:
 implicitly[CsvEncoder[Tree[Int]]]
 ````
 
-The problem here is that the compiler is preventing itself
-going into an infinite loop searching for implicits.
-If it sees the same type constructor twice in any branch of search,
-it assumes implicit resolution is diverging and gives up.
-`Branch` is recursive so
-the rule for `CsvEncoder[Branch]` is triggering this behaviour.
+The problem is that our type is recursive.
+The compiler senses an infinite loop
+applying our derivation rules and gives up.
+
+### Implicit Divergence
+
+Implicit resolution is a search process.
+The compiler uses heuristics to determine 
+whether it is "converging" on a solution.
+If the heuristics don't yield favorable results
+for a particular branch of search,
+the compiler assumes the branch is not converging
+and moves onto another.
+
+One heuristic is specifically designed
+to avoid infinite loops.
+If the compiler sees the same target type twice
+in a particular branch of search, 
+it gives up and moves on.
+We can see this happening if
+we look at the expansion for `CsvEncode[Tree[Int]]`
+The implicit resolution process 
+goes through the following types:
+
+```scala
+implicitly[CsvEncoder[Tree[Int]]]                          // 1
+implicitly[CsvEncoder[Branch[Int] :+: Leaf[Int] :+: CNil]] // 2
+implicitly[CsvEncoder[Branch[Int]]]                        // 3
+implicitly[CsvEncoder[Tree[Int] :: Tree[Int] :: HNil]]     // 4
+implicitly[CsvEncoder[Tree[Int]]]                          // 5 uh oh
+```
+
+We see `Tree[A]` twice in lines 1 and 5,
+so the compiler moves onto another branch of search.
+The result is failure to find a suitable implicit.
 
 In fact, the situation is worse than this.
 If the compiler sees the same type constructor twice
 and the complexity of the type parameters is *increasing*,
-it also gives up.
+it assumes that branch of search is "diverging".
 This is a problem for shapeless
 because types like `::[H, T]` and `:+:[H, T]`
 come up in different generic representations
 and cause the compiler to give up prematurely.
+Consider the following types:
+
+```tut:book:silent
+case class Bar(baz: Int, qux: String)
+case class Foo(bar: Bar)
+```
+
+The expansion for `Foo` looks like this:
+
+```scala
+implicitly[CsvEncoder[Foo]]                   // 1
+implicitly[CsvEncoder[Bar :: HNil]]           // 2
+implicitly[CsvEncoder[Bar]]                   // 3
+implicitly[CsvEncoder[Int :: String :: HNil]] // 4 uh oh
+```
+
+The compiler attempts to resolve a `CsvEncoder[::[H, T]]`
+twice in this branch of search, on lines 2 and 4.
+The type parameter for `T` is more complex on line 4 than on line 2,
+so the compiler assumes (incorrectly in this case)
+that the branch of search is diverging.
+It moves onto another branch and, again, 
+the result is failure to find a suitable implicit.
 
 ### *Lazy*
 
-Fortunately, shapeless provides a type called `Lazy` as a workaround.
+Implicit divergence would be a show-stopper
+for libraries like shapeless.
+Fortunately, shapeless provides 
+a type called `Lazy` as a workaround.
 `Lazy` does two things:
 
  1. it delays resolution of an implicit parameter
@@ -94,14 +150,15 @@ Fortunately, shapeless provides a type called `Lazy` as a workaround.
     permitting the derivation of self-referential implicits.
 
  2. it guards against some of the aforementioned
-    over-defensive heuristics.
+    over-defensive convergence heuristics.
 
-As a rule of thumb,
-it is always a good idea to wrap the "head" parameter
-of any `HList` or `Coproduct` rule
+We use `Lazy` by wrapping it around specific implicit parameters.
+As a rule of thumb, it is always a good idea to wrap
+the "head" parameter of any `HList` or `Coproduct` rule
 and the "repr" parameter of any `Generic` rule in `Lazy`:
 
 ```tut:book:invisible:reset
+// Foreward definitions -------------------------
 import shapeless._
 
 trait CsvEncoder[A] {
@@ -119,6 +176,11 @@ implicit val intEncoder: CsvEncoder[Int] =
 
 implicit val hnilEncoder: CsvEncoder[HNil] =
   createEncoder(hnil => Nil)
+
+implicit val cnilEncoder: CsvEncoder[CNil] =
+  createEncoder(cnil => throw new Exception("Mass hysteria!"))
+
+// ----------------------------------------------
 ```
 
 ```tut:book:silent
@@ -130,11 +192,6 @@ implicit def hlistEncoder[H, T <: HList](
   case h :: t =>
     hEncoder.value.encode(h) ++ tEncoder.encode(t)
 }
-```
-
-```tut:book:invisible
-implicit val cnilEncoder: CsvEncoder[CNil] =
-  createEncoder(cnil => throw new Exception("The impossible has happened!"))
 ```
 
 ```tut:book:silent
@@ -165,7 +222,8 @@ final case class Leaf[A](value: A) extends Tree[A]
 ```
 
 This prevents the compiler giving up prematurely,
-and enables the solution to work on complex/recursive types like `Tree`:
+and enables the solution to work 
+on complex/recursive types like `Tree`:
 
 ```tut:book
 implicitly[CsvEncoder[Tree[Int]]]

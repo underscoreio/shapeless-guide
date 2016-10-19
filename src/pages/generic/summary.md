@@ -1,28 +1,32 @@
 ## Summary
 
-In this chapter we discussed how to use `Generic`,
-`HLists`, and `Coproducts` to automatically derive type class instances.
-We also covered the `Lazy` type as a means of handling complex/recursive types.
+In this chapter we discussed how to use 
+`Generic`, `HLists`, and `Coproducts` 
+to automatically derive type class instances.
+We also covered the `Lazy` type 
+as a means of handling complex/recursive types.
 
 Taking all of this into account,
-we can write a common skeleton for deriving type class instances as follows:
+we can write a common skeleton 
+for deriving type class instances as follows:
 
 ```tut:book:silent
-import shapeless.{HList, ::, HNil, Coproduct, :+:, CNil, Generic, Lazy}
+import shapeless._
 
 // Step 1. Define the type class
 
-trait MyTC[A] {
-  // etc...
-}
+trait MyTC[A]
 
 // Step 2. Define basic instances
 
 implicit def intInstance: MyTC[Int] = ???
+implicit def stringInstance: MyTC[String] = ???
+implicit def booleanInstance: MyTC[Boolean] = ???
 
-// Step 3. Define instances for HList and Coproduct
+// Step 3. Define instances for HList
 
-implicit def hnilInstance: MyTC[HNil] = ???
+implicit def hnilInstance: MyTC[HNil] = 
+  ???
 
 implicit def hlistInstance[H, T <: HList](
   implicit
@@ -30,7 +34,10 @@ implicit def hlistInstance[H, T <: HList](
   tInstance: MyTC[T]
 ): MyTC[H :: T] = ???
 
-implicit def cnilInstance: MyTC[CNil] = ???
+// Step 4. Define instances for Coproduct
+
+implicit def cnilInstance: MyTC[CNil] = 
+  ???
 
 implicit def coproductInstance[H, T <: Coproduct](
   implicit
@@ -42,15 +49,16 @@ implicit def coproductInstance[H, T <: Coproduct](
 
 implicit def genericInstance[A, R](
   implicit
-  generic: Generic.Aux[A, R], // wrap in Lazy
-  rInstance: Lazy[MyTC[R]]
+  generic: Generic.Aux[A, R],
+  rInstance: Lazy[MyTC[R]]  // wrap in Lazy
 ): MyTC[A] = ???
 ```
 
 In the next chapter we'll cover some useful theory,
 programming patterns, and debugging techniques
 to help write code in this style.
-
-In the chapter following we will revisit type class derivation
+In Chapter [@sec:labelled-generic] 
+we will revisit type class derivation
 using a variant of `Generic` that
-allows us to inspect field and type names in our ADTs.
+allows us to inspect field and type names 
+in our ADTs.
