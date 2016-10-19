@@ -114,7 +114,7 @@ val reprEncoder: CsvEncoder[String :: Int :: Boolean :: HNil] =
 reprEncoder.encode("abc" :: 123 :: true :: HNil)
 ```
 
-### Instances for concrete products
+### Instances for concrete products {@sec:generic:product-generic}
 
 We can combine our derivation rules for `HLists`
 with an instance of `Generic` 

@@ -3,7 +3,7 @@
 Last chapter we spent a lot of time using `Generic`,
 the type class for mapping ADT types to generic representations.
 However, we haven't yet discussed an important bit of theory
-that underpins much of shapeless, including `Generic`:
+that underpins `Generic` and much of shapeless:
 *dependent types*.
 
 To illustrate this, let's take a closer look at `Generic`.
@@ -49,9 +49,9 @@ getRepr(Rect(Vec(0, 0), Vec(5, 5)))
 
 What we're seeing here *dependent typing*:
 the return type of `getRepr` is dependent
-on type members in its parameters.
-
-Suppose we had specified `Repr` as type parameter on `Generic`
+on types defined in its value parameters.
+Suppose we had specified `Repr` 
+as type parameter on `Generic`
 instead of a type member:
 
 ```tut:book:silent

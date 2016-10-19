@@ -20,5 +20,5 @@ The key take home point from this chapter
 is that none of this code uses runtime reflection:
 it's all done with types, implicits,
 and a small set of macros that are internal to shapeless.
-The code we're generating is consequently very fast,
-and there is comparatively little risk of it failing at runtime.
+The code we're generating is consequently 
+very fast and reliable at runtime.

@@ -1,4 +1,4 @@
-# Automatically deriving type class instances
+# Automatically deriving type class instances {#sec:generic}
 
 In the last chapter we saw how the `Generic` type class
 allowed us to convert any instance of an ADT to

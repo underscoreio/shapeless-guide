@@ -1,6 +1,5 @@
 ## Deriving coproduct instances with *LabelledGeneric*
 
-
 ```tut:book:invisible:reset
 // ----------------------------------------------
 // Forward definitions:
@@ -89,7 +88,8 @@ final case class Circle(radius: Double) extends Shape
 
 Applying `LabelledGeneric` with `Coproducts`
 involves a mixture of the concepts we've covered already.
-Let's start by examining a `Coproduct` type derived by `LabelledGeneric`.
+Let's start by examining 
+a `Coproduct` type derived by `LabelledGeneric`.
 We'll re-visit our `Shape` ADT from Chapter 2:
 
 ```tut:book:silent
@@ -107,8 +107,8 @@ LabelledGeneric[Shape].to(Circle(1.0))
 Here is that `Coproduct` type in a more readable format:
 
 ```scala
-// Rectangle with KeyTag[Symbol with Tagged[String("Rectangle")], Rectangle] :+:
-// Circle    with KeyTag[Symbol with Tagged[String("Circle")],    Circle]    :+:
+// Rectangle with KeyTag[Symbol with Tagged["Rectangle"], Rectangle] :+:
+// Circle    with KeyTag[Symbol with Tagged["Circle"],    Circle]    :+:
 // CNil
 ```
 
@@ -121,7 +121,7 @@ import shapeless.{Coproduct, :+:, CNil, Inl, Inr, Witness, Lazy}
 import shapeless.labelled.FieldType
 
 implicit val cnilObjectEncoder: JsonObjectEncoder[CNil] =
-  createObjectEncoder(cnil => ???)
+  createObjectEncoder(cnil => throw new Exception("Mass hysteria!"))
 
 implicit def coproductObjectEncoder[K <: Symbol, H, T <: Coproduct](
   implicit
@@ -131,8 +131,11 @@ implicit def coproductObjectEncoder[K <: Symbol, H, T <: Coproduct](
 ): JsonObjectEncoder[FieldType[K, H] :+: T] = {
   val typeName = witness.value.name
   createObjectEncoder {
-    case Inl(h) => JsonObject(List(typeName -> hEncoder.value.encode(h)))
-    case Inr(t) => tEncoder.encode(t)
+    case Inl(h) =>
+      JsonObject(List(typeName -> hEncoder.value.encode(h)))
+    
+    case Inr(t) =>
+      tEncoder.encode(t)
   }
 }
 ```
@@ -148,8 +151,10 @@ and we use a `Witness` to access the runtime value of the type name.
 The result is an object containing a single key/value pair:
 the key being the type name and the value the result:
 
-```tut:book
+```tut:book:silent
 val shape: Shape = Circle(1.0)
+```
 
+```tut:book
 implicitly[JsonEncoder[Shape]].encode(shape)
 ```
