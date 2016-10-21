@@ -21,7 +21,10 @@ scalacOptions ++= Seq(
 
 resolvers ++= Seq(Resolver.sonatypeRepo("snapshots"))
 
-libraryDependencies ++= Seq("com.chuusai" %% "shapeless" % "2.3.2")
+libraryDependencies ++= Seq(
+  "com.chuusai"    %% "shapeless"  % "2.3.2",
+  "org.scalacheck" %% "scalacheck" % "1.10.1"
+)
 
 lazy val pdf  = taskKey[Unit]("Build the PDF version of the book")
 lazy val html = taskKey[Unit]("Build the HTML version of the book")

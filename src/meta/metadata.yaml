@@ -43,6 +43,10 @@ pages:
   - labelled-generic/products.md
   - labelled-generic/coproducts.md
   - labelled-generic/summary.md
+  - nat/index.md
+  - nat/length.md
+  - nat/random.md
+  - nat/summary.md
   - notes/todos.md
   - links.md
 ...

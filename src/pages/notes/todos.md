@@ -11,8 +11,8 @@ Still to do:
     - Migrating case class as a basic example
     - Polymorphic functions
     - Mapping over `HLists` as an example
-  - Counting with `Nat`
-    - Generating `Arbitrary` instances as an example
+  - **DONE** Counting with `Nat`
+    - **DONE** Generating `Arbitrary` instances as an example
   - Built-in record operations
   - Performance
     - `cachedImplicit`

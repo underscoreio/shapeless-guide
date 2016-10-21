@@ -114,7 +114,7 @@ val reprEncoder: CsvEncoder[String :: Int :: Boolean :: HNil] =
 reprEncoder.encode("abc" :: 123 :: true :: HNil)
 ```
 
-### Instances for concrete products {@sec:generic:product-generic}
+### Instances for concrete products {#sec:generic:product-generic}
 
 We can combine our derivation rules for `HLists`
 with an instance of `Generic` 
@@ -129,6 +129,8 @@ implicit val iceCreamEncoder: CsvEncoder[IceCream] = {
   createEncoder(iceCream => enc.encode(gen.to(iceCream)))
 }
 ```
+
+and use it as follows:
 
 ```tut:book
 writeCsv(iceCreams)
@@ -195,6 +197,7 @@ The compiler expands a call like:
 
 ```tut:book:silent
 writeCsv(iceCreams)
+
 ```
 
 to use our family of derivation rules:

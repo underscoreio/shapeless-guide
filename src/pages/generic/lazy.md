@@ -155,7 +155,7 @@ a type called `Lazy` as a workaround.
 We use `Lazy` by wrapping it around specific implicit parameters.
 As a rule of thumb, it is always a good idea to wrap
 the "head" parameter of any `HList` or `Coproduct` rule
-and the "repr" parameter of any `Generic` rule in `Lazy`:
+and the `Repr` parameter of any `Generic` rule in `Lazy`:
 
 ```tut:book:invisible:reset
 // Foreward definitions -------------------------

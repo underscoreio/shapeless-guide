@@ -90,7 +90,7 @@ Applying `LabelledGeneric` with `Coproducts`
 involves a mixture of the concepts we've covered already.
 Let's start by examining 
 a `Coproduct` type derived by `LabelledGeneric`.
-We'll re-visit our `Shape` ADT from Chapter 2:
+We'll re-visit our `Shape` ADT from Chapter [@sec:generic]:
 
 ```tut:book:silent
 import shapeless.LabelledGeneric

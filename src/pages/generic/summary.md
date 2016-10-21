@@ -5,52 +5,57 @@ In this chapter we discussed how to use
 to automatically derive type class instances.
 We also covered the `Lazy` type 
 as a means of handling complex/recursive types.
-
 Taking all of this into account,
 we can write a common skeleton 
-for deriving type class instances as follows:
+for deriving type class instances as follows.
+
+First, define the type class:
 
 ```tut:book:silent
 import shapeless._
 
-// Step 1. Define the type class
-
 trait MyTC[A]
+```
 
-// Step 2. Define basic instances
+Define basic instances:
 
+```tut:book:silent
 implicit def intInstance: MyTC[Int] = ???
 implicit def stringInstance: MyTC[String] = ???
 implicit def booleanInstance: MyTC[Boolean] = ???
+```
 
-// Step 3. Define instances for HList
+Define instances for `HList`:
 
-implicit def hnilInstance: MyTC[HNil] = 
-  ???
+```tut:book:silent
+implicit def hnilInstance: MyTC[HNil] = ???
 
 implicit def hlistInstance[H, T <: HList](
   implicit
   hInstance: Lazy[MyTC[H]], // wrap in Lazy
   tInstance: MyTC[T]
 ): MyTC[H :: T] = ???
+```
 
-// Step 4. Define instances for Coproduct
+If required, define instances for `Coproduct`:
 
-implicit def cnilInstance: MyTC[CNil] = 
-  ???
+```tut:book:silent
+implicit def cnilInstance: MyTC[CNil] = ???
 
 implicit def coproductInstance[H, T <: Coproduct](
   implicit
   hInstance: Lazy[MyTC[H]], // wrap in Lazy
   tInstance: MyTC[T]
 ): MyTC[H :+: T] = ???
+```
 
-// Step 4. Define an instance for Generic
+Finally, define an instance for `Generic`:
 
+```tut:book:silent
 implicit def genericInstance[A, R](
   implicit
   generic: Generic.Aux[A, R],
-  rInstance: Lazy[MyTC[R]]  // wrap in Lazy
+  rInstance: Lazy[MyTC[R]] // wrap in Lazy
 ): MyTC[A] = ???
 ```
 

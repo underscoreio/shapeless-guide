@@ -11,6 +11,8 @@
 [link-parboiled2]: https://github.com/sirthias/parboiled2
 [link-play-json]: https://www.playframework.com/documentation/2.5.x/ScalaJson
 [link-scodec]: https://github.com/scodec/scodec
+[link-scalacheck]: https://scalacheck.org/
+[link-scalacheck-shapeless]: https://github.com/alexarchambault/scalacheck-shapeless
 [link-shapeless]: https://github.com/milessabin/shapeless
 [link-spray-json]: https://github.com/spray/spray-json
 [link-tut]: https://github.com/tpolecat/tut
