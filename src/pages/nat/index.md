@@ -1,18 +1,5 @@
 # Counting with types
 
-<div class="callout callout-danger">
-  TODO: There may be other chapters before this one.
-  `Poly` and `ops.{hlist, coproduct, record}` 
-  are probably more important than `Nat` and `Length`.
-</div>
-
-<div class="callout callout-danger">
-  TODO: If we discuss `ops.hlist` and 
-  `ops.coproduct` before this chapter, 
-  we should move the discussion 
-  of imports in `length.md` to cover them earlier.
-</div>
-
 From time to time we may need to count things at the type level.
 For example, we may need to know the length of an `HList`
 or the number of terms we have expanded so far in a computation.

@@ -1,13 +1,10 @@
 ## Sizing generic representations
 
-One of the main use cases for `Nat`
-is determining the size of `HLists` and `Coproducts`.
-Shapeless provides two type classes for this:
-
-  - `shapeless.ops.hlist.Length` 
-    for calculating the length of `HLists`;
-  - `shapeless.ops.coproduct.Length` 
-    for calculating the length of `Coproducts`.
+One use case for `Nat` is
+determining the size of `HLists` and `Coproducts`.
+Shapeless provides the
+`shapeless.ops.hlist.Length` and
+`shapeless.ops.coproduct.Length` type classes for this.
 
 Because of the similarity of the names,
 we typically import the `hlist` and `coproduct` packages
@@ -40,7 +37,7 @@ Nat.toInt[coproductLength.Out]
 ```
 
 Let's use this in a concrete example.
-We'll create a `SizeOf` type class that 
+We'll create a `SizeOf` type class that
 counts the number of fields in a case class
 and exposes it as a simple `Int`:
 
@@ -65,7 +62,7 @@ implicit def genericSizeOf[A, L <: HList, N <: Nat](
   generic: Generic.Aux[A, L],
   size: hlist.Length.Aux[L, N],
   sizeToInt: ToInt[N]
-): SizeOf[A] = 
+): SizeOf[A] =
   new SizeOf[A] {
     val value = sizeToInt.apply()
   }

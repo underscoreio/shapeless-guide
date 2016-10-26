@@ -1,5 +1,16 @@
 <!-- API docs -->
 
+<!-- Code -->
+
+[code-ops-hlist]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/hlists.scala
+[code-ops-coproduct]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/coproducts.scala
+[code-ops-record]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/records.scala
+[code-ops-hlist-init]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/hlists.scala#L814-L840
+[code-ops-hlist-last]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/hlists.scala#L786-L812
+[code-ops-hlist-length]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/hlists.scala#L271-L292
+[code-ops-coproduct-length]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/coproduct.scala#L516-L541
+[code-syntax-hlist-init-last]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/syntax/hlists.scala#L103-L112
+
 <!-- Libraries -->
 
 [link-argonaut]: https://argonaut.io

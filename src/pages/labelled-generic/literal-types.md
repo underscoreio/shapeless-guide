@@ -1,11 +1,11 @@
 ## Literal types
 
 As Scala developers,
-we are used to the notion 
+we are used to the notion
 that a value may have multiple types.
-For example, the string `"hello"` 
+For example, the string `"hello"`
 has at least three types:
-`String`, `AnyRef`, 
+`String`, `AnyRef`,
 and `Any`[^multiple-inheritance]:
 
 ```tut:book
@@ -14,13 +14,13 @@ and `Any`[^multiple-inheritance]:
 "hello" : Any
 ```
 
-[^multiple-inheritance]: 
+[^multiple-inheritance]:
 `String` has a bunch of other types
 like `Serializable` and `Comparable`
 but let's ignore those for now.
 
 Interestingly, `"hello"` also has another type:
-a "singleton type" 
+a "singleton type"
 that belongs exclusively to that one value.
 This is similar to the singleton type we get
 when we define a companion object:
@@ -96,13 +96,13 @@ math.sqrt(4).narrow
 Until recently, Scala had no syntax for writing literal types.
 The types were there in the compiler,
 but we couldn't express them directly in code.
-As of 
+As of
 [Lightbend Scala 2.12.1][link-lightbend-scala-singleton-type-literals],
 Lightbend Scala 2.11.9,
 and
 [Typelevel Scala 2.11.8][link-typelevel-scala-singleton-type-literals],
 however, we now have direct syntax support for literal types.
-In these versions of Scala 
+In these versions of Scala
 we can write declarations like the following:
 
 ```scala
@@ -115,9 +115,9 @@ You'll still see `Int(42)` in output for legacy reasons,
 but the canonical syntax going forward is `42`.
 </div>
 
-## Type tagging and phantom types
+## Type tagging and phantom types {#sec:labelled-generic:type-tagging}
 
-Shapeless uses literal types 
+Shapeless uses literal types
 to model the names of fields in case classes.
 It does this by "tagging" the types of the fields
 with the literal types of their names.
@@ -156,11 +156,11 @@ and an `Int` at run-time:
 val numCherries = number.asInstanceOf[Int with Cherries]
 ```
 
-Shapeless uses this trick to tag 
+Shapeless uses this trick to tag
 the types of fields in a case classes
 with the singleton types of their names.
-If you find using `asInstanceOf` uncomfortable 
-then don't worry: there's explicit syntax for tagging 
+If you find using `asInstanceOf` uncomfortable
+then don't worry: there's explicit syntax for tagging
 that avoids such unsavoriness:
 
 ```tut:book:silent
@@ -191,9 +191,9 @@ the type of a value with its field name.
 But the key tag is just a phantom type:
 how do we convert it to a value we can use at runtime?
 Shapeless provides a type class called `Witness` for this purpose.
-If we combine `Witness` and `FieldType`, 
-we get something very compelling---the 
-ability extract the field name 
+If we combine `Witness` and `FieldType`,
+we get something very compelling---the
+ability extract the field name
 from a tagged field:
 
 ```tut:book:silent

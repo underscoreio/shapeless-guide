@@ -43,6 +43,12 @@ pages:
   - labelled-generic/products.md
   - labelled-generic/coproducts.md
   - labelled-generic/summary.md
+  - ops/index.md
+  - ops/init-last.md
+  - ops/penultimate.md
+  - ops/migration.md
+  - ops/summary.md
+  - poly/index.md
   - nat/index.md
   - nat/length.md
   - nat/random.md

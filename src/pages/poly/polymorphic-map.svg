@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1761px" height="422px" viewBox="0 0 1761 422" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <title>polymorphic-map</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="1037.59509 107.720443 1000.7633 127.08406 1007.79754 86.0712603 978 57.0258342 1019.17919 51.0421474 1037.59509 13.7274694 1056.01098 51.0421474 1097.19017 57.0258342 1067.39263 86.0712603 1074.42688 127.08406"></polygon>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="119.190173" height="113.356591" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <polygon id="path-3" points="849 56 889 56 889 36 929 75.4977671 889 116 889 96 849 96"></polygon>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="80" height="80" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+        <polygon id="path-5" points="1037.59509 209.992973 1006.2641 232.928851 1010.46165 194.327478 974.933104 178.661982 1010.46165 162.996487 1006.2641 124.395114 1037.59509 147.330991 1068.92608 124.395114 1064.72852 162.996487 1100.25707 178.661982 1064.72852 194.327478 1068.92608 232.928851"></polygon>
+        <mask id="mask-6" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="119.190173" height="113.356591" fill="white">
+            <use xlink:href="#path-5"></use>
+        </mask>
+        <polygon id="path-7" points="849 153 889 153 889 133 929 172.497767 889 213 889 193 849 193"></polygon>
+        <mask id="mask-8" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="80" height="80" fill="white">
+            <use xlink:href="#path-7"></use>
+        </mask>
+        <polygon id="path-9" points="1037.59509 310.992973 1010.40707 336.118477 1013.09953 299.196536 976.504171 293.605585 1007.04963 272.690181 988.603976 240.592875 1024.00108 251.433735 1037.59509 217 1051.18909 251.433735 1086.5862 240.592875 1068.14054 272.690181 1098.686 293.605585 1062.09064 299.196536 1064.7831 336.118477"></polygon>
+        <mask id="mask-10" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="119.190173" height="113.356591" fill="white">
+            <use xlink:href="#path-9"></use>
+        </mask>
+        <polygon id="path-11" points="849 254 889 254 889 234 929 273.497767 889 314 889 294 849 294"></polygon>
+        <mask id="mask-12" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="80" height="80" fill="white">
+            <use xlink:href="#path-11"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="polymorphic-map">
+            <rect id="Background" fill="#FFFFFF" x="0" y="0" width="1761" height="422"></rect>
+            <use id="Star-1-Copy" stroke="#000000" mask="url(#mask-2)" stroke-width="8" fill="#FFFFFF" xlink:href="#path-1"></use>
+            <use id="Path-1-Copy" stroke="#000000" mask="url(#mask-4)" stroke-width="8" fill="#000000" xlink:href="#path-3"></use>
+            <polygon id="Path-1-Copy-2" fill="#F6A623" points="1179 153 1219 153 1219 133 1259 172.497767 1219 213 1219 193 1179 193"></polygon>
+            <text id="A-::-B-::-C-::-HNil" font-family="FiraMono-Regular, Fira Mono" font-size="42" font-weight="normal" fill="#000000">
+                <tspan x="120.1" y="399">A :: B :: C :: HNil</tspan>
+            </text>
+            <text id="map-copy" font-family="FiraMono-Bold, Fira Mono" font-size="64" font-weight="bold" fill="#F6A623">
+                <tspan x="496.4" y="187">map</tspan>
+            </text>
+            <text id="D-::-E-::-F-::-HNil" font-family="FiraMono-Regular, Fira Mono" font-size="42" font-weight="normal" fill="#000000">
+                <tspan x="1163.6" y="399">D :: E :: F :: HNil</tspan>
+            </text>
+            <text id="Poly" font-family="FiraMono-Regular, Fira Mono" font-size="42" font-weight="normal" fill="#000000">
+                <tspan x="837.1" y="399">Poly</tspan>
+            </text>
+            <polygon id="Polygon" stroke="#000000" stroke-width="4" fill="#FFFFFF" points="314.995918 23 365.991836 60.0507031 346.513128 120 283.478707 120 264 60.0507031"></polygon>
+            <polygon id="Polygon" stroke="#000000" stroke-width="4" fill="#FFFFFF" points="727.995918 22 778.991836 59.0507031 759.513128 119 696.478707 119 677 59.0507031"></polygon>
+            <use id="Star-1-Copy" stroke="#000000" mask="url(#mask-6)" stroke-width="8" fill="#FFFFFF" xlink:href="#path-5"></use>
+            <use id="Path-1-Copy" stroke="#000000" mask="url(#mask-8)" stroke-width="8" fill="#000000" xlink:href="#path-7"></use>
+            <polygon id="Polygon" stroke="#000000" stroke-width="4" fill="#FFFFFF" points="727.995918 124 774.432444 150.810141 774.432444 204.430422 727.995918 231.240562 681.559392 204.430422 681.559392 150.810141"></polygon>
+            <use id="Star-1-Copy" stroke="#000000" mask="url(#mask-10)" stroke-width="8" fill="#FFFFFF" xlink:href="#path-9"></use>
+            <use id="Path-1-Copy" stroke="#000000" mask="url(#mask-12)" stroke-width="8" fill="#000000" xlink:href="#path-11"></use>
+            <polygon id="Polygon" stroke="#000000" stroke-width="4" fill="#FFFFFF" points="727.995918 225 769.917942 245.188583 780.271827 290.551916 751.260886 326.930485 704.73095 326.930485 675.720009 290.551916 686.073894 245.188583"></polygon>
+            <polygon id="Polygon" stroke="#000000" stroke-width="4" fill="#FFFFFF" points="382.452678 123 425.905357 148.087416 425.905357 198.262247 382.452678 223.349663 339 198.262247 339 148.087416"></polygon>
+            <polygon id="Polygon" stroke="#000000" stroke-width="4" fill="#FFFFFF" points="448.983139 224 489.868441 243.689324 499.966277 287.930834 471.67277 323.40977 426.293507 323.40977 398 287.930834 408.097836 243.689324"></polygon>
+            <polygon id="Star" stroke="#000000" stroke-width="4" fill="#FFFFFF" points="1335.5 95.75 1305.81684 111.355358 1311.48582 78.3026791 1287.47165 54.8946418 1320.65842 50.0723209 1335.5 20 1350.34158 50.0723209 1383.52835 54.8946418 1359.51418 78.3026791 1365.18316 111.355358"></polygon>
+            <polygon id="Star" stroke="#000000" stroke-width="4" fill="#FFFFFF" points="1402.02835 202.75 1376.77835 221.234283 1380.16121 190.125 1351.52835 177.5 1380.16121 164.875 1376.77835 133.765717 1402.02835 152.25 1427.27835 133.765717 1423.8955 164.875 1452.52835 177.5 1423.8955 190.125 1427.27835 221.234283"></polygon>
+            <polygon id="Star" stroke="#000000" stroke-width="4" fill="#FFFFFF" points="1468.02835 303.75 1446.11723 323.998928 1448.28711 294.243117 1418.79449 289.737307 1443.41142 272.881346 1428.54586 247.013765 1457.07279 255.750536 1468.02835 228 1478.98392 255.750536 1507.51084 247.013765 1492.64528 272.881346 1517.26221 289.737307 1487.7696 294.243117 1489.93948 323.998928"></polygon>
+        </g>
+    </g>
+</svg>
