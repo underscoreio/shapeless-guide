@@ -13,6 +13,10 @@ Still to do:
     - **DONE** Mapping over `HLists` as an example
   - **DONE** Counting with `Nat`
     - **DONE** Generating `Arbitrary` instances as an example
+  - Callout box on quirkiness of type inference with poly:
+    - `val len1: Int = lengthPoly("foo")` fails, but...
+    - `val len2      = lengthPoly("foo")` compiles, but...
+    - `val len3: Int = lengthPoly[String]("foo")` fails
   - Generic applied to tuples
   - Built-in record operations
   - Performance
