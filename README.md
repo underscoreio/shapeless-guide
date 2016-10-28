@@ -1,4 +1,4 @@
-# The Type Astronaut's Guide to Shapeless (Working Title)
+# The Type Astronaut's Guide to Shapeless
 
 Copyright 2016 Dave Gurnell.
 Text and diagrams licensed [CC-BY-SA 3.0][text-license].
