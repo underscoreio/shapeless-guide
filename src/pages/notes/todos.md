@@ -9,8 +9,8 @@ Still to do:
     - `LowPriorityImplicit`
   - **DONE** Built-in `HList` and `Coproduct` operations
     - **DONE** Migrating case class as a basic example
-  - Polymorphic functions
-    - Mapping over `HLists` as an example
+  - **DONE** Polymorphic functions
+    - **DONE** Mapping over `HLists` as an example
   - **DONE** Counting with `Nat`
     - **DONE** Generating `Arbitrary` instances as an example
   - Generic applied to tuples
@@ -20,4 +20,5 @@ Still to do:
     - Maybe `Cached`
     - Maybe
   - Check cross references
+  - Final summary
   - **SHIP IT!**

@@ -1,6 +1,6 @@
 # Counting with types
 
-From time to time we may need to count things at the type level.
+From time to time we need to count things at the type level.
 For example, we may need to know the length of an `HList`
 or the number of terms we have expanded so far in a computation.
 This chapter covers the theory behind counting with types,
@@ -20,6 +20,16 @@ import shapeless.{Nat, Succ}
 type Zero = Nat._0
 type One  = Succ[Zero]
 type Two  = Succ[One]
+// etc...
+```
+
+shapeless provides aliases for the first 22 `Nats`
+as `Nat._N`:
+
+```tut:book:silent
+Nat._1
+Nat._2
+Nat._3
 // etc...
 ```
 

@@ -1,4 +1,4 @@
-## Case study: case class migrations
+## Case study: case class migrations {#sec:ops:migration}
 
 We'll finish this chapter with a more useful example:
 a type class for performing "migrations"

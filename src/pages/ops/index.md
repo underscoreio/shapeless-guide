@@ -1,4 +1,4 @@
-# Working with HLists and Coproducts
+# Working with HLists and Coproducts {#sec:ops}
 
 We have now seen several examples of type class derivation.
 In each case we convert an ADT to an `HList` or `Coproduct`

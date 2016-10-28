@@ -49,9 +49,14 @@ pages:
   - ops/migration.md
   - ops/summary.md
   - poly/index.md
+  - poly/poly.md
+  - poly/map-flatmap-fold.md
+  - poly/type-class.md
+  - poly/summary.md
   - nat/index.md
   - nat/length.md
   - nat/random.md
+  - nat/ops.md
   - nat/summary.md
   - notes/todos.md
   - links.md
