@@ -2,17 +2,15 @@
 
 In this chapter we looked at a few of the
 "ops" type classes that shapeless provides in
-[`shapeless.ops.hlist`][code-ops-hlist] and
-[`shapeless.ops.coproduct`][code-ops-coproduct].
+`shapeless.ops.hlist` and `shapeless.ops.coproduct`.
 These type classes, together with their extension methods
 defined in `shapeless.syntax.hlist` and
 `shapeless.syntax.coproduct`,
 provide a wealth of functionality that we can use
 in the definitions of our own type classes.
 
-We didn't discuss the type classes in
-[`shapeless.ops.record`][code-ops-record],
-which implement `Map`-like operations
+We didn't discuss the type classes in `shapeless.ops.record`,
+which provide `Map`-like operations
 on `HLists` of tagged types.
 We've already covered all of the theory
 required to understand these type classes,

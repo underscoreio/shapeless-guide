@@ -15,18 +15,15 @@ on `HList` and `Coproduct`.
 There are three general sets of type classes,
 available from three packages:
 
-[`shapeless.ops.hlist`][code-ops-hlist]
-defines type classes for `HLists`.
+`shapeless.ops.hlist` defines type classes for `HLists`.
 Many can be used directly via extension methods on `HList`,
 defined in `shapeless.syntax.hlist`.
 
-[`shapeless.ops.coproduct`][code-ops-coproduct]
-defines type classes for `Coproducts`.
+`shapeless.ops.coproduct` defines type classes for `Coproducts`.
 Many can be used directly via extension methods on `Coproduct`,
 defined in `shapeless.syntax.coproduct`.
 
-[`shapeless.ops.record`][code-ops-record]
-defines type classes for `HLists`
+`shapeless.ops.record` defines type classes for `HLists`
 whose elements are tagged with key types
 (see Section [@sec:labelled-generic:type-tagging]).
 Many can be used directly via extension methods on `HList`,
