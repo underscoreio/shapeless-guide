@@ -11,7 +11,7 @@ An up-to-date PDF should can be found in [dist/shapeless-guide.pdf][pdf].
 ## Related Material
 
 Accompanying code samples can be found here:<br>
-[https://github.com/underscoreio/shapeless-guide-code][https://github.com/underscoreio/shapeless-guide-code]
+https://github.com/underscoreio/shapeless-guide-code
 
 Check the `solutions` branch for complete versions of each example.
 
