@@ -8,6 +8,13 @@ Code samples licensed [Apache 2.0][code-license]
 
 An up-to-date PDF should can be found in [dist/shapeless-guide.pdf][pdf].
 
+## Related Material
+
+Accompanying code samples can be found here:<br>
+`https://github.com/underscoreio/shapeless-guide-code`
+
+Check the `solutions` branch for complete versions of each example.
+
 ## Building the Book
 
 Install Docker and use `go.sh` to boot an instance
@@ -22,12 +29,6 @@ Then use `sbt` to build the book:
 ~~~
 sbt pdf
 ~~~
-
-## Related Material
-
-The slides from my Scala World workshop can be found [here][slides]
-and the accompanying live-coding examples can be found [here][code].
-Check the `solutions` branch for complete versions of the example code.
 
 ## Acknowledgements
 
