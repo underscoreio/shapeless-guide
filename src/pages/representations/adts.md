@@ -88,7 +88,7 @@ Importantly, `Shape2` is a more *generic* encoding than `Shape`[^generic].
 Any code that operates on a pair of `Doubles`
 will be able to operate on a `Rectangle2` and vice versa.
 As Scala developers we tend to see interoperability as a bad thing:
-what havoc will we accidentally wreak across our codebase with such freedom?!
+what havoc will we accidentally wreak across our codebase with such freedom?! (MS: raises eyebrows)
 However, in some cases it is a desirable feature.
 For example, if we're serializing data to disk,
 we don't care about the difference
