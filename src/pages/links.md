@@ -47,4 +47,4 @@
 
 <!-- Other -->
 
-[link-underscore]: http://underscore.io
+[link-underscore]: https://underscore.io

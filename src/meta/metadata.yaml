@@ -2,7 +2,7 @@
 # Used by Pandoc to print covers:
 title: "The Type Astronaut's Guide to Shapeless"
 author: "Dave Gurnell"
-date: "August 2016"
+date: "November 2016"
 # Used by Grunt to name output files:
 filenameStem: "shapeless-guide"
 # Used by Grunt to create a ZIP of source code:

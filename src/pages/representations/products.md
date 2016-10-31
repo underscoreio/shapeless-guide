@@ -21,7 +21,7 @@ An `HList` is either the empty list `HNil`,
 or a pair `::[H, T]` where `H` is an arbitrary type
 and `T` is another `HList`.
 Because every `::` has its own `H` and `T`,
-the type each element is encoded separately
+the type of each element is encoded separately
 in the type of the overall list:
 
 ```tut:book:silent
@@ -63,7 +63,7 @@ val newProduct: Long :: String :: Int :: Boolean :: HNil =
 
 Shapeless also provides tools for performing more complex operations
 such as mapping, filtering, and concatenating lists.
-We'll discuss these in more detail in Chapters [@sec:ops] to [@sec:nat].
+We'll discuss these in more detail in Part II.
 
 ### Switching representations using *Generic*
 

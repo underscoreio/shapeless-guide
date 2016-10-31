@@ -44,7 +44,7 @@ We always have exactly one `Inl` in a value.
 ### Switching encodings using *Generic*
 
 `Coproduct` types are difficult to parse on first glance.
-However, we can easily see how they fit
+However, we can see how they fit
 into the larger picture of generic encodings.
 In addition to understanding case classes and case objects,
 shapeless' `Generic` type class also understands

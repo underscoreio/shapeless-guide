@@ -3,7 +3,7 @@
 *Algebraic data types* (*ADTs*[^adts])
 are a functional programming concept
 with a fancy name but a very simple meaning.
-They are simply an idiomatic way of representing data
+They are an idiomatic way of representing data
 using "ands" and "ors". For example:
 
  - a shape is a rectangle **or** a circle
@@ -31,9 +31,11 @@ val circ: Shape = Circle(1.0)
 ```
 
 The beauty of ADTs is that they are completely type safe.
-The compiler has complete knowledge of the algebras we define,
+The compiler has complete knowledge of the algebras[^algebra] we define,
 so it can help us write complete,
 correctly typed methods involving our types:
+
+[^algebra]: The word "algebra" here means: the symbols we define, such as rectangle and circle; and the rules for manipulating those symbols, encoded as methods.
 
 ```tut:book:silent
 def area(shape: Shape): Double =
