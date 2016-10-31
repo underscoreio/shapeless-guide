@@ -1,7 +1,7 @@
 ## Case study: random value generator
 
 Property-based testing libraries like [Scalacheck][link-scalacheck]
-use type classes to generate random data for use in unit tests.
+use type classes to generate random test data for unit tests.
 For example, Scalacheck has the `Arbitrary` type class
 that we can use as follows:
 
@@ -23,7 +23,7 @@ This makes shapeless integration via libraries like
 
 In this section we will create a simple `Random` type class
 to generate random values of user-defined ADTs.
-We will show how `Length` and `Nat` form 
+We will show how `Length` and `Nat` form
 a crucial part of the implementation:
 
 ```tut:book:invisible
@@ -64,7 +64,7 @@ implicit val booleanRandom: Random[Boolean] =
   createRandom(() => scala.util.Random.nextBoolean)
 ```
 
-We can use these simple generators 
+We can use these simple generators
 via the `random` method as follows:
 
 ```tut:book
@@ -75,7 +75,7 @@ for(i <- 1 to 3) println(random[Char])
 ### Random products
 
 We can create random values for products
-using the `Generic` and `HList` techniques 
+using the `Generic` and `HList` techniques
 from Chapter [@sec:generic]:
 
 ```tut:book:silent
@@ -95,7 +95,7 @@ implicit def hlistRandom[H, T <: HList](
   implicit
   hRandom: Random[H],
   tRandom: Lazy[Random[T]]
-): Random[H :: T] = 
+): Random[H :: T] =
   createRandom(() => hRandom.get :: tRandom.value.get)
 ```
 
@@ -131,7 +131,7 @@ implicit def coproductRandom[H, T <: Coproduct](
   }
 ```
 
-There problems with this implementation 
+There problems with this implementation
 lie in the 50/50 choice in calculating `chooseH`.
 This creates an uneven probability distribution.
 For example, consider the following type:
@@ -144,10 +144,10 @@ case object Green extends Light
 ```
 
 The `Repr` for `Light` is `Red :+: Amber :+: Green :+: CNil`.
-An instance of `Random` for this type 
-will choose `Red` 50% of the time 
+An instance of `Random` for this type
+will choose `Red` 50% of the time
 and `Amber :+: Green :+: CNil` 50% of the time.
-A correct distribution would be 
+A correct distribution would be
 33% `Red` and 67% `Amber :+: Green :+: CNil`.
 
 And that's not all.
@@ -167,10 +167,10 @@ for(i <- 1 to 100) random[Light]
 //   ...
 ```
 
-To fix this problem we have to alter 
+To fix this problem we have to alter
 the probability of choosing `H` over `T`.
 The correct behaviour should be to choose
-`H` `1/n`^th^ of the time, 
+`H` `1/n`^th^ of the time,
 where `n` is the length of the coproduct.
 This ensures an even probability distribution
 across the subtypes of the coproduct
@@ -197,7 +197,7 @@ implicit def coproductRandom[H, T <: Coproduct, L <: Nat](
 
 ```
 
-With these modifications 
+With these modifications
 we can generate random values of any product or coproduct:
 
 ```tut:book

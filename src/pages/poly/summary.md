@@ -2,10 +2,8 @@
 
 In this chapter we discussed *polymorphic functions*
 whose return types vary based on the types of their parameters.
-We discussed shapeless' `Poly` type
-that specifies cases as implicit values,
-and saw how it is used to implement
-functional operations such as
+We saw how shapeless' `Poly` type is defined,
+and how it is used to implement functional operations such as
 `map`, `flatMap`, `foldLeft`, and `foldRight`.
 
 Each operation is implemented as an extension method on `HList`,

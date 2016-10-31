@@ -1,8 +1,10 @@
 ## Mapping and flatMapping using Poly
 
-`HList` has a `map` method that
-accepts a `Poly` as the mapping function.
-Here's an example:
+Shapeless provides a suite of
+functional operations based on `Poly`,
+each implemented as an ops type class.
+Let's look at `map` and `flatMap` as examples.
+Here's `map`:
 
 ```tut:book:silent
 import shapeless._
@@ -23,8 +25,10 @@ object sizeOf extends Poly1 {
 (10 :: "hello" :: true :: HNil).map(sizeOf)
 ```
 
-We can use `map` provided
-the `Poly` provides `Cases` for every member of the `HList`.
+Note that the elements in the resulting `HList`
+have types matching the `Cases` in `sizeOf`.
+We can use `map` with any `Poly` that
+provides `Cases` for every member of our starting `HList`.
 If the compiler can't find a `Case` for a particular member,
 we get a compile error:
 
@@ -32,8 +36,9 @@ we get a compile error:
 (1.5 :: HNil).map(sizeOf)
 ```
 
-We can also `flatMap` over an `HList` provided
-every corresponding case in our `Poly` returns another `HList`:
+We can also `flatMap` over an `HList`
+provided every corresponding case in our `Poly`
+returns another `HList`:
 
 ```tut:book:silent
 object valueAndSizeOf extends Poly1 {
@@ -52,19 +57,23 @@ object valueAndSizeOf extends Poly1 {
 (10 :: "hello" :: true :: HNil).flatMap(valueAndSizeOf)
 ```
 
-If there is a missing case or one of the cases doesn't return an `HList`,
-we get a compilation error:
+Again, we get a compilation error if there is a missing case
+or one of the cases doesn't return an `HList`:
 
 ```tut:book:fail
 // Using the wrong Poly with flatMap:
 (10 :: "hello" :: true :: HNil).flatMap(sizeOf)
 ```
 
+`map` and `flatMap` are based on type classes
+called `Mapper` and `FlatMapper` respectively.
+We'll see an example that makes direct use of `Mapper` in a moment.
+
 ## Folding using Poly
 
 In addition to `map` and `flatMap`,
 shapeless also provides
-`foldLeft` and `foldRight` operations on `HLists`:
+`foldLeft` and `foldRight` operations based on `Poly2`:
 
 ```tut:book:silent
 import shapeless._
