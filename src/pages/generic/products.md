@@ -11,7 +11,7 @@ We'll use two intuitions:
 
 2. If we have a case class `A`, a `Generic[A]`,
    and a type class instance for the generic's `Repr`,
-   we can combine them to create an instance for `A`
+   we can combine them to create an instance for `A`.
 
 Take `CsvEncoder` and `IceCream` as examples:
 
@@ -63,10 +63,10 @@ val employees: List[Employee] = List(
 
 ### Instances for *HLists*
 
-Let's start by writing `CsvEncoders` 
-for `String`, `Int`, and `Boolean`.
-See Section [@sec:generic:type-classes] 
-for the definition of `createEncoder`:
+Let's start by writing `CsvEncoders`[^refer-createEncoder] 
+for `String`, `Int`, and `Boolean`:
+
+[^refer-createEncoder]: Refer to Section [@sec:generic:type-classes] for the definition of `createEncoder`.
 
 ```tut:book:silent
 implicit val stringEncoder: CsvEncoder[String] =
@@ -302,7 +302,7 @@ There's not much good news here.
 We have find the source of the error ourselves
 by a process of elimination.
 We'll discuss debugging techniques
-in more detail next chapter.
+in the Section [@sec:generic:debugging].
 For now, the main redeeming feature
 is that implicit resolution always fails at compile time.
 There's little chance that we will end up

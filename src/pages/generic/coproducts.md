@@ -90,16 +90,16 @@ There are two key points of note:
 
 1. Alarmingly, the encoder for `CNil` throws an exception!
    Don't panic, though.
-   Remember that we can't actually
+   Remember that we can't
    create values of type `CNil`.
-   It's just there as a marker for the compiler.
+   It's there as a marker for the compiler.
    It's ok to fail abruptly here because
-   we should never reach this point.
+   we will never reach this point.
 
 2. Because `Coproducts` are *disjunctions* of types,
    the encoder for `:+:` has to *choose*
    whether to encode a left or right value.
-   We pattern match on the two subtypes of `:+:`---`Inl`
+   We pattern match on the two subtypes of `:+:` which are `Inl`
    for left and `Inr` for right.
 
 With these definitions

@@ -7,7 +7,7 @@ Type classes are a programming pattern borrowed from Haskell
 (the word "class" has nothing to do with
 classes in object oriented programming).
 We encode them in Scala using traits and implicit parameters.
-A *type class* is a generic trait
+A *type class* is a parameterised trait
 representing some sort of general functionality
 that we would like to apply to a wide range of types:
 
@@ -138,7 +138,7 @@ This behaviour, known as "implicit resolution",
 is what makes the type class pattern so powerful.
 
 Traditionally the only limitation to this has been ADTs.
-The compiler can't pull apart 
+The compiler can't pull apart
 the types of case classes and sealed traits,
 so we have always had to define instances for ADTs by hand.
 Shapeless' generic representations change all of this,

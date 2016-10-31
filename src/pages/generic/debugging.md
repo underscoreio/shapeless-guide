@@ -1,4 +1,4 @@
-## Debugging implicit resolution
+## Debugging implicit resolution {#sec:generic:debugging}
 
 ```tut:book:invisible
 import shapeless._
@@ -90,7 +90,7 @@ we haven't defined an `Ordering` for `Float`.
 However, this may not be obvious in application code.
 We can work through the expected expansion sequence
 to find the source of the error,
-inserting calls to `implictly`
+inserting calls to `implicitly`
 above the error to see if they compile.
 We start with the generic representation of `Foo`:
 

@@ -158,7 +158,7 @@ the "head" parameter of any `HList` or `Coproduct` rule
 and the `Repr` parameter of any `Generic` rule in `Lazy`:
 
 ```tut:book:invisible:reset
-// Foreward definitions -------------------------
+// Forward definitions -------------------------
 import shapeless._
 
 trait CsvEncoder[A] {
@@ -186,7 +186,7 @@ implicit val cnilEncoder: CsvEncoder[CNil] =
 ```tut:book:silent
 implicit def hlistEncoder[H, T <: HList](
   implicit
-  hEncoder: Lazy[CsvEncoder[H]],
+  hEncoder: Lazy[CsvEncoder[H]], // wrapped in Lazy
   tEncoder: CsvEncoder[T]
 ): CsvEncoder[H :: T] = createEncoder {
   case h :: t =>
