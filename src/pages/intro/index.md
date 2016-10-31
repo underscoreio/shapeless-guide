@@ -12,18 +12,3 @@ and use them to build a picture of the tools and patterns available.
 
 Before we start, let's talk about what generic programming is
 and why shapeless is so exciting to Scala developers.
-
-<div class="callout callout-info">
-*Source code for examples*
-
-We've placed source code for
-many of the examples in this guide
-in an accompanying Github repo:
-
-`https://github.com/davegurnell/shapeless-guide-code`
-
-The `exercises` branch contains
-skeleton Scala files with `TODOs` to fill in,
-and the `solutions` branch contains
-completed implementations.
-</div>

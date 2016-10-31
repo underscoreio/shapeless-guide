@@ -1,4 +1,4 @@
-# Algebraic data types and generic representations
+# Algebraic data types and generic representations {#sec:representations}
 
 The main idea behind generic programming
 is to solve problems for a wide variety of types
@@ -13,8 +13,8 @@ Shapeless provides two sets of tools to this end:
     (encoded in Scala as case classes and sealed traits)
     and these generic representations.
 
-In this chapter we will start by recapping
-on what algebraic data types are
+In this chapter we will start with
+a recap of the theory of algebraic data types
 and why they might be familiar to Scala developers.
 Then we will look at
 the data types shapeless uses as generic representations

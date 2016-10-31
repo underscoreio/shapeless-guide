@@ -1,4 +1,4 @@
-# Counting with types
+# Counting with types {#sec:nat}
 
 From time to time we need to count things at the type level.
 For example, we may need to know the length of an `HList`

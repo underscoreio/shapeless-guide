@@ -23,41 +23,53 @@ pages:
   - intro/index.md
   - intro/generic.md
   - intro/thisbook.md
+
+  - parts/part1.md
+
   - representations/index.md
   - representations/adts.md
   - representations/products.md
   - representations/coproducts.md
   - representations/summary.md
+
   - generic/index.md
   - generic/type-classes.md
   - generic/products.md
   - generic/coproducts.md
   - generic/lazy.md
   - generic/summary.md
+
   - type-level-programming/index.md
   - type-level-programming/dependent-types.md
   - type-level-programming/dependent-functions.md
   - type-level-programming/summary.md
+
   - labelled-generic/index.md
   - labelled-generic/literal-types.md
   - labelled-generic/products.md
   - labelled-generic/coproducts.md
   - labelled-generic/summary.md
+
+  - parts/part2.md
+
   - ops/index.md
   - ops/init-last.md
   - ops/penultimate.md
   - ops/migration.md
   - ops/summary.md
+
   - poly/index.md
   - poly/poly.md
   - poly/map-flatmap-fold.md
   - poly/type-class.md
   - poly/summary.md
+
   - nat/index.md
   - nat/length.md
   - nat/random.md
   - nat/ops.md
   - nat/summary.md
+
   - notes/todos.md
   - links.md
 ...

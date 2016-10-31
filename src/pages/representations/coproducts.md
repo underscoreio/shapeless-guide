@@ -2,19 +2,14 @@
 
 Now we know how shapeless encodes product types.
 What about coproducts?
-We looked at `Either` earlier,
+We looked at `Either` earlier
 but that suffers from a similar drawback to tuples:
 we have no way of representing a disjunction of fewer than two types.
 For this reason, shapeless provides a different encoding
-that is similar to `HList`.
-
-The type of a `Coproduct` encodes 
-all the possible types in the disjunction,
-but each concrete instantiation 
-contains a value for just one of the possibilities.
+that is similar to `HList`:
 
 ```tut:book:silent
-import shapeless.{Coproduct, :+:, CNil}
+import shapeless.{Coproduct, :+:, CNil, Inl, Inr}
 
 case class Red()
 case class Amber()
@@ -23,26 +18,33 @@ case class Green()
 type Light = Red :+: Amber :+: Green :+: CNil
 ```
 
-In general, coproducts take the form 
-`A :+: B :+: C :+: CNil` meaning "A or B or C".
-`:+:` can be loosely interpreted as an `Either`,
-with subtypes `Inl` and `Inr` corresponding loosely to `Left` and `Right`.
-`CNil` is an empty type with no values, similar to `Nothing`,
-so we can never instantiate an empty `Coproduct`.
-Similarly, we can never create a `Coproduct` purely from instances of `Inr`.
-We always have to have exactly one `Inl` in a value:
+In general coproducts take the form
+`A :+: B :+: C :+: CNil` meaning "A or B or C",
+where `:+:` can be loosely interpreted as `Either`.
+The overall type of a coproduct
+encodes all the possible types in the disjunction,
+but each concrete instance
+contains a value for just one of the possibilities.
+`:+:` has two subtypes, `Inl` and `Inr`,
+that correspond loosely to `Left` and `Right`.
+We create instances of a coproduct by
+nesting `Inl` and `Inr` constructors:
 
-```tut:book:silent
-import shapeless.{Inl, Inr}
-
-val red: Light = Inl(Red())
-val green: Light = Inr(Inr(Inl(Green())))
+```tut:book
+val red   : Light = Inl(Red())
+val green : Light = Inr(Inr(Inl(Green())))
 ```
+
+Every coproduct type is terminated with `CNil`,
+which is an empty type with no values, similar to `Nothing`.
+We can never instantiate `CNil`
+or build a `Coproduct` purely from instances of `Inr`.
+We always have exactly one `Inl` in a value.
 
 ### Switching encodings using *Generic*
 
 `Coproduct` types are difficult to parse on first glance.
-However, it is relatively easy to see how they fit
+However, we can easily see how they fit
 into the larger picture of generic encodings.
 In addition to understanding case classes and case objects,
 shapeless' `Generic` type class also understands
@@ -60,7 +62,7 @@ final case class Circle(radius: Double) extends Shape
 val gen = Generic[Shape]
 ```
 
-Note that the `Repr` of the `Generic` is
+The `Repr` of the `Generic` for `Shape` is
 a `Coproduct` of the subtypes of the sealed trait:
 `Rectangle :+: Circle :+: CNil`.
 We can use the `to` and `from` methods of the generic

@@ -18,10 +18,10 @@ for product types called *heterogeneous lists* or `HLists`[^hlist-name].
 but the standard library unfortunately already has a type `scala.Product`.
 
 An `HList` is either the empty list `HNil`,
-or a pair `::[H, T]` where `H` is an arbitrary type 
+or a pair `::[H, T]` where `H` is an arbitrary type
 and `T` is another `HList`.
 Because every `::` has its own `H` and `T`,
-the type each element is encoded separately 
+the type each element is encoded separately
 in the type of the overall list:
 
 ```tut:book:silent
@@ -31,20 +31,15 @@ val product: String :: Int :: Boolean :: HNil =
   "Sunday" :: 1 :: false :: HNil
 ```
 
-The types and values of the `HLists` above mirror one another.
+The type and value of the `HList` above mirror one another.
 Both represent three members: a `String`, an `Int`, and a `Boolean`.
 We can retrieve the `head` and `tail`
 and the types of the elements are preserved:
 
 ```tut:book
-val first: String =
-  product.head
-
-val second: Int =
-  product.tail.head
-
-val rest: Boolean :: HNil =
-  product.tail.tail
+val first = product.head
+val second = product.tail.head
+val rest = product.tail.tail
 ```
 
 The compiler knows the exact length of each `HList`,
@@ -61,16 +56,14 @@ For example, we can prepend an element with the `::` method.
 Again, notice how the type of the result reflects
 the number and types of its elements:
 
-```tut:book
+```tut:book:silent
 val newProduct: Long :: String :: Int :: Boolean :: HNil =
   42L :: product
 ```
 
 Shapeless also provides tools for performing more complex operations
 such as mapping, filtering, and concatenating lists.
-We'll discuss these in more detail in later chapters.
-
-**DJG: INSERT CHAPTER NUMBER ABOVE**
+We'll discuss these in more detail in Chapters [@sec:ops] to [@sec:nat].
 
 ### Switching representations using *Generic*
 
@@ -94,7 +87,7 @@ Note that the instance of `Generic` has a type member `Repr`
 containing the type of its generic representation.
 In this case `iceCreamGen.Repr` is `String :: Int :: Boolean :: HNil`.
 Instances of `Generic` have two methods:
-one for converting `to` `Repr`
+one for converting `to` the `Repr` type
 and one for converting `from` it:
 
 ```tut:book
@@ -120,3 +113,19 @@ case class Employee(name: String, number: Int, manager: Boolean)
 val strangeEmployee: Employee =
   Generic[Employee].from(Generic[IceCream].to(iceCream))
 ```
+
+<div class="callout callout-info">
+*Other product types*
+
+It's useful to know that
+`Generic` understands tuples as well as case classes:
+
+```tut:book:silent
+val tupleGen = Generic[(String, Int, Boolean)]
+```
+
+```tut:book
+tupleGen.to(("Hello", 123, true))
+tupleGen.from("Hello" :: 123 :: true :: HNil)
+```
+</div>

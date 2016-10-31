@@ -1,4 +1,4 @@
-# Functional operations on HLists
+# Functional operations on HLists {#sec:poly}
 
 Regular Scala programs make heavy use
 of functional operations like `map` and `flatMap`.
