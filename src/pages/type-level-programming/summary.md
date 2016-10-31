@@ -7,11 +7,11 @@ This relationship is called *dependent typing*.
 
 Problems involving dependent types
 can be conveniently expressed using implicit search,
-allowing the compiler to resolve 
+allowing the compiler to resolve
 intermediate and target types
 given a starting point at the call site.
 
-We often have to use multiple steps 
+We often have to use multiple steps
 to calculate a result
 (e.g. using a `Generic` to get a `Repr`,
 then using another type class to get to another type).
@@ -27,7 +27,7 @@ to ensure our code compiles and works as expected:
  2. The compiler resolves implicits from left to right,
     backtracking if it can't find a working combination.
     We should write implicits in the order we need them,
-    using one or more type variables 
+    using one or more type variables
     to connect them to previous implicits.
 
  3. The compiler can only solve for one constraint at a time,
@@ -41,15 +41,9 @@ to ensure our code compiles and works as expected:
     they won't be available to the compiler
     for further implicit resolution.
 
- 5. The `Aux` type alias pattern is useful 
+ 5. The `Aux` type alias pattern is useful
     for keeping code readable.
-    We should look out for `Aux` aliases 
+    We should look out for `Aux` aliases
     when using tools from the shapeless toolbox,
-    and implement `Aux` aliases 
+    and implement `Aux` aliases
     on our own dependently typed functions.
-
-<div class="callout callout-danger">
-  TODO: Section on debugging using `implicitly`?
-
-  Section on debugging using `reify`?
-</div>

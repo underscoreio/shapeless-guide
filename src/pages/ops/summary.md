@@ -1,28 +1,23 @@
 ## Summary
 
 In this chapter we looked at a few of the
-"ops" type classes that shapeless provides in
-`shapeless.ops.hlist` and `shapeless.ops.coproduct`.
-These type classes, together with their extension methods
-defined in `shapeless.syntax.hlist` and
-`shapeless.syntax.coproduct`,
-provide a wealth of functionality that we can use
-in the definitions of our own type classes.
+type classes that provided in the `shapeless.ops` package.
+We looked at `Last` and `Init`
+as two simple examples of the ops pattern,
+and built our own `Penultimate` and `Migration` type classes
+purely by chaining together existing building blocks.
 
-We didn't discuss the type classes in `shapeless.ops.record`,
-which provide `Map`-like operations
-on `HLists` of tagged types.
-We've already covered all of the theory
-required to understand these type classes,
-so we'll leave it as an exercise to the reader
-to find out more about them.
+Many of the ops type classes share a similar pattern.
+The easiest way to learn them is to
+look at the source code in `shapeless.ops` and `shapeless.syntax`.
 
-In the next chapters we will discuss
-two more suites of ops type classes
-that with some associated theory.
-Chapter [@sec:poly] discusses
-how to implement functional operations
+In the next chapters we will look at two suites
+of that require further theoretical discussion.
+Chapter [@sec:poly] discusses functional operations
 such as `map` and `flatMap` on `HLists`,
 and Chapter [@sec:nat] discusses
 how to implement type classes that require
 type level representations of numbers.
+This knowledge will help us gain
+a complete understanding of
+nearly every type class that `shapeless.ops` has to offer.

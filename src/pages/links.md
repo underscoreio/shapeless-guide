@@ -5,7 +5,9 @@
 [code-ops-hlist]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/hlists.scala
 [code-ops-coproduct]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/coproducts.scala
 [code-ops-record]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/records.scala
+[code-ops-hlist-align]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/hlists.scala#L1973-L1997
 [code-ops-hlist-init]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/hlists.scala#L814-L840
+[code-ops-hlist-intersection]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/hlists.scala#L1297-L1352
 [code-ops-hlist-last]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/hlists.scala#L786-L812
 [code-ops-hlist-length]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/hlists.scala#L271-L292
 [code-ops-coproduct-length]: https://github.com/milessabin/shapeless/blob/shapeless-2.3.2/core/src/main/scala/shapeless/ops/coproduct.scala#L516-L541
@@ -15,6 +17,7 @@
 
 [link-argonaut]: https://argonaut.io
 [link-circe]: https://github.com/travisbrown/circe
+[link-contributors]: https://github.com/underscoreio/shapeless-guide/graphs/contributors
 [link-doobie]: https://github.com/tpolecat/doobie
 [link-ensime]: https://ensime.org
 [link-finch]: https://github.com/finagle/finch

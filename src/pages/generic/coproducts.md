@@ -63,11 +63,11 @@ final case class Rectangle(width: Double, height: Double) extends Shape
 final case class Circle(radius: Double) extends Shape
 ```
 
-The generic representation for `Shape` 
+The generic representation for `Shape`
 is `Rectangle :+: Circle :+: CNil`.
 We can write generic `CsvEncoders` for `:+:` and `CNil`
 using the same principles we used for `HLists`.
-Our existing product encoders 
+Our existing product encoders
 will take care of `Rectangle` and `Circle`:
 
 ```tut:book:silent
@@ -90,19 +90,19 @@ There are two key points of note:
 
 1. Alarmingly, the encoder for `CNil` throws an exception!
    Don't panic, though.
-   Remember that we can't actually 
+   Remember that we can't actually
    create values of type `CNil`.
    It's just there as a marker for the compiler.
-   It's ok to fail abruptly here because 
+   It's ok to fail abruptly here because
    we should never reach this point.
 
 2. Because `Coproducts` are *disjunctions* of types,
-   the encoder for `:+:` has to *choose* 
+   the encoder for `:+:` has to *choose*
    whether to encode a left or right value.
-   We pattern match on the two subtypes of `:+:`---`Inl` 
+   We pattern match on the two subtypes of `:+:`---`Inl`
    for left and `Inr` for right.
 
-With these definitions 
+With these definitions
 and our product encoders from Section [@sec:generic:products],
 we should be able to serialize a list of shapes.
 Let's give it a try:
@@ -120,7 +120,7 @@ writeCsv(shapes)
 
 Oh no, it failed!
 The error message is unhelpful as we discussed earlier.
-The reason for the failure is 
+The reason for the failure is
 we don't have a `CsvEncoder` instance for `Double`:
 
 ```tut:book:silent
@@ -138,11 +138,11 @@ writeCsv(shapes)
   *Aligning CSV Output*
 
   Our CSV encoder isn't very practical in its current form.
-  It allows fields from `Rectangle` and `Circle` to 
+  It allows fields from `Rectangle` and `Circle` to
   occupy the same columns in the output.
-  To fix this problem we need to modify 
-  the definition of `CsvEncoder` 
-  to incorporate the width of the data type 
+  To fix this problem we need to modify
+  the definition of `CsvEncoder`
+  to incorporate the width of the data type
   and space the output accordingly.
   We leave this as an exercise to the reader.
 </div>

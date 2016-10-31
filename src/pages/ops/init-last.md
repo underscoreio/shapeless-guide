@@ -19,10 +19,8 @@ implicit class HListOps[L <: HList](l : L) {
 ```
 
 The return type of each method is determined
-by a dependent type on the type class parameter.
-The resolution of the type class instance
-inspects the `HList` type
-and calculates the result type.
+by a dependent type on the implicit parameter.
+The instances for each type class provide the actual mapping.
 Here's the definition of `Last` as an example:
 
 ```scala
@@ -39,15 +37,14 @@ object Last {
 }
 ```
 
-We can make a few interesting observations
+We can make a couple of interesting observations
 about this implementation.
 First, we can typically implement ops type classes
-with a small number of instances
-(two in the case of `Last` and `Init`).
-All of the instances are generally packaged
+with a small number of instances (just two in this case).
+We can therefore package *all* of the required instances
 in the companion object of the type class,
 allowing us to call the corresponding extension methods
-without additional imports:
+without any imports from `shapeless.ops`:
 
 ```tut:book:silent
 import shapeless._
@@ -66,5 +63,4 @@ we get a compile error:
 
 ```tut:book:fail
 HNil.last
-HNil.init
 ```

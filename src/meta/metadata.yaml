@@ -23,6 +23,7 @@ pages:
   - intro/index.md
   - intro/generic.md
   - intro/thisbook.md
+  - intro/acknowledgements.md
 
   - parts/part1.md
 
@@ -37,6 +38,7 @@ pages:
   - generic/products.md
   - generic/coproducts.md
   - generic/lazy.md
+  - generic/debugging.md
   - generic/summary.md
 
   - type-level-programming/index.md

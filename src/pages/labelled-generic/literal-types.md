@@ -159,9 +159,13 @@ val numCherries = number.asInstanceOf[Int with Cherries]
 Shapeless uses this trick to tag
 the types of fields in a case classes
 with the singleton types of their names.
-If you find using `asInstanceOf` uncomfortable
-then don't worry: there's explicit syntax for tagging
-that avoids such unsavoriness:
+If you find using `asInstanceOf` uncomfortable then don't worry:
+shapeless provides two tagging syntaxes
+that avoid such unsavoriness.
+
+The first syntax, `->>`,
+tags the expression on the right of the arrow
+with singleton type of the literal expression on the left:
 
 ```tut:book:silent
 import shapeless.labelled.{KeyTag, FieldType}
@@ -179,17 +183,32 @@ the phantom type `KeyTag["numCherries", Int]`.
 The tag encodes both the name and type of the field,
 both of which are useful when searching for entries in a `Repr`
 using implicit resolution.
-Shapeless also provides us with the `FieldType` type alias
+
+The second syntax takes the tag as a type
+rather than a literal value.
+This is useful when writing implicit resolution rules
+where we don't have the ability
+to write specific literals expressions in our code:
+
+```tut:book:silent
+import shapeless.labelled.field
+
+field[Cherries](123)
+```
+
+Shapeless provides us with the `FieldType` type alias
 to make it easy to extract the key tag and value from a type:
 
 ```scala
 type FieldType[K, V] = V with KeyTag[K, V]
 ```
 
-Now we understand how shapeless tags
-the type of a value with its field name.
-But the key tag is just a phantom type:
-how do we convert it to a value we can use at runtime?
+As we'll see later,
+shapeless uses this mechanism to tag
+fields in products and subtypes in coproducts
+with identifiers from our source code.
+But tags are just a phantom types.
+How do we convert them to values we can use at runtime?
 Shapeless provides a type class called `Witness` for this purpose.
 If we combine `Witness` and `FieldType`,
 we get something very compelling---the

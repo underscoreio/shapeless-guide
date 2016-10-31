@@ -1,10 +1,11 @@
 ## Creating a custom op
 
-As an exercise, let's work through the creation of our own op.
+Let's work through the creation of our own op as an exercise.
 We'll combine the power of `Last` and `Init`
 to create a `Penultimate` type class
 that retrieves the second-to-last element in an `HList`.
-Here's the type class definition:
+Here's the type class definition,
+complete with `Aux` type alias and `apply` method:
 
 ```tut:book:silent
 import shapeless._
@@ -17,15 +18,13 @@ trait Penultimate[L] {
 object Penultimate {
   type Aux[L, O] = Penultimate[L] { type Out = O }
 
-  def apply[L](implicit inst: Penultimate[L]): Aux[L, inst.Out] =
-    inst
+  def apply[L](implicit p: Penultimate[L]): Aux[L, p.Out] = p
 }
 ```
 
-We can create the only instance we require
-by combining `Init` and `Last`
-using the techniques covered in
-Section [@sec:type-level-programming:chaining]:
+We only need to define one instance,
+combining `Init` and `Last` using the techniques
+covered in Section [@sec:type-level-programming:chaining]:
 
 ```tut:book:silent
 import shapeless.ops.hlist
@@ -42,13 +41,14 @@ implicit def hlistPenultimate[L <: HList, M <: HList, O](
   }
 ```
 
-This gives us a `Penultimate` type class
-that we can re-use in other type class definitions:
+We can use `Penultimate` as follows:
 
 ```tut:book:silent
-type BigList = String :: Int :: Boolean :: Double :: HNil
+type BigList =
+  String :: Int :: Boolean :: Double :: HNil
 
-val bigList = "foo" :: 123 :: true :: 456.0 :: HNil
+val bigList: BigList =
+  "foo" :: 123 :: true :: 456.0 :: HNil
 ```
 
 ```tut:book
@@ -56,7 +56,7 @@ Penultimate[BigList].apply(bigList)
 ```
 
 Summoning an instance of `Penultimate`
-depends on summoning instances for `Last` and `Init`,
+requires the compiler to summon instances for `Last` and `Init`,
 so we inherit the same level of type checking on short `HLists`:
 
 ```tut:book:silent
@@ -83,8 +83,8 @@ implicit class PenultimateOps[A](a: A) {
 bigList.penultimate
 ```
 
-Finally, if we add a second type class instance for `Generic`,
-we can access the penultimate fields of arbitrary product types:
+We can also provide `Penultimate` for all product types
+by providing an instance based on `Generic`:
 
 ```tut:book:silent
 implicit def genericPenultimate[A, R, O](

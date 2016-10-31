@@ -101,7 +101,7 @@ second2("bar" :: 321 :: false :: HNil)
 second1("baz" :: HNil)
 ```
 
-### Chaining dependent functions {#sec:type-level-programming:chaining}
+## Chaining dependent functions {#sec:type-level-programming:chaining}
 
 Dependently typed functions provide
 a means of calculating one type from another.
@@ -244,7 +244,8 @@ getWrappedValue(Wrapper(42))
 
 The take home point here isn't
 that we solved the problem using `IsHCons`.
-Shapeless provides a lot of tools like this,
+Shapeless provides a lot of tools like this
+(see Chapters [@sec:ops] to [@sec:nat]),
 and we can supplement them where necessary
 with our own type classes.
 The important point is

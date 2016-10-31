@@ -1,12 +1,11 @@
 ## Deriving product instances with *LabelledGeneric*
 
-We'll use a running example of JSON encoding 
+We'll use a running example of JSON encoding
 to illustrate `LabelledGeneric`.
-We'll define a `JsonEncoder` type class 
+We'll define a `JsonEncoder` type class
 that converts values to a JSON AST.
-This is the approach taken by 
-[argonaut][link-argonaut], [circe][link-circe],
-[play-json][link-play-json], [spray-json][link-spray-json],
+This is the approach taken by
+Argonaut, Circe, Play JSON, Spray JSON,
 and many other Scala JSON libraries.
 
 First we'll define our JSON data type:
@@ -227,7 +226,7 @@ implicit def genericObjectEncoder[A, H <: HList](
   generic: LabelledGeneric.Aux[A, H],
   hEncoder: Lazy[JsonObjectEncoder[H]]
 ): JsonEncoder[A] =
-  createObjectEncoder { value => 
+  createObjectEncoder { value =>
     hEncoder.value.encode(generic.to(value))
   }
 ```

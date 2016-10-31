@@ -3,7 +3,7 @@
 This book is a guide to using [shapeless][link-shapeless],
 a library for *generic programming* in Scala.
 We assume shapeless 2.3.2 and either
-Lightbend Scala 2.11.9 or Typelevel Scala 2.11.8.
+Typelevel Scala 2.11.8+ or Lightbend Scala 2.11.9+ / 2.12.1+.
 
 Shapeless is large library,
 so rather than cover everything it has to offer,

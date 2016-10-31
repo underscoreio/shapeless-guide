@@ -4,7 +4,7 @@ Still to do:
 
   - **DONE** Generic applied to tuples
   - Mention SI-7046 in Chapter 3
-  - Complete the "debugging" section in Chapter 4
+  - **DONE** Complete the "debugging" section in Chapter 4
   - Mention type class instance selection in Chapter 4
     - Low and high priority
     - `LowPriorityImplicit`

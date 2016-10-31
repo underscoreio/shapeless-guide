@@ -1,8 +1,10 @@
 ## Acknowledgements
 
-Thanks to Miles Sabin and my colleagues at [Underscore][link-underscore]
-for their contributions and feedback.
+Thanks to Miles Sabin, Travis Brown,
+my colleagues at [Underscore][link-underscore],
+and all our [fellow space-farers on Github][link-contributors]
+for their invaluable help and feedback.
 
-Thanks also to Sam Halliday for this excellent workshop
+Special thanks to Sam Halliday for this excellent workshop
 [Shapeless for Mortals][link-fommil-scalax-2015],
-which provided the part of the skeleton for the book.
+which provided the initial inspiration and skeleton for this guide.
