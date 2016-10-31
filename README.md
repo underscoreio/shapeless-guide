@@ -1,8 +1,4 @@
-# The Type Astronaut's Guide to Shapeless (Working Title)
-
-Content for my Scala World 2016 workshop on [shapeless][shapeless].
-This is a very early release of this material.
-The title, repo location, and build system are likely to change.
+# The Type Astronaut's Guide to Shapeless
 
 Copyright 2016 Dave Gurnell.
 Text and diagrams licensed [CC-BY-SA 3.0][text-license].
@@ -11,6 +7,13 @@ Code samples licensed [Apache 2.0][code-license]
 ## Reading the Book
 
 An up-to-date PDF should can be found in [dist/shapeless-guide.pdf][pdf].
+
+## Related Material
+
+Accompanying code samples can be found here:<br>
+https://github.com/underscoreio/shapeless-guide-code
+
+Check the `solutions` branch for complete versions of each example.
 
 ## Building the Book
 
@@ -26,12 +29,6 @@ Then use `sbt` to build the book:
 ~~~
 sbt pdf
 ~~~
-
-## Related Material
-
-The slides from my Scala World workshop can be found [here][slides]
-and the accompanying live-coding examples can be found [here][code].
-Check the `solutions` branch for complete versions of the example code.
 
 ## Acknowledgements
 
