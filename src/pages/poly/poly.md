@@ -46,7 +46,7 @@ def createCase[P, A, R](func: A => R): CaseAux[P, A, R] =
 
 `Case` maps an input type `A` to an output type `Result`.
 It also has a second type parameter `P`
-referincing the singleton type of the `Poly` it is supporting
+referencing the singleton type of the `Poly` it is supporting
 (we'll come to this in a moment).
 When we create a `Poly`, we define the `Cases`
 as `implicit vals` within its body:

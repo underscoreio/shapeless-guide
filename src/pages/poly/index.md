@@ -26,7 +26,7 @@ and end up with a `List[B]`.
 ![Mapping over a regular list ("monomorphic" map)](src/pages/poly/monomorphic-map.pdf+svg){#fig:poly:monomorphic-map}
 
 This model breaks down for `HLists` and `Coproducts`
-because of the heterogenous nature of the element types.
+because of the heterogeneous nature of the element types.
 Ideally we'd like a mapping
 like the one shown in Figure [@fig:poly:polymorphic-map],
 which inspects the type of each input element
