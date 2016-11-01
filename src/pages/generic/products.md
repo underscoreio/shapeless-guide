@@ -18,7 +18,7 @@ Take `CsvEncoder` and `IceCream` as examples:
  - `IceCream` has a generic `Repr` of type
    `String :: Int :: Boolean :: HNil`.
 
- - The `Repr` is made up of 
+ - The `Repr` is made up of
    a `String`, an `Int`, a `Boolean`, and an `HNil`.
    If we have `CsvEncoders` for these types,
    we can create an encoder for the whole thing.
@@ -63,7 +63,7 @@ val employees: List[Employee] = List(
 
 ### Instances for *HLists*
 
-Let's start by writing `CsvEncoders`[^refer-createEncoder] 
+Let's start by writing `CsvEncoders`[^refer-createEncoder]
 for `String`, `Int`, and `Boolean`:
 
 [^refer-createEncoder]: Refer to Section [@sec:generic:type-classes] for the definition of `createEncoder`.
@@ -79,10 +79,10 @@ implicit val booleanEncoder: CsvEncoder[Boolean] =
   createEncoder(bool => List(if(bool) "yes" else "no"))
 ```
 
-We can combine these building blocks 
+We can combine these building blocks
 to create an encoder for our `HList`.
-We'll use two rules: 
-one for an `HNil` and one for `::`:
+We'll use two rules:
+one for `HNil` and one for `::` as shown below:
 
 ```tut:book:silent
 import shapeless.{HList, ::, HNil}
@@ -101,8 +101,8 @@ implicit def hlistEncoder[H, T <: HList](
   }
 ```
 
-Taken together, these five rules 
-allow us to summon `CsvEncoders` for any `HList` 
+Taken together, these five rules
+allow us to summon `CsvEncoders` for any `HList`
 involving `Strings`, `Ints`, and `Booleans`:
 
 ```tut:book:silent
@@ -117,7 +117,7 @@ reprEncoder.encode("abc" :: 123 :: true :: HNil)
 ### Instances for concrete products {#sec:generic:product-generic}
 
 We can combine our derivation rules for `HLists`
-with an instance of `Generic` 
+with an instance of `Generic`
 to produce a `CsvEncoder` for `IceCream`:
 
 ```tut:book:silent
@@ -137,8 +137,8 @@ writeCsv(iceCreams)
 ```
 
 This solution is specific to `IceCream`.
-Ideally we'd like to have a single rule 
-that handles all case classes 
+Ideally we'd like to have a single rule
+that handles all case classes
 that have a `Generic` and a matching `CsvEncoder`.
 Let's work through the derivation step by step.
 Here's a first cut:
@@ -151,7 +151,7 @@ implicit def genericEncoder[A](
 ): CsvEncoder[A] = createEncoder(a => enc.encode(gen.to(a)))
 ```
 
-The first problem we have is 
+The first problem we have is
 selecting a type to put in place of the `???`.
 We want to write the `Repr` type associated with `gen`,
 but we can't do this:
@@ -161,16 +161,15 @@ implicit def genericEncoder[A](
   implicit
   gen: Generic[A],
   enc: CsvEncoder[gen.Repr]
-): CsvEncoder[A] = 
+): CsvEncoder[A] =
   createEncoder(a => enc.encode(gen.to(a)))
 ```
 
 The problem here is a scoping issue:
 we can't refer to a type member of one parameter
 from another parameter in the same block.
-We won't dwell on the details here,
-but the trick to solving this kind of problem
-is to introduce a new type parameter to our method
+The trick to solving this is
+to introduce a new type parameter to our method
 and refer to it in each of the associated parameters:
 
 ```tut:book:silent
@@ -178,7 +177,7 @@ implicit def genericEncoder[A, R](
   implicit
   gen: Generic[A] { type Repr = R },
   enc: CsvEncoder[R]
-): CsvEncoder[A] = 
+): CsvEncoder[A] =
   createEncoder(a => enc.encode(gen.to(a)))
 ```
 
@@ -237,7 +236,7 @@ implicit def genericEncoder[A, R](
   implicit
   gen: Generic.Aux[A, R],
   env: CsvEncoder[R]
-): CsvEncoder[A] = 
+): CsvEncoder[A] =
   createEncoder(a => env.encode(gen.to(a)))
 ```
 
@@ -253,9 +252,9 @@ allow us to provide one significant dose of reality.
 If things go wrong, the compiler isn't great at telling us why.
 
 There are two main reasons the code above might fail to compile.
-The first is when we can't find 
+The first is when we can't find
 an implicit `Generic` instance.
-For example, here we try to call `writeCsv` 
+For example, here we try to call `writeCsv`
 with a non-case class:
 
 ```tut:book:silent
@@ -267,15 +266,15 @@ writeCsv(List(new Foo("abc", 123)))
 ```
 
 In this case the error message is relatively easy to understand.
-If shapeless can't calculate a `Generic` 
-it means that the type in question isn't an ADT---somewhere 
-in the algebra there is a type that isn't a case class 
+If shapeless can't calculate a `Generic`
+it means that the type in question isn't an ADT---somewhere
+in the algebra there is a type that isn't a case class
 or a sealed abstract type.
 
 The other potential source of failure
-is when the compiler can't calculate 
+is when the compiler can't calculate
 a `CsvEncoder` for our `HList`.
-This normally happens because we don't have 
+This normally happens because we don't have
 an encoder for one of the fields in our ADT.
 For example, so far we haven't defined
 a `CsvEncoder` for `java.util.Date`,

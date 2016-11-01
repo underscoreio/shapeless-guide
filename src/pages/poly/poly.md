@@ -4,9 +4,8 @@ Shapeless represents polymorphic functions
 using a type called `Poly`.
 Here is a simplified explanation of how it works.
 Note that this isn't real shapeless code---we're
-eliding a lot of extra stuff
-that makes real shapeless `Polys`
-much more flexible and easier to use.
+eliding much that makes real shapeless `Polys`
+more flexible and easier to use.
 
 ### How Polys work
 

@@ -24,7 +24,9 @@ This makes shapeless integration via libraries like
 In this section we will create a simple `Random` type class
 to generate random values of user-defined ADTs.
 We will show how `Length` and `Nat` form
-a crucial part of the implementation:
+a crucial part of the implementation.
+As usual we start with
+the definition of the type class itself:
 
 ```tut:book:invisible
 // Ensure we always get the same output:
@@ -173,8 +175,8 @@ The correct behaviour should be to choose
 `H` `1/n`^th^ of the time,
 where `n` is the length of the coproduct.
 This ensures an even probability distribution
-across the subtypes of the coproduct
-and ensures we will never call `cnilProduct.get`.
+across the subtypes of the coproduct,
+which means we never call `cnilProduct.get`.
 Here's an updated implementation:
 
 ```tut:book:silent
@@ -203,3 +205,7 @@ we can generate random values of any product or coproduct:
 ```tut:book
 for(i <- 1 to 5) println(random[Light])
 ```
+
+Generating test data for ScalaCheck tests
+normally requires a great real of boilerplate.
+This is a particularly compelling use case for shapeless.

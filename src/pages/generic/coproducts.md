@@ -65,10 +65,10 @@ final case class Circle(radius: Double) extends Shape
 
 The generic representation for `Shape`
 is `Rectangle :+: Circle :+: CNil`.
-We can write generic `CsvEncoders` for `:+:` and `CNil`
-using the same principles we used for `HLists`.
-Our existing product encoders
-will take care of `Rectangle` and `Circle`:
+In Section [@sec:generic:product-generic]
+we defined product encoders for `Rectangle` and `Circle`.
+Now, to write generic `CsvEncoders` for `:+:` and `CNil`,
+we can use the same principles we used for `HLists`:
 
 ```tut:book:silent
 import shapeless.{Coproduct, :+:, CNil, Inl, Inr}
@@ -99,7 +99,7 @@ There are two key points of note:
 2. Because `Coproducts` are *disjunctions* of types,
    the encoder for `:+:` has to *choose*
    whether to encode a left or right value.
-   We pattern match on the two subtypes of `:+:`, 
+   We pattern match on the two subtypes of `:+:`,
    which are `Inl` for left and `Inr` for right.
 
 With these definitions

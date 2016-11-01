@@ -60,7 +60,7 @@ case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
 case class Leaf[A](value: A) extends Tree[A]
 ```
 
-Theoretically we should already have 
+Theoretically we should already have
 all of the definitions in place
 to summon a CSV writer for this definition.
 However, calls to `writeCsv` fail to compile:
@@ -73,10 +73,10 @@ The problem is that our type is recursive.
 The compiler senses an infinite loop
 applying our derivation rules and gives up.
 
-### Implicit Divergence
+### Implicit divergence
 
 Implicit resolution is a search process.
-The compiler uses heuristics to determine 
+The compiler uses heuristics to determine
 whether it is "converging" on a solution.
 If the heuristics don't yield favorable results
 for a particular branch of search,
@@ -86,11 +86,11 @@ and moves onto another.
 One heuristic is specifically designed
 to avoid infinite loops.
 If the compiler sees the same target type twice
-in a particular branch of search, 
+in a particular branch of search,
 it gives up and moves on.
 We can see this happening if
 we look at the expansion for `CsvEncode[Tree[Int]]`
-The implicit resolution process 
+The implicit resolution process
 goes through the following types:
 
 ```scala
@@ -134,14 +134,14 @@ twice in this branch of search, on lines 2 and 4.
 The type parameter for `T` is more complex on line 4 than on line 2,
 so the compiler assumes (incorrectly in this case)
 that the branch of search is diverging.
-It moves onto another branch and, again, 
+It moves onto another branch and, again,
 the result is failure to find a suitable implicit.
 
 ### *Lazy*
 
 Implicit divergence would be a show-stopper
 for libraries like shapeless.
-Fortunately, shapeless provides 
+Fortunately, shapeless provides
 a type called `Lazy` as a workaround.
 `Lazy` does two things:
 
@@ -222,7 +222,7 @@ final case class Leaf[A](value: A) extends Tree[A]
 ```
 
 This prevents the compiler giving up prematurely,
-and enables the solution to work 
+and enables the solution to work
 on complex/recursive types like `Tree`:
 
 ```tut:book

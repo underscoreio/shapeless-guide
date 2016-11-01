@@ -18,7 +18,7 @@ trait CsvEncoder[A] {
 }
 ```
 
-We implement our type class with *instances* 
+We implement our type class with *instances*
 for each type we care about:
 
 ```tut:book:silent
@@ -35,8 +35,8 @@ case class Employee(name: String, number: Int, manager: Boolean)
 // CsvEncoder instance for the custom data type:
 implicit val employeeEncoder: CsvEncoder[Employee] =
   createEncoder(e => List(
-    e.name, 
-    e.number.toString, 
+    e.name,
+    e.number.toString,
     if(e.manager) "yes" else "no"
   ))
 ```
@@ -53,7 +53,7 @@ def writeCsv[A](values: List[A])(implicit enc: CsvEncoder[A]): String =
 
 When we call the entry point,
 the compiler calculates the value of the type parameter
-and searches for an implicit `CsvWriter` 
+and searches for an implicit `CsvWriter`
 of the corresponding type:
 
 ```tut:book:silent
@@ -77,8 +77,8 @@ case class IceCream(name: String, numCherries: Int, inCone: Boolean)
 
 implicit val iceCreamEncoder: CsvEncoder[IceCream] =
   createEncoder(i => List(
-    i.name, 
-    i.numCherries.toString, 
+    i.name,
+    i.numCherries.toString,
     if(i.inCone) "yes" else "no"
   ))
 
@@ -96,7 +96,7 @@ writeCsv(iceCreams)
 ### Resolving instances
 
 Type classes are very flexible
-but they require us to define instances 
+but they require us to define instances
 for every type we care about.
 Fortunately, the Scala compiler has a few tricks up its sleeve
 to resolve instances for us given sets of user-defined rules.
@@ -116,13 +116,13 @@ implicit def pairEncoder[A, B](
   }
 ```
 
-When all the parameters to an `implicit def` 
+When all the parameters to an `implicit def`
 are themselves marked as `implicit`,
-the compiler can use it as a *resolution rule* 
+the compiler can use it as a *resolution rule*
 to create instances from other instances.
-For example, if we call `writeCsv` 
+For example, if we call `writeCsv`
 and pass in a `List[(Employee, IceCream)]`,
-the compiler is able to combine 
+the compiler is able to combine
 `pairEncoder`, `employeeEncoder`, and `iceCreamEncoder`
 to produce the required `CsvEncoder[(Employee, IceCream)]`:
 
@@ -130,16 +130,16 @@ to produce the required `CsvEncoder[(Employee, IceCream)]`:
 writeCsv(employees zip iceCreams)
 ```
 
-Given a set of rules 
+Given a set of rules
 encoded as `implicit vals` and `implicit defs`,
 the compiler is capable of *searching* for
 combinations to give it the required instances.
 This behaviour, known as "implicit resolution",
 is what makes the type class pattern so powerful.
 
-Traditionally the only limitation to this has been ADTs.
-The compiler can't pull apart
-the types of case classes and sealed traits,
-so we have always had to define instances for ADTs by hand.
+Even with this power,
+the compiler can't pull apart
+our case classes and sealed traits.
+We are required to define instances for ADTs by hand.
 Shapeless' generic representations change all of this,
 allowing us to derive instances for any ADT for free.

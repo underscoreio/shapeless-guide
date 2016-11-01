@@ -37,6 +37,7 @@ val green : Light = Inr(Inr(Inl(Green())))
 
 Every coproduct type is terminated with `CNil`,
 which is an empty type with no values, similar to `Nothing`.
+
 We can never instantiate `CNil`
 or build a `Coproduct` purely from instances of `Inr`.
 We always have exactly one `Inl` in a value.

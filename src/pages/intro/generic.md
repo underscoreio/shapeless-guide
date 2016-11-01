@@ -1,6 +1,5 @@
 ## What is generic programming?
 
-As Scala developers we are used to types.
 Types are helpful because they are specific:
 they show us how different pieces of code fit together,
 help us prevent bugs,
@@ -8,8 +7,7 @@ and guide us toward solutions when we code.
 
 Sometimes, however, types are *too* specific.
 There are situations where we want
-to exploit similarities between types
-to avoid repetition and boilerplate.
+to exploit similarities between types to avoid repetition.
 For example, consider the following definitions:
 
 ```tut:book:silent
@@ -52,8 +50,12 @@ val genericEmployee = Generic[Employee].to(Employee("Dave", 123, false))
 val genericIceCream = Generic[IceCream].to(IceCream("Sundae", 1, false))
 ```
 
-Now that both sets of data are the same type,
-we can serialize them with the same function:
+Both values are now the same type.
+They are both heterogeneous lists (`HLists` for short)
+containing a `String`, an `Int`, and a `Boolean`.
+We will look at `HLists` and the important role they play soon.
+For now the important point is that both values are the same type.
+This means we can serialize them with the same function:
 
 ```tut:book
 def genericCsv(gen: String :: Int :: Boolean :: HNil): List[String] =

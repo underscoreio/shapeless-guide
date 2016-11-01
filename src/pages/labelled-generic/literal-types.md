@@ -84,8 +84,6 @@ true.narrow
 ```
 
 However, we can't use it on compound expressions:
-the compiler has to be able to determine the literal value
-straight from the source:
 
 ```tut:book:fail
 math.sqrt(4).narrow
@@ -132,7 +130,8 @@ val number = 42
 ```
 
 This number is an `Int` in two worlds:
-at runtime, where it has methods like `+` and `*`,
+at runtime, where it has an actual value
+and methods that we can call,
 and at compile-time,
 where the compiler uses the type
 to calculate which pieces of code work together
@@ -246,10 +245,15 @@ def getFieldValue[K, V](value: FieldType[K, V]): V =
 getFieldValue(numCherries)
 ```
 
+If we build an `HList` from values with tagged types
+we get a data structure that has some of the properties of a `Map`.
+We can reference fields by tag,
+manipulate and replace them,
+and maintain all of the type and naming information along the way.
+Shapeless calls these structured "records".
+
 ### Records and *LabelledGeneric*
 
-Shapeless includes a set of tools for working with
-data structures called *records*.
 Records are `HLists` of items that are each
 tagged with type-level identifiers:
 
