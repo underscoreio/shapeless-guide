@@ -302,7 +302,7 @@ There's not much good news here.
 We have find the source of the error ourselves
 by a process of elimination.
 We'll discuss debugging techniques
-in the Section [@sec:generic:debugging].
+in Section [@sec:generic:debugging].
 For now, the main redeeming feature
 is that implicit resolution always fails at compile time.
 There's little chance that we will end up
