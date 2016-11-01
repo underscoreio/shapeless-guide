@@ -32,15 +32,14 @@ sbt pdf
 
 ## Acknowledgements
 
-Thanks to these fine people for their contributions:
-
-- [ErunamoJAZZ](https://github.com/ErunamoJAZZ)
-- [ronanM](https://github.com/ronanM)
-- [Yoshimura Yuu](https://github.com/y-yu)
+Thanks to Miles Sabin, Richard Dallaway, Noel Welsh, Travis Brown,
+and our [fellow space-farers on Github][contributors]
+for their invaluable help and feedback.
 
 [text-license]: https://creativecommons.org/licenses/by-sa/3.0/
 [code-license]: http://www.apache.org/licenses/LICENSE-2.0
 [shapeless]: https://github.com/milessabin/shapeless
-[pdf]: dist/shapeless-guide.pdf
+[pdf]: https://github.com/underscoreio/shapeless-guide/blob/develop/dist/shapeless-guide.pdf
 [slides]: https://github.com/davegurnell/shapeless-guide-slides
 [code]: https://github.com/underscoreio/shapeless-guide-code
+[contributors]: https://github.com/underscoreio/shapeless-guide/graphs/contributors
