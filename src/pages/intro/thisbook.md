@@ -66,16 +66,17 @@ we provide a theoretical primer in three chapters:
     our own version of Scalacheck's `Arbitrary`.
 
 <div class="callout callout-info">
-*Source code for examples*
+*Source code and examples*
 
-We've placed source code for
-many of the examples in this guide
-in the accompanying Github repo:
+This book is open source.
+See the inside cover for licensing information.
+You can find the Markdown source on Github:
+
+`https://github.com/underscoreio/shapeless-guide`
+
+There are also complete implementations of
+each of the major examples in this repo.
+See the README for details:
 
 `https://github.com/underscoreio/shapeless-guide-code`
-
-The `exercises` branch contains
-skeleton Scala files with `TODOs` to fill in,
-and the `solutions` branch contains
-completed implementations.
 </div>

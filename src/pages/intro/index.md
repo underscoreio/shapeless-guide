@@ -6,9 +6,10 @@ We assume shapeless 2.3.2 and either
 Typelevel Scala 2.11.8+ or Lightbend Scala 2.11.9+ / 2.12.1+.
 
 Shapeless is large library,
-so rather than cover everything it has to offer,
+so rather than cover everything it has to offer
 we will concentrate on a few compelling use cases
-and use them to build a picture of the tools and patterns available.
+and use them to build a picture
+of the tools and patterns available.
 
 Before we start, let's talk about what generic programming is
 and why shapeless is so exciting to Scala developers.

@@ -1,4 +1,4 @@
-# TODOs
+# TODOs #{-}
 
 Still to do:
 
@@ -25,5 +25,5 @@ Still to do:
     - Maybe `Cached`
     - Maybe
   - Check cross references
-  - Final summary
+  - **DONE** Final summary
   - **SHIP IT!**
