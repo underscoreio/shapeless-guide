@@ -1,8 +1,8 @@
 ## Case study: random value generator
 
-Property-based testing libraries like [Scalacheck][link-scalacheck]
+Property-based testing libraries like [ScalaCheck][link-scalacheck]
 use type classes to generate random data for use in unit tests.
-For example, Scalacheck has the `Arbitrary` type class
+For example, ScalaCheck has the `Arbitrary` type class
 that we can use as follows:
 
 ```tut:book:silent
@@ -14,7 +14,7 @@ for(i <- 1 to 3) println(Arbitrary.arbitrary[Int].sample)
 for(i <- 1 to 3) println(Arbitrary.arbitrary[(Boolean, Byte)].sample)
 ```
 
-Scalacheck provides built-in instances of `Arbitrary`
+ScalaCheck provides built-in instances of `Arbitrary`
 for a wide range of standard Scala types.
 However, creating instances of `Arbitrary` for user ADTs
 is still a time-consuming manual process.
