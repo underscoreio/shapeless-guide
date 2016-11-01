@@ -41,6 +41,6 @@ Thanks to these fine people for their contributions:
 [text-license]: https://creativecommons.org/licenses/by-sa/3.0/
 [code-license]: http://www.apache.org/licenses/LICENSE-2.0
 [shapeless]: https://github.com/milessabin/shapeless
-[pdf]: https://github.com/underscoreio/shapeless-guide/blob/develop/dist/shapeless-guide.pdf
+[pdf]: dist/shapeless-guide.pdf
 [slides]: https://github.com/davegurnell/shapeless-guide-slides
 [code]: https://github.com/underscoreio/shapeless-guide-code
