@@ -1,8 +1,6 @@
 ## Literal types
 
-As Scala developers,
-we are used to the notion
-that a value may have multiple types.
+A value may have multiple types.
 For example, the string `"hello"`
 has at least three types:
 `String`, `AnyRef`,
