@@ -8,7 +8,7 @@ and provides some use cases related to type class derivation.
 
 ## Representing numbers as types
 
-Shapeless uses "church encoding"
+Shapeless uses "Church encoding"
 to represent natural numbers at the type level.
 It provides a type `Nat` with two subtypes:
 `_0` representing zero,
@@ -48,7 +48,7 @@ toInt.apply()
 ```
 
 The `Nat.toInt` method provides
-convenient shorthand for calling `nat.apply()`:
+a convenient shorthand for calling `nat.apply()`:
 
 ```tut:book
 Nat.toInt[Succ[Succ[Succ[Nat._0]]]]
