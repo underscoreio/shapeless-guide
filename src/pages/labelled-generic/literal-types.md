@@ -31,6 +31,9 @@ object Foo
 Foo
 ```
 
+The type `Foo.type` is the type of `Foo`,
+and `Foo` is the only value with that type.
+
 Singleton types applied to literal values are called *literal types*.
 We don't normally interact with them
 because the default behaviour of the compiler is to "cast" literals
@@ -205,8 +208,9 @@ As we'll see later,
 shapeless uses this mechanism to tag
 fields in products and subtypes in coproducts
 with identifiers from our source code.
-But tags are just a phantom types.
-How do we convert them to values we can use at runtime?
+
+If tags are just a phantom types
+how do we convert them to values we can use at runtime?
 Shapeless provides a type class called `Witness` for this purpose.
 If we combine `Witness` and `FieldType`,
 we get something very compelling---the
@@ -269,7 +273,7 @@ For clarity, the type of `garfield` is as follows:
   TODO: Insert link to records chapter if we have one.
 </div>
 
-We don't need to go into depth regarding records here,
+We don't need to go into depth regarding records here;
 suffice to say that records are the generic representation
 used by the `LabelledGeneric` type class that we will discuss next.
 `LabelledGeneric` tags each item in a product or coproduct

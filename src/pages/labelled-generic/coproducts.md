@@ -88,7 +88,7 @@ final case class Circle(radius: Double) extends Shape
 
 Applying `LabelledGeneric` with `Coproducts`
 involves a mixture of the concepts we've covered already.
-Let's start by examining 
+Let's start by examining
 a `Coproduct` type derived by `LabelledGeneric`.
 We'll re-visit our `Shape` ADT from Chapter [@sec:generic]:
 
@@ -133,7 +133,7 @@ implicit def coproductObjectEncoder[K <: Symbol, H, T <: Coproduct](
   createObjectEncoder {
     case Inl(h) =>
       JsonObject(List(typeName -> hEncoder.value.encode(h)))
-    
+
     case Inr(t) =>
       tEncoder.encode(t)
   }
@@ -148,7 +148,7 @@ and `T` for the value at the tail.
 We use `FieldType` and `:+:` in the result type
 to declare the relationships between the three,
 and we use a `Witness` to access the runtime value of the type name.
-The result is an object containing a single key/value pair:
+The result is an object containing a single key/value pair,
 the key being the type name and the value the result:
 
 ```tut:book:silent
