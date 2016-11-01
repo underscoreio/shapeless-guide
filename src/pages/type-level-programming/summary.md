@@ -35,7 +35,7 @@ to ensure our code compiles and works as expected:
 
  4. We should state the return type explicitly,
     specifying any type parameters and type members
-    that may ne needed elsewhere.
+    that may be needed elsewhere.
     Type members are often important.
     If we don't state them in the return type,
     they won't be available to the compiler

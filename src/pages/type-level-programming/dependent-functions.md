@@ -1,7 +1,7 @@
 ## Dependently typed functions
 
 Shapeless uses dependent types all over the place:
-in `Generic`, in `Witness` (which we will see next chapter),
+in `Generic`, in `Witness` (which we will see in the next chapter),
 and in a host of other implicit values that operate on `HLists`.
 
 For example, shapeless provides a type class called `Last`
