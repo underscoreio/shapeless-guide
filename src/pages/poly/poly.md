@@ -1,11 +1,8 @@
 ## Polymorphic functions
 
-Shapeless provides the `Poly` datatype
-for representing polymorphic functions.
-At its core, a `Poly` is an object with an `apply` method
-that accepts an implicit `Case` parameter
-to map input types to output types.
-Here is a simplified explanation of how it all works.
+Shapeless represents polymorphic functions
+using a type called `Poly`.
+Here is a simplified explanation of how it works.
 Note that this isn't real shapeless code---we're
 eliding a lot of extra stuff
 that makes real shapeless `Polys`
@@ -13,9 +10,9 @@ much more flexible and easier to use.
 
 ### How Polys work
 
-The implementation of `Poly` boils down to the following.
-The `apply` method delegates all concrete functionality
-to a type class, `Case`:
+At its core, a `Poly` is an object with a generic `apply` method.
+In addition to its regular parameter of type `A`,
+`Poly` accepts an implicit parameter of type `Case[A]`:
 
 ```tut:book:silent
 // This is not real shapeless code.
@@ -32,66 +29,54 @@ trait Poly {
 }
 ```
 
-We'll define some extra helpers to simplify the examples below:
-
-```tut:book:silent
-type CaseAux[P, A, R] = Case[P, A] { type Result = R }
-
-def createCase[P, A, R](func: A => R): CaseAux[P, A, R] =
-  new Case[P, A] {
-    type Result = R
-    def apply(a: A): R = func(a)
-  }
-```
-
-`Case` maps an input type `A` to an output type `Result`.
-It also has a second type parameter `P`
-referencing the singleton type of the `Poly` it is supporting
-(we'll come to this in a moment).
-When we create a `Poly`, we define the `Cases`
-as `implicit vals` within its body:
+When we define an actual `Poly`,
+we provide instances of `Case`
+for each parameter type we care about.
+These implement the actual function body:
 
 ```tut:book:silent
 // This is not real shapeless code.
 // It is purely for illustration.
 
 object myPoly extends Poly {
-  implicit def intCase: CaseAux[this.type, Int, Double] =
-    createCase(num => num / 2.0)
+  implicit def intCase =
+    new Case[this.type, Int] {
+      type Result = Double
+      def apply(num: Int): Double = num / 2.0
+    }
 
-  implicit def stringCase: CaseAux[this.type, String, Int] =
-    createCase(str => str.length)
+  implicit def stringCase =
+    new Case[this.type, String] {
+      type Result = Int
+      def apply(str: String): Int = str.length
+    }
 }
 ```
 
-The `Cases` define the behaviour for each input type.
 When we call `myPoly.apply`,
 the compiler searches for the relevant implicit `Case`
 and fills it in as usual:
 
-```scala
-myPoly.apply(123) // search for a `Case[myPoly.type, Int]`
+```tut:book
+myPoly.apply(123)
 ```
 
-But how do the `Cases` end up in implicit scope?
-There is some subtle behaviour that makes this work.
+There is some subtle scoping behaviour here
+that allows the compiler to locate instances of `Case`
+without any additional imports.
+`Case` has an extra type parameter `P`
+referincing the singleton type of the `Poly`.
 The implicit scope for `Case[P, A]` includes
 the companion objects for `Case`, `P`, and `A`.
-We defined `P` as the singleton type `myPoly.type`
-and it turns out that
-the companion object for `myPoly.type` is `myPoly` itself,
-so the `Cases` defined in the body of the `Poly`
-are always in implicit scope:
-
-```tut:book
-myPoly.apply(123)     // search for a `Case[myPoly.type, Int]`
-myPoly.apply("hello") // search for a `Case[myPoly.type, String]`
-```
+The companion object for `myPoly.type` is `myPoly` itself,
+so `Cases` defined in the body of the `Poly`
+are always in scope no matter where the call site is.
 
 ### Poly syntax
 
-The code so far this chapter hasn't been real shapeless code.
-Here's our demo function from above rewritten in proper syntax:
+The code above isn't real shapeless code.
+Fortunately, shapeless makes `Polys` much simpler to define.
+Here's our `myPoly` function rewritten in proper syntax:
 
 ```tut:book:silent
 import shapeless._
@@ -109,18 +94,20 @@ There are a few key differences with our earlier toy syntax:
 
  1. We're extending a trait called `Poly1` instead of `Poly`.
     Shapeless has a `Poly` type and a set of subtypes,
-    `Poly1` through `Poly2`, supporting different arities
+    `Poly1` through `Poly22`, supporting different arities
     of polymorphic function.
 
- 2. The `Case` and `Case.Aux` types don't include
+ 2. The `Case.Aux` types doesn't seem to reference
     the singleton type of the `Poly`.
-    In this context `Case` actually refers to
-    a type alias defined within the body of `Poly1`.
+    `Case.Aux` is actually actually a type alias
+    defined within the body of `Poly1`.
     The singleton type is there---we just don't see it.
 
  3. We're using a helper method, `at`, to define cases.
+    This lets us eliminate a lot of boilerplate
+    such as writing out full definitions of `Result` and `apply`.
 
-These syntactic differences aside,
+Syntactic differences aside,
 the shapeless version of `myPoly` is functionally
 identical to our toy version.
 We can call it with an `Int` or `String` parameter
@@ -176,3 +163,38 @@ total(10)
 total(Option(20.0))
 total(List(1L, 2L, 3L))
 ```
+
+<div class="callout callout-warning">
+*Idiosyncrasies of type inference*
+
+`Poly` pushes Scala's type inference out of its comfort zone.
+We can easily confuse the compiler by
+asking it to do too much inference at once.
+For example, the following code compiles ok:
+
+```tut:book:silent
+val a = myPoly.apply(123)
+val b: Double = a
+```
+
+However, if we try to combine the two lines in to one
+we get a compilation error:
+
+```tut:book:fail
+val a: Double = myPoly.apply(123)
+```
+
+If we give the compiler a hint by
+telling it what the parameter type is,
+the code compiles again:
+
+```tut:book
+val a: Double = myPoly.apply[Int](123)
+```
+
+This behaviour is confusing and annoying.
+Unfortunately there are no concrete rules to follow to avoid problems.
+The only general guideline is
+to avoid over-constraining the compiler---solve one constraint at a time
+and give it a hint when it gets stuck.
+</div>

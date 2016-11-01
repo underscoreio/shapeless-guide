@@ -1,7 +1,7 @@
-## Sizing generic representations
+## Length of generic representations
 
 One use case for `Nat` is
-determining the size of `HLists` and `Coproducts`.
+determining the length of `HLists` and `Coproducts`.
 Shapeless provides the
 `shapeless.ops.hlist.Length` and
 `shapeless.ops.coproduct.Length` type classes for this.
@@ -23,8 +23,7 @@ val coproductLength = coproduct.Length[Double :+: Char :+: CNil]
 
 Instances of `Length` have a type member `Out`
 that represents the length as a `Nat`.
-We can either summon a `ToInt` ourselves
-to turn the `Nat` into an `Int`:
+We can either summon an instance of `ToInt` ourselves:
 
 ```tut:book
 implicitly[ToInt[hlistLength.Out]].apply()
@@ -45,6 +44,9 @@ and exposes it as a simple `Int`:
 trait SizeOf[A] {
   def value: Int
 }
+
+def sizeOf[A](implicit size: SizeOf[A]): Int =
+  size.value
 ```
 
 To create an instance of `SizeOf` we need three things:
@@ -71,9 +73,6 @@ implicit def genericSizeOf[A, L <: HList, N <: Nat](
 We can test our code as follows:
 
 ```tut:book:silent
-def sizeOf[A](implicit size: SizeOf[A]): Int =
-  size.value
-
 case class IceCream(name: String, numCherries: Int, inCone: Boolean)
 ```
 

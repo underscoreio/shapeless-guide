@@ -1,4 +1,4 @@
-# TODOs
+# TODOs #{-}
 
 Still to do:
 
@@ -15,15 +15,15 @@ Still to do:
   - **DONE** Counting with `Nat`
     - **DONE** Generating `Arbitrary` instances as an example
   - Function interop
-  - Callout box on quirkiness of type inference with poly:
-    - `val len1: Int = lengthPoly("foo")` fails, but...
-    - `val len2      = lengthPoly("foo")` compiles, but...
-    - `val len3: Int = lengthPoly[String]("foo")` fails
+  - **DONE** Callout box on quirkiness of type inference with poly:
+    - **DONE** `val len1: Int = lengthPoly("foo")` fails, but...
+    - **DONE** `val len2      = lengthPoly("foo")` compiles, but...
+    - **DONE** `val len3: Int = lengthPoly[String]("foo")` fails
   - Built-in record operations
   - Performance
     - `cachedImplicit`
     - Maybe `Cached`
     - Maybe
   - Check cross references
-  - Final summary
+  - **DONE** Final summary
   - **SHIP IT!**

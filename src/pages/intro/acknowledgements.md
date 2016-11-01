@@ -1,8 +1,7 @@
 ## Acknowledgements
 
-Thanks to Miles Sabin, Travis Brown,
-my colleagues at [Underscore][link-underscore],
-and all our [fellow space-farers on Github][link-contributors]
+Thanks to Miles Sabin, Richard Dallaway, Noel Welsh, Travis Brown,
+and our [fellow space-farers on Github][link-contributors]
 for their invaluable help and feedback.
 
 Special thanks to Sam Halliday for this excellent workshop

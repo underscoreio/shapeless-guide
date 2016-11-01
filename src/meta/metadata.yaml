@@ -63,7 +63,7 @@ pages:
   - poly/index.md
   - poly/poly.md
   - poly/map-flatmap-fold.md
-  - poly/type-class.md
+  - poly/product-mapper.md
   - poly/summary.md
 
   - nat/index.md
@@ -71,6 +71,8 @@ pages:
   - nat/random.md
   - nat/ops.md
   - nat/summary.md
+
+  - conclusion/index.md
 
   - notes/todos.md
   - links.md

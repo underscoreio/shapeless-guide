@@ -1,8 +1,8 @@
 ## Defining type classes using Poly
 
 We can use `Poly` and type classes
-such as `Mapper` and `FlatMapper`
-in the definitions of our own type classes.
+like `Mapper` and `FlatMapper`
+as building blocks for our own type classes.
 As an example let's build a type class
 for mapping from one case class to another:
 
@@ -12,8 +12,8 @@ trait ProductMapper[A, B, P] {
 }
 ```
 
-We can create a type class instance
-using a `Mapper` and a pair of `Generics`:
+We can create an instance of `ProductMapper`
+using `Mapper` and a pair of `Generics`:
 
 ```tut:book:silent
 import shapeless._
@@ -36,14 +36,13 @@ implicit def genericProductMapper[
   }
 ```
 
-Interestingly,
-the value of the `Poly` does not appear in this code.
+Interestingly, although we define a type `P` for our `Poly`,
+we don't reference any values of type `P` anywhere in our code.
 The `Mapper` type class uses implicit resolution to find `Cases`,
-so we only need to know the singleton type of the `Poly`
-to do the mapping.
+so we only need to know the type to do the mapping.
 
-We can create an extension method
-to make the type class easy to use.
+Let's create an extension method
+to make `ProductMapper` easier to use.
 We only want the user to specify the type of `B` at the call site,
 so we use some indirection
 to allow the compiler to infer the type of the `Poly`
@@ -62,10 +61,7 @@ implicit class ProductMapperOps[A](a: A) {
 }
 ```
 
-The resulting `mapTo` syntax looks like a single method call,
-but is actually two calls:
-one call to `mapTo` to fix the `B` type parameter,
-and one call to `Builder.apply` to specify the `Poly`:
+Here's an example of the method's use:
 
 ```tut:book:silent
 object conversions extends Poly1 {
@@ -81,3 +77,9 @@ case class IceCream2(name: String, hasCherries: Boolean, numCones: Int)
 ```tut:book
 IceCream1("Sundae", 1, false).mapTo[IceCream2](conversions)
 ```
+
+The `mapTo` syntax looks like a single method call,
+but is actually two calls:
+one call to `mapTo` to fix the `B` type parameter,
+and one call to `Builder.apply` to specify the `Poly`.
+Some of shapeless' built-in ops extension methods use similar tricks.
