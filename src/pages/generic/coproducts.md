@@ -99,8 +99,8 @@ There are two key points of note:
 2. Because `Coproducts` are *disjunctions* of types,
    the encoder for `:+:` has to *choose*
    whether to encode a left or right value.
-   We pattern match on the two subtypes of `:+:` which are `Inl`
-   for left and `Inr` for right.
+   We pattern match on the two subtypes of `:+:`, 
+   which are `Inl` for left and `Inr` for right.
 
 With these definitions
 and our product encoders from Section [@sec:generic:products],
