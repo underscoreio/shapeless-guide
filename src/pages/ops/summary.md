@@ -1,7 +1,7 @@
 ## Summary
 
-In this chapter we looked at a few of the
-type classes that provided in the `shapeless.ops` package.
+In this chapter we explored at a few of the
+type classes that are provided in the `shapeless.ops` package.
 We looked at `Last` and `Init`
 as two simple examples of the ops pattern,
 and built our own `Penultimate` and `Migration` type classes

@@ -1,6 +1,6 @@
 ## Case study: case class migrations {#sec:ops:migration}
 
-The power of ops type classes fully crystalizes
+The power of ops type classes fully crystallizes
 when we chain them together
 as building blocks for our own code.
 We'll finish this chapter with a powerful example:

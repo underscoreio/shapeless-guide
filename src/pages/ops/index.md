@@ -38,7 +38,7 @@ to cover all of the available ops.
 Fortunately, in most cases the code
 is understandable and well documented.
 Rather than provide an exhaustive guide,
-We will touch on
+we will touch on
 the major theoretical and structural points
 and show you how to extract further information
 from the shapeless codebase.

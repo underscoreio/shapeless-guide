@@ -5,7 +5,7 @@ extension methods based on two type classes:
 `shapeless.ops.hlist.Init` and
 `shapeless.ops.hlist.Last`.
 `Coproduct` has similar methods and type classes.
-These serve as perfect simple examples of the ops pattern.
+These serve as perfect examples of the ops pattern.
 Here are simplified definitions of the extension methods:
 
 ```scala
@@ -21,7 +21,7 @@ implicit class HListOps[L <: HList](l : L) {
 The return type of each method is determined
 by a dependent type on the implicit parameter.
 The instances for each type class provide the actual mapping.
-Here's the definition of `Last` as an example:
+Here's the skeleton definition of `Last` as an example:
 
 ```scala
 trait Last[L <: HList] {
