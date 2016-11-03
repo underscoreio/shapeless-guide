@@ -261,7 +261,7 @@ import shapeless.{HList, ::, HNil}
 ```
 
 ```tut:book
-val garfield = ("cat" ->> "Garfield") ::  ("orange" ->> true) :: HNil
+val garfield = ("cat" ->> "Garfield") :: ("orange" ->> true) :: HNil
 ```
 
 For clarity, the type of `garfield` is as follows:

@@ -38,8 +38,7 @@ trait Random[A] {
   def get: A
 }
 
-def random[A](implicit r: Random[A]): A =
-  r.get
+def random[A](implicit r: Random[A]): A = r.get
 ```
 
 ### Simple random values

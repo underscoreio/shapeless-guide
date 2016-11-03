@@ -50,6 +50,7 @@ object myPoly extends Poly {
       def apply(str: String): Int = str.length
     }
 }
+
 ```
 
 When we call `myPoly.apply`,
@@ -146,13 +147,22 @@ totals numbers in different contexts:
 import scala.math.Numeric
 
 object total extends Poly1 {
-  implicit def baseCase[A](implicit num: Numeric[A]): Case.Aux[A, Double] =
+  implicit def baseCase[A](
+    implicit
+    num: Numeric[A]
+  ): Case.Aux[A, Double] =
     at(num.toDouble)
 
-  implicit def optionCase[A](implicit num: Numeric[A]): Case.Aux[Option[A], Double] =
+  implicit def optionCase[A](
+    implicit
+    num: Numeric[A]
+  ): Case.Aux[Option[A], Double] =
     at(opt => opt.map(num.toDouble).getOrElse(0.0))
 
-  implicit def listCase[A](implicit num: Numeric[A]): Case.Aux[List[A], Double] =
+  implicit def listCase[A](
+    implicit
+    num: Numeric[A]
+  ): Case.Aux[List[A], Double] =
     at(list => num.toDouble(list.sum))
 }
 ```

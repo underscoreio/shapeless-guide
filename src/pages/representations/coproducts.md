@@ -31,8 +31,8 @@ We create instances of a coproduct by
 nesting `Inl` and `Inr` constructors:
 
 ```tut:book
-val red   : Light = Inl(Red())
-val green : Light = Inr(Inr(Inl(Green())))
+val red: Light = Inl(Red())
+val green: Light = Inr(Inr(Inl(Green())))
 ```
 
 Every coproduct type is terminated with `CNil`,
