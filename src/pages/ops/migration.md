@@ -179,51 +179,69 @@ IceCreamV1("Sundae", 1, true).migrateTo[IceCreamV2c]
 We need a mechanism for calculating default values
 to suppose the addition of new fields.
 Shapeless doesn't provide a type class for this
-so we'll make our own:
+but Cats does in the form of a `Monoid`.
+Here's a simplified definition:
+
+```scala
+package cats
+
+trait Monoid[A] {
+  def empty: A
+  def combine(x: A, y: A): A
+}
+```
+
+`Monoid` defines two operations:
+`empty` for creating a "default" value of the type
+and `combine` for "adding" two values.
+We don't need `combine` in our code
+but in most cases it is trivial to define.
+
+Cats provides instance of `Monoid`
+for all of the primitive types we care about
+(`Int`, `Double`, `Boolean`, and `String`).
+We can define instances for `HNil` and `::`
+using the techniques from Chapter [@sec:labelled-generic]:
 
 ```tut:book:silent
-trait Empty[A] {
-  def get: A
-}
+import cats.Monoid
+import cats.instances.all._
+import shapeless.labelled.{field, FieldType}
 
-def createEmpty[A](body: => A): Empty[A] =
-  new Empty[A] {
-    def get: A = body
+def createMonoid[A](zero: A)(add: (A, A) => A): Monoid[A] =
+  new Monoid[A] {
+    def empty = zero
+    def combine(x: A, y: A): A = add(x, y)
+  }
+
+implicit val hnilMonoid: Monoid[HNil] =
+  createMonoid[HNil](HNil)((x, y) => HNil)
+
+implicit def emptyHList[K <: Symbol, H, T <: HList](
+  implicit
+  hMonoid: Lazy[Monoid[H]],
+  tMonoid: Monoid[T]
+): Monoid[FieldType[K, H] :: T] =
+  createMonoid(field[K](hMonoid.value.empty) :: tMonoid.empty) {
+    (x, y) =>
+      field[K](hMonoid.value.combine(x.head, y.head)) ::
+        tMonoid.combine(x.tail, y.tail)
   }
 ```
 
-We can define instances for `Empty`
-using the techniques from Chapter [@sec:labelled-generic].
-We need instances for a few core types,
-`HNil`, and `HLists` with tagged heads:
-
-```tut:book:silent
-import shapeless.labelled.{field, FieldType}
-
-implicit val emptyInt     : Empty[Int]     = createEmpty(0)
-implicit val emptyDouble  : Empty[Double]  = createEmpty(0.0)
-implicit val emptyBoolean : Empty[Boolean] = createEmpty(false)
-implicit val emptyString  : Empty[String]  = createEmpty("")
-implicit val emptyHnil    : Empty[HNil]    = createEmpty(HNil)
-implicit def emptyHList[K <: Symbol, H, T <: HList](
-  implicit
-  hEmpty: Lazy[Empty[H]],
-  tEmpty: Empty[T]
-): Empty[FieldType[K, H] :: T] =
-  createEmpty(field[K](hEmpty.value.get) :: tEmpty.get)
-```
-
-We need to combine `Empty` with a couple of other ops
+We need to combine `Monoid`[^monoid-pun] with a couple of other ops
 to complete our final implementation of `Migration`.
 Here's the full list of steps:
 
  1. use `LabelledGeneric` to convert `A` to its generic representation;
  2. use `Intersection` to calculate an `HList` of fields common to `A` and `B`;
  3. calculate the types of fields that appear in `B` but not in `A`;
- 4. use `Empty` to calculate a default value of the type from step 3;
+ 4. use `Monoid` to calculate a default value of the type from step 3;
  5. append the common fields from step 2 to the new field from step 4;
  6. use `Align` to reorder the fields from step 5 in the same order as `B`;
  7. use `LabelledGeneric` to convert the output of step 6 to `B`.
+
+[^monoid-pun]: Pun intended.
 
 We've already seen how to implement steps 1, 2, 4, 6, and 7.
 We can implement step 3 using an ops type class called `Diff`
@@ -241,13 +259,13 @@ implicit def genericMigration[
   bGen    : LabelledGeneric.Aux[B, BRepr],
   inter   : hlist.Intersection.Aux[ARepr, BRepr, Common],
   diff    : hlist.Diff.Aux[BRepr, Common, Added],
-  empty   : Empty[Added],
+  monoid  : Monoid[Added],
   prepend : hlist.Prepend.Aux[Added, Common, Unaligned],
   align   : hlist.Align[Unaligned, BRepr]
 ): Migration[A, B] =
   new Migration[A, B] {
     def apply(a: A): B =
-      bGen.from(align(prepend(empty.get, inter(aGen.to(a)))))
+      bGen.from(align(prepend(monoid.empty, inter(aGen.to(a)))))
   }
 ```
 
@@ -255,7 +273,7 @@ Note that we don't end up using
 every type class at the value level.
 We use `Diff` to calculate the `Added` data type,
 but we don't actually need `diff.apply` at run time.
-Instead we use `Empty` to summon an instance of `Added`.
+Instead we use `Monoid` to summon an instance of `Added`.
 
 With this final version of the type class instance in place
 we can use `Migration` for all the use cases we set out
@@ -273,3 +291,4 @@ with a single line of value-level implementation.
 It allows us to automate migrations between *any* pair of case classes,
 in roughly the same amount of code we'd write
 to handle a *single* pair of types using the standard library.
+It's a wonderful demonstration of the power of shapeless!

@@ -120,7 +120,7 @@ Let's start with a naïve implementation:
 
 ```tut:book
 implicit val cnilRandom: Random[CNil] =
-  createRandom(() => throw new Exception("Mass hysteria!"))
+  createRandom(() => throw new Exception("Inconceivable!"))
 
 implicit def coproductRandom[H, T <: Coproduct](
   implicit
@@ -165,7 +165,7 @@ Our coproduct instances will throw exceptions 6.75% of the time!
 
 ```scala
 for(i <- 1 to 100) random[Light]
-// java.lang.Exception: Mass hysteria!
+// java.lang.Exception: Inconceivable!
 //   ...
 ```
 

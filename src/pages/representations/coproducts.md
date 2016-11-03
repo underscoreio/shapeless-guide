@@ -42,6 +42,13 @@ We can never instantiate `CNil`
 or build a `Coproduct` purely from instances of `Inr`.
 We always have exactly one `Inl` in a value.
 
+Again, it's worth stating that `Coproducts` aren't particularly special.
+The functionality above can be achieved using `Either` and `Nothing`
+in place of `:+:` and `CNil`.
+There are technical difficulties with using `Nothing`,
+but we could have used
+any other uninhabited or arbitrary singleton type in place of `CNil`.
+
 ### Switching encodings using *Generic*
 
 `Coproduct` types are difficult to parse on first glance.

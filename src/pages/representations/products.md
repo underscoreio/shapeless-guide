@@ -5,11 +5,16 @@ as a generic representation of products.
 Unfortunately, Scala's built-in tuples have a couple of disadvantages
 that make them unsuitable for shapeless' purposes:
 
- 1. each size of tuple has a different, unrelated type,
-    making it difficult to write code that abstracts over sizes;
+ 1. Each size of tuple has a different, unrelated type,
+    making it difficult to write code that abstracts over sizes.
 
- 2. there are no types for 0- and 1-length tuples,
-    which are important for representing products with 0 and 1 fields.
+ 2. There is no type for 0-length tuples,
+    which are important for representing products with 0 fields.
+    We could arguably use `Unit`,
+    but we would ideally like all generic representations
+    to have a common supertype.
+    The least upper bound of `Unit` and `Tuple2` is `Any`
+    so a combination of the two is not ideal.
 
 For these reasons, shapeless uses a different generic encoding
 for product types called *heterogeneous lists* or `HLists`[^hlist-name].
@@ -64,6 +69,14 @@ val newProduct: Long :: String :: Int :: Boolean :: HNil =
 Shapeless also provides tools for performing more complex operations
 such as mapping, filtering, and concatenating lists.
 We'll discuss these in more detail in Part II.
+
+The behaviour described above isn't magic.
+We could have achieved all of this functionality
+using `(A, B)` and `Unit` as alternatives to `::` and `HNil`.
+However, there is an advantage in
+keeping our representation types
+separate from the types used in our applications.
+`HList` provides this separation.
 
 ### Switching representations using *Generic*
 

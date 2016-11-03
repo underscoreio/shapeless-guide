@@ -8,6 +8,11 @@ trait CsvEncoder[A] {
   def encode(value: A): List[String]
 }
 
+object CsvEncoder {
+  def apply[A](implicit enc: CsvEncoder[A]): CsvEncoder[A] =
+    enc
+}
+
 def writeCsv[A](values: List[A])(implicit encoder: CsvEncoder[A]): String =
   values.map(encoder.encode).map(_.mkString(",")).mkString("\n")
 
@@ -66,7 +71,7 @@ to summon a CSV writer for this definition.
 However, calls to `writeCsv` fail to compile:
 
 ```tut:book:fail
-implicitly[CsvEncoder[Tree[Int]]]
+CsvEncoder[Tree[Int]]
 ````
 
 The problem is that our type is recursive.
@@ -94,11 +99,11 @@ The implicit resolution process
 goes through the following types:
 
 ```scala
-implicitly[CsvEncoder[Tree[Int]]]                          // 1
-implicitly[CsvEncoder[Branch[Int] :+: Leaf[Int] :+: CNil]] // 2
-implicitly[CsvEncoder[Branch[Int]]]                        // 3
-implicitly[CsvEncoder[Tree[Int] :: Tree[Int] :: HNil]]     // 4
-implicitly[CsvEncoder[Tree[Int]]]                          // 5 uh oh
+CsvEncoder[Tree[Int]]                          // 1
+CsvEncoder[Branch[Int] :+: Leaf[Int] :+: CNil] // 2
+CsvEncoder[Branch[Int]]                        // 3
+CsvEncoder[Tree[Int] :: Tree[Int] :: HNil]     // 4
+CsvEncoder[Tree[Int]]                          // 5 uh oh
 ```
 
 We see `Tree[A]` twice in lines 1 and 5,
@@ -123,10 +128,10 @@ case class Foo(bar: Bar)
 The expansion for `Foo` looks like this:
 
 ```scala
-implicitly[CsvEncoder[Foo]]                   // 1
-implicitly[CsvEncoder[Bar :: HNil]]           // 2
-implicitly[CsvEncoder[Bar]]                   // 3
-implicitly[CsvEncoder[Int :: String :: HNil]] // 4 uh oh
+CsvEncoder[Foo]                   // 1
+CsvEncoder[Bar :: HNil]           // 2
+CsvEncoder[Bar]                   // 3
+CsvEncoder[Int :: String :: HNil] // 4 uh oh
 ```
 
 The compiler attempts to resolve a `CsvEncoder[::[H, T]]`
@@ -145,12 +150,12 @@ Fortunately, shapeless provides
 a type called `Lazy` as a workaround.
 `Lazy` does two things:
 
- 1. it delays resolution of an implicit parameter
-    until it is strictly needed,
-    permitting the derivation of self-referential implicits.
+ 1. it suppresses implicit divergence at compile time
+    by guarding against some of the aforementioned
+    over-defensive convergence heuristics;
 
- 2. it guards against some of the aforementioned
-    over-defensive convergence heuristics.
+ 2. it defers evaluation of the implicit parameter at runtime,
+    permitting the derivation of self-referential implicits.
 
 We use `Lazy` by wrapping it around specific implicit parameters.
 As a rule of thumb, it is always a good idea to wrap
@@ -163,6 +168,11 @@ import shapeless._
 
 trait CsvEncoder[A] {
   def encode(value: A): List[String]
+}
+
+object CsvEncoder {
+  def apply[A](implicit enc: CsvEncoder[A]): CsvEncoder[A] =
+    enc
 }
 
 def createEncoder[A](func: A => List[String]): CsvEncoder[A] =
@@ -178,7 +188,7 @@ implicit val hnilEncoder: CsvEncoder[HNil] =
   createEncoder(hnil => Nil)
 
 implicit val cnilEncoder: CsvEncoder[CNil] =
-  createEncoder(cnil => throw new Exception("Mass hysteria!"))
+  createEncoder(cnil => throw new Exception("Inconceivable!"))
 
 // ----------------------------------------------
 ```
@@ -226,5 +236,5 @@ and enables the solution to work
 on complex/recursive types like `Tree`:
 
 ```tut:book
-implicitly[CsvEncoder[Tree[Int]]]
+CsvEncoder[Tree[Int]]
 ```

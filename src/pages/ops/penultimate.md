@@ -1,9 +1,11 @@
-## Creating a custom op
+## Creating a custom op {#sec:ops:penultimate}
 
 Let's work through the creation of our own op as an exercise.
 We'll combine the power of `Last` and `Init`
 to create a `Penultimate` type class
 that retrieves the second-to-last element in an `HList`.
+This is an example of the "lemma" pattern
+we introduced in Section [@sec:type-level-programming:summary].
 Here's the type class definition,
 complete with `Aux` type alias and `apply` method:
 

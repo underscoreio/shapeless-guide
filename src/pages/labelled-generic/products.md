@@ -26,6 +26,11 @@ then the type class for encoding values as JSON:
 trait JsonEncoder[A] {
   def encode(value: A): JsonValue
 }
+
+object JsonEncoder {
+  def apply[A](implicit enc: JsonEncoder[A]): JsonEncoder[A] =
+    enc
+}
 ```
 
 then a few basic instances:
@@ -101,7 +106,10 @@ Instead of representing the field names with literal string types,
 shapeless is representing them with symbols tagged with literal string types.
 The details of the implementation aren't particularly important:
 we can still use `Witness` and `FieldType` to extract the tags,
-but they come out as `Symbols` instead of `Strings`.
+but they come out as `Symbols` instead of `Strings`[^future-tags].
+
+[^future-tags]: Future versions of shapeless may switch
+to using `Strings` as tags instead of `Symbols`.
 
 ### Instances for *HLists*
 
@@ -237,5 +245,5 @@ we can serialize instances of any case class
 and retain the field names in the resulting JSON:
 
 ```tut:book
-implicitly[JsonEncoder[IceCream]].encode(iceCream)
+JsonEncoder[IceCream].encode(iceCream)
 ```

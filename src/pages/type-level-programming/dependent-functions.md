@@ -1,4 +1,4 @@
-## Dependently typed functions
+## Dependently typed functions {#sec:type-level-programming:depfun}
 
 Shapeless uses dependent types all over the place:
 in `Generic`, in `Witness` (which we will see in the next chapter),
@@ -31,8 +31,8 @@ import shapeless.ops.hlist.Last
 ```
 
 ```tut:book
-val last1 = implicitly[Last[String :: Int :: HNil]]
-val last2 = implicitly[Last[Int :: String :: HNil]]
+val last1 = Last[String :: Int :: HNil]
+val last2 = Last[Int :: String :: HNil]
 ```
 
 Once we have summoned instances of `Last`,
@@ -49,7 +49,7 @@ we can only summon instances if
 the input `HList` has at least one element:
 
 ```tut:book:fail
-implicitly[Last[HNil]]
+Last[HNil]
 ```
 
 In addition, the type parameters
@@ -65,12 +65,72 @@ our own type class, called `Second`,
 that returns the second element in an `HList`:
 
 ```tut:book:silent
-trait Second[H <: HList] {
+trait Second[L <: HList] {
   type Out
-  def apply(value: H): Out
+  def apply(value: L): Out
 }
 
-implicit def hlistSecond[A, B, Rest <: HList]: Second[A :: B :: Rest] =
+object Second {
+  type Aux[L <: HList, O] = Second[L] { type Out = O }
+
+  def apply[L <: HList](implicit inst: Second[L]): Aux[L, inst.Out] =
+    inst
+}
+```
+
+This code uses the idiomatic layout
+described in Section [@sec:generic:idiomatic-style].
+We define the `Aux` type in the companion object beside
+the standard `apply` method for summoning instances.
+
+<div class="callout callout-warning">
+*Summoner methods versus "implicitly" versus "the"*
+
+Note that the return type on `apply` is `Aux[L, O]`, not `Second[L]`.
+This is important.
+Using `Aux` prevents the `apply` method
+erasing the type members on summoned instances.
+If we define the return type as `Second[L]`,
+the `Out` type member will be erased from the return type
+and the type class will not work correctly.
+
+The `implicitly` method from `scala.Predef` has this behaviour.
+Compare the type of an instance of `Last` summoned with `implicitly`:
+
+```tut:book
+implicitly[Last[String :: Int :: HNil]]
+```
+
+to the type of an instance summoned with `Last.apply`:
+
+```tut:book
+Last[String :: Int :: HNil]
+```
+
+The type summoned by `implicitly` has no `Out` type member.
+For this reason, we should avoid `implicitly`
+when working with dependently typed functions.
+We can either use custom summoner methods,
+or we can use shapeless' replacement method, `the`:
+
+```tut:book:silent
+import shapeless._
+```
+
+```tut:book
+the[Last[String :: Int :: HNil]]
+```
+</div>
+
+We only need a single instance,
+defined for `HLists` of at least two elements:
+
+```tut:book:invisible
+import Second._
+```
+
+```tut:book:silent
+implicit def hlistSecond[A, B, Rest <: HList]: Aux[A :: B :: Rest, B] =
   new Second[A :: B :: Rest] {
     type Out = B
     def apply(value: A :: B :: Rest): B =
@@ -79,18 +139,26 @@ implicit def hlistSecond[A, B, Rest <: HList]: Second[A :: B :: Rest] =
 ```
 
 We can summon instances of `Second`
-subject to similar constraints to `Last`:
+subject to similar constraints to `Last`.
+If we try to summon an instance for an incompatible `HList`,
+resolution fails and we get a compile error:
+
+```tut:book:invisible
+import Second._
+```
 
 ```tut:book
-val second1 = implicitly[Second[String :: Boolean :: Int :: HNil]]
-val second2 = implicitly[Second[String :: Int :: Boolean :: HNil]]
+val second1 = Second[String :: Boolean :: Int :: HNil]
+val second2 = Second[String :: Int :: Boolean :: HNil]
 ```
 
 ```tut:book:fail
-implicitly[Second[String :: HNil]]
+Second[String :: HNil]
 ```
 
-And use them at the value level in the same way:
+When we are able to summon an instance
+it comes with an `apply` method that works
+as expected at the value level:
 
 ```tut:book
 second1("foo" :: true :: 123 :: HNil)

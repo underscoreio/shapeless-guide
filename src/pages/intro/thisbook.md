@@ -1,4 +1,4 @@
-## About this book
+## About this book {#sec:intro:about-this-book}
 
 This book is divided into two parts.
 
@@ -78,8 +78,12 @@ You can find the Markdown source on Github:
 
 `https://github.com/underscoreio/shapeless-guide`
 
-There are also complete implementations of
-each of the major examples in this repo.
+The book receives constant updates from the community
+so be sure to check the Github repo
+for the most up-to-date version.
+
+We have also provided complete implementations of
+each of the major examples in an accompanying repo.
 See the README for details:
 
 `https://github.com/underscoreio/shapeless-guide-code`

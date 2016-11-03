@@ -16,6 +16,11 @@ trait JsonEncoder[A] {
   def encode(value: A): JsonValue
 }
 
+object JsonEncoder {
+  def apply[A](implicit enc: JsonEncoder[A]): JsonEncoder[A] =
+    enc
+}
+
 def createEncoder[A](func: A => JsonValue): JsonEncoder[A] =
   new JsonEncoder[A] {
     def encode(value: A): JsonValue =
@@ -121,7 +126,7 @@ import shapeless.{Coproduct, :+:, CNil, Inl, Inr, Witness, Lazy}
 import shapeless.labelled.FieldType
 
 implicit val cnilObjectEncoder: JsonObjectEncoder[CNil] =
-  createObjectEncoder(cnil => throw new Exception("Mass hysteria!"))
+  createObjectEncoder(cnil => throw new Exception("Inconceivable!"))
 
 implicit def coproductObjectEncoder[K <: Symbol, H, T <: Coproduct](
   implicit
@@ -156,5 +161,5 @@ val shape: Shape = Circle(1.0)
 ```
 
 ```tut:book
-implicitly[JsonEncoder[Shape]].encode(shape)
+JsonEncoder[Shape].encode(shape)
 ```

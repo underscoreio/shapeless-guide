@@ -26,7 +26,7 @@ that represents the length as a `Nat`.
 We can either summon an instance of `ToInt` ourselves:
 
 ```tut:book
-implicitly[ToInt[hlistLength.Out]].apply()
+ToInt[hlistLength.Out].apply()
 ```
 
 or use the `Nat.toInt` helper:

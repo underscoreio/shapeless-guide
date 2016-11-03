@@ -23,7 +23,8 @@ resolvers ++= Seq(Resolver.sonatypeRepo("snapshots"))
 
 libraryDependencies ++= Seq(
   "com.chuusai"    %% "shapeless"  % "2.3.2",
-  "org.scalacheck" %% "scalacheck" % "1.10.1"
+  "org.scalacheck" %% "scalacheck" % "1.10.1",
+  "org.typelevel"  %% "cats"       % "0.7.2"
 )
 
 lazy val pdf  = taskKey[Unit]("Build the PDF version of the book")

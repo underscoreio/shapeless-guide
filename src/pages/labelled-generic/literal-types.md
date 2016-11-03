@@ -36,7 +36,7 @@ and `Foo` is the only value with that type.
 
 Singleton types applied to literal values are called *literal types*.
 We don't normally interact with them
-because the default behaviour of the compiler is to "cast" literals
+because the default behaviour of the compiler is to "widen" literals
 to their nearest non-singleton type.
 So, for example, these two expressions are essentially equivalent:
 
@@ -95,11 +95,8 @@ math.sqrt(4).narrow
 Until recently, Scala had no syntax for writing literal types.
 The types were there in the compiler,
 but we couldn't express them directly in code.
-As of
-[Lightbend Scala 2.12.1][link-lightbend-scala-singleton-type-literals],
-Lightbend Scala 2.11.9,
-and
-[Typelevel Scala 2.11.8][link-typelevel-scala-singleton-type-literals],
+As of Lightbend Scala 2.12.1, Lightbend Scala 2.11.9,
+and Typelevel Scala 2.11.8,
 however, we now have direct syntax support for literal types.
 In these versions of Scala
 we can write declarations like the following:
@@ -186,9 +183,9 @@ using implicit resolution.
 
 The second syntax takes the tag as a type
 rather than a literal value.
-This is useful when writing implicit resolution rules
-where we don't have the ability
-to write specific literals expressions in our code:
+This is useful when we know what tag to use
+but don't have the ability
+to write specific literals in our code:
 
 ```tut:book:silent
 import shapeless.labelled.field
@@ -207,6 +204,8 @@ As we'll see later,
 shapeless uses this mechanism to tag
 fields in products and subtypes in coproducts
 with identifiers from our source code.
+The tags exist purely at compile time
+and have no runtime representation.
 
 If tags are just a phantom types
 how do we convert them to values we can use at runtime?
@@ -273,15 +272,12 @@ For clarity, the type of `garfield` is as follows:
 // HNil
 ```
 
-<div class="callout callout-danger">
-  TODO: Insert link to records chapter if we have one.
-</div>
-
 We don't need to go into depth regarding records here;
 suffice to say that records are the generic representation
 used by the `LabelledGeneric` type class that we will discuss next.
 `LabelledGeneric` tags each item in a product or coproduct
 with the corresponding field or type name from the concrete ADT
 (although the names are represented as `Symbols`, not `Strings`).
-Accessing names without using reflection is incredibly compelling,
-so let's derive some type class instances using `LabelledGeneric`.
+Shapeless provides a suite of `Map`-like operations on records,
+some of which we'll cover in Section [@sec:ops:record].
+For now, though, let's derive some type classes using `LabelledGeneric`.

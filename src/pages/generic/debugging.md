@@ -8,6 +8,11 @@ trait CsvEncoder[A] {
   def encode(value: A): List[String]
 }
 
+object CsvEncoder {
+  def apply[A](implicit enc: CsvEncoder[A]): CsvEncoder[A] =
+    enc
+}
+
 def createEncoder[A](w: Int)(func: A => List[String]): CsvEncoder[A] =
   new CsvEncoder[A] {
     val width = w
@@ -69,12 +74,12 @@ can be confusing and frustrating.
 Here are a couple of techniques to use
 when implicits go bad.
 
-### Debugging using implicitly
+### Debugging by summoning implicits
 
 What can we do when the compiler
 simply fails to find an implicit value?
-The failure could be due to any one of
-the implicit resolution rules in use.
+The failure could be caused by
+the resolution of any one of the implicits in use.
 For example:
 
 ```tut:book:silent
@@ -82,7 +87,7 @@ case class Foo(bar: Int, baz: Float)
 ```
 
 ```tut:book:fail
-implicitly[CsvEncoder[Foo]]
+CsvEncoder[Foo]
 ```
 
 The reason for the failure is that
@@ -90,12 +95,12 @@ we haven't defined an `Ordering` for `Float`.
 However, this may not be obvious in application code.
 We can work through the expected expansion sequence
 to find the source of the error,
-inserting calls to `implicitly`
+inserting calls to `CsvEncoder.apply` or `implicitly`
 above the error to see if they compile.
 We start with the generic representation of `Foo`:
 
 ```tut:book:fail
-implicitly[CsvEncoder[Int :: Float :: HNil]]
+CsvEncoder[Int :: Float :: HNil]
 ```
 
 This fails to compile so we know
@@ -103,11 +108,11 @@ we can ignore `genericEncoder` for now.
 The next step is to try the components of the `HList`:
 
 ```tut:book:silent
-implicitly[CsvEncoder[Int]]
+CsvEncoder[Int]
 ```
 
 ```tut:book:fail
-implicitly[CsvEncoder[Float]]
+CsvEncoder[Float]
 ```
 
 `Int` passes but `Float` fails.
@@ -121,7 +126,7 @@ we repeat the process to find the next point of failure.
 
 The `reify` method from `scala.reflect`
 takes a Scala expression as a parameter and returns
-an AST note representing the expression tree,
+an AST object representing the expression tree,
 complete with type annotations:
 
 ```tut:book:silent
@@ -129,7 +134,7 @@ import scala.reflect.runtime.universe._
 ```
 
 ```tut:book
-println(reify(implicitly[CsvEncoder[Int]]))
+println(reify(CsvEncoder[Int]))
 ```
 
 The types inferred during implicit resolution

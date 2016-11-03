@@ -1,8 +1,8 @@
-## Summary
+## Summary {#sec:type-level-programming:summary}
 
 When coding with shapeless,
 we are often trying to find a target type
-that depends on the types we start with.
+that depends on values in our code.
 This relationship is called *dependent typing*.
 
 Problems involving dependent types
@@ -47,3 +47,10 @@ to ensure our code compiles and works as expected:
     when using tools from the shapeless toolbox,
     and implement `Aux` aliases
     on our own dependently typed functions.
+
+When we find a useful chain of dependently typed operations
+we can capture them as a single type class.
+This is sometimes called the "lemma" pattern
+(a term borrowed from mathematical proofs).
+We'll see an example of this pattern
+in Section [@sec:ops:penultimate].

@@ -34,6 +34,11 @@ trait CsvEncoder[A] {
   def encode(value: A): List[String]
 }
 
+object CsvEncoder {
+  def apply[A](implicit enc: CsvEncoder[A]): CsvEncoder[A] =
+    enc
+}
+
 def writeCsv[A](values: List[A])(implicit encoder: CsvEncoder[A]): String =
   values.map(encoder.encode).map(_.mkString(",")).mkString("\n")
 
@@ -125,7 +130,7 @@ import shapeless.Generic
 
 implicit val iceCreamEncoder: CsvEncoder[IceCream] = {
   val gen = Generic[IceCream]
-  val enc = implicitly[CsvEncoder[gen.Repr]]
+  val enc = CsvEncoder[gen.Repr]
   createEncoder(iceCream => enc.encode(gen.to(iceCream)))
 }
 ```
@@ -240,7 +245,7 @@ implicit def genericEncoder[A, R](
   createEncoder(a => env.encode(gen.to(a)))
 ```
 
-Note that the `Aux` type isn't changing any semantics here---it's
+Note that the `Aux` type isn't changing any semantics---it's
 just making things easier to read.
 This pattern is used frequently in the shapeless codebase.
 </div>
@@ -292,7 +297,7 @@ writeCsv(List(Booking("Lecture hall", new Date())))
 
 The message we get here isn't very helpful.
 All the compiler knows is
-it tried a lot of implicit resolution rules
+it tried a lot of combinations of implicits
 and couldn't make them work.
 It has no idea which combination came closest to the desired result,
 so it can't tell us where the source(s) of failure lie.

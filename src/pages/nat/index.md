@@ -42,7 +42,7 @@ to convert a `Nat` to a runtime `Int`:
 ```tut:book:silent
 import shapeless.ops.nat.ToInt
 
-val toInt = implicitly[ToInt[Two]]
+val toInt = ToInt[Two]
 ```
 
 ```tut:book

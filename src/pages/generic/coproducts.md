@@ -8,6 +8,11 @@ trait CsvEncoder[A] {
   def encode(value: A): List[String]
 }
 
+object CsvEncoder {
+  def apply[A](implicit enc: CsvEncoder[A]): CsvEncoder[A] =
+    enc
+}
+
 def writeCsv[A](values: List[A])(implicit encoder: CsvEncoder[A]): String =
   values.map(encoder.encode).map(_.mkString(",")).mkString("\n")
 
@@ -74,7 +79,7 @@ we can use the same principles we used for `HLists`:
 import shapeless.{Coproduct, :+:, CNil, Inl, Inr}
 
 implicit val cnilEncoder: CsvEncoder[CNil] =
-  createEncoder(cnil => throw new Exception("Mass hysteria!"))
+  createEncoder(cnil => throw new Exception("Inconceivable!"))
 
 implicit def coproductEncoder[H, T <: Coproduct](
   implicit
@@ -95,6 +100,7 @@ There are two key points of note:
    It's there as a marker for the compiler.
    It's ok to fail abruptly here because
    we will never reach this point.
+   The `throw` expression is dead code.
 
 2. Because `Coproducts` are *disjunctions* of types,
    the encoder for `:+:` has to *choose*
@@ -135,14 +141,31 @@ writeCsv(shapes)
 ```
 
 <div class="callout callout-warning">
-  *Aligning CSV Output*
+  *SI-7046 and you*
 
-  Our CSV encoder isn't very practical in its current form.
-  It allows fields from `Rectangle` and `Circle` to
-  occupy the same columns in the output.
-  To fix this problem we need to modify
-  the definition of `CsvEncoder`
-  to incorporate the width of the data type
-  and space the output accordingly.
-  We leave this as an exercise to the reader.
+  There is a Scala compiler bug called [SI-7046][link-si7046]
+  that can cause coproduct generic resolution to fail.
+  The bug causes certain parts of the macro API,
+  on which shapeless depends, to be sensitive
+  to the order in which types are defined in source code.
+
+  If you are using Lightbend Scala 2.11.8 or earlier
+  and coproduct resolution fails for you,
+  consider upgrading to Lightbend Scala 2.11.9
+  or Typelevel Scala 2.11.8.
+  SI-7046 is fixed in each of these releases.
 </div>
+
+### Aligning CSV output
+
+Our CSV encoder isn't very practical in its current form.
+It allows fields from `Rectangle` and `Circle` to
+occupy the same columns in the output.
+To fix this problem we need to modify
+the definition of `CsvEncoder`
+to incorporate the width of the data type
+and space the output accordingly.
+The examples repo linked
+in Section [@sec:intro:about-this-book]
+contains a complete implementation of `CsvEncoder`
+that addresses this problem.
