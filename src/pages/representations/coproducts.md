@@ -3,10 +3,8 @@
 Now we know how shapeless encodes product types.
 What about coproducts?
 We looked at `Either` earlier
-but that suffers from a similar drawback to tuples:
-we have no way of representing a disjunction of fewer than two types.
-For this reason, shapeless provides a different encoding
-that is similar to `HList`:
+but that suffers from similar drawbacks to tuples.
+Again, shapeless provides its own encoding that is similar to `HList`:
 
 ```tut:book:silent
 import shapeless.{Coproduct, :+:, CNil, Inl, Inr}
@@ -37,8 +35,7 @@ val green: Light = Inr(Inr(Inl(Green())))
 
 Every coproduct type is terminated with `CNil`,
 which is an empty type with no values, similar to `Nothing`.
-
-We can never instantiate `CNil`
+We can't instantiate `CNil`
 or build a `Coproduct` purely from instances of `Inr`.
 We always have exactly one `Inl` in a value.
 

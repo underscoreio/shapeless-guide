@@ -13,7 +13,7 @@ and `Any`[^multiple-inheritance]:
 ```
 
 [^multiple-inheritance]:
-`String` has a bunch of other types
+`String` also has a bunch of other types
 like `Serializable` and `Comparable`
 but let's ignore those for now.
 
@@ -35,10 +35,11 @@ The type `Foo.type` is the type of `Foo`,
 and `Foo` is the only value with that type.
 
 Singleton types applied to literal values are called *literal types*.
-We don't normally interact with them
-because the default behaviour of the compiler is to "widen" literals
-to their nearest non-singleton type.
-So, for example, these two expressions are essentially equivalent:
+These have existed in Scala for a long time,
+but we don't normally interact with them
+because the default behaviour of the compiler is
+to "widen" literals to their nearest non-singleton type.
+For example, these two expressions are essentially equivalent:
 
 ```tut:book
 "hello"
@@ -48,7 +49,7 @@ So, for example, these two expressions are essentially equivalent:
 
 Shapeless provides a few tools for working with literal types.
 First, there is a `narrow` macro that converts a
-literal expression into a singleton-typed literal expression:
+literal expression to a singleton-typed literal expression:
 
 ```tut:book:silent
 import shapeless.syntax.singleton._
@@ -93,11 +94,11 @@ math.sqrt(4).narrow
 *Literal types in Scala*
 
 Until recently, Scala had no syntax for writing literal types.
-The types were there in the compiler,
+The types were there in the compiler
 but we couldn't express them directly in code.
-As of Lightbend Scala 2.12.1, Lightbend Scala 2.11.9,
-and Typelevel Scala 2.11.8,
-however, we now have direct syntax support for literal types.
+However, as of Lightbend Scala 2.12.1, Lightbend Scala 2.11.9,
+and Typelevel Scala 2.11.8 we have
+direct syntax support for literal types.
 In these versions of Scala
 we can write declarations like the following:
 
@@ -154,11 +155,11 @@ val numCherries = number.asInstanceOf[Int with Cherries]
 ```
 
 Shapeless uses this trick to tag
-the types of fields in a case classes
+fields and subtypes in an ADT
 with the singleton types of their names.
 If you find using `asInstanceOf` uncomfortable then don't worry:
 shapeless provides two tagging syntaxes
-that avoid such unsavoriness.
+to avoid such unsavoriness.
 
 The first syntax, `->>`,
 tags the expression on the right of the arrow
@@ -176,10 +177,15 @@ val numCherries = "numCherries" ->> someNumber
 ```
 
 Here we are tagging `someNumber` with
-the phantom type `KeyTag["numCherries", Int]`.
+the following phantom type:
+
+```scala
+KeyTag["numCherries", Int]
+```
+
 The tag encodes both the name and type of the field,
-both of which are useful when searching for entries in a `Repr`
-using implicit resolution.
+the combination of which is useful
+when searching for entries in a `Repr` using implicit resolution.
 
 The second syntax takes the tag as a type
 rather than a literal value.
@@ -189,26 +195,27 @@ to write specific literals in our code:
 
 ```tut:book:silent
 import shapeless.labelled.field
+```
 
+```tut:book
 field[Cherries](123)
 ```
 
-Shapeless provides us with the `FieldType` type alias
-to make it easy to extract the key tag and value from a type:
+`FieldType` is type alias that simplifies
+extracting the tag and base types from a tagged type:
 
 ```scala
 type FieldType[K, V] = V with KeyTag[K, V]
 ```
 
-As we'll see later,
+As we'll see in a moment,
 shapeless uses this mechanism to tag
-fields in products and subtypes in coproducts
-with identifiers from our source code.
-The tags exist purely at compile time
-and have no runtime representation.
+fields and subtypes with
+their names in our source code.
 
-If tags are just a phantom types
-how do we convert them to values we can use at runtime?
+Tags exist purely at compile time
+and have no runtime representation.
+How do we convert them to values we can use at runtime?
 Shapeless provides a type class called `Witness` for this purpose.
 If we combine `Witness` and `FieldType`,
 we get something very compelling---the
@@ -235,7 +242,7 @@ getFieldName(numCherries)
 ```
 
 ```tut:book:silent
-// Get the untagged value from a tagged value:
+// Get the untagged type of a tagged value:
 def getFieldValue[K, V](value: FieldType[K, V]): V =
   value
 ```
@@ -244,7 +251,7 @@ def getFieldValue[K, V](value: FieldType[K, V]): V =
 getFieldValue(numCherries)
 ```
 
-If we build an `HList` from values with tagged types
+If we build an `HList` of tagged elements,
 we get a data structure that has some of the properties of a `Map`.
 We can reference fields by tag,
 manipulate and replace them,
@@ -253,8 +260,7 @@ Shapeless calls these structured "records".
 
 ### Records and *LabelledGeneric*
 
-Records are `HLists` of items that are each
-tagged with type-level identifiers:
+Records are `HLists` of tagged elements:
 
 ```tut:book:silent
 import shapeless.{HList, ::, HNil}
@@ -274,7 +280,7 @@ For clarity, the type of `garfield` is as follows:
 
 We don't need to go into depth regarding records here;
 suffice to say that records are the generic representation
-used by the `LabelledGeneric` type class that we will discuss next.
+used by `LabelledGeneric`.
 `LabelledGeneric` tags each item in a product or coproduct
 with the corresponding field or type name from the concrete ADT
 (although the names are represented as `Symbols`, not `Strings`).

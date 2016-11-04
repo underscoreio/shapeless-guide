@@ -1,4 +1,7 @@
-<!-- API docs -->
+<!-- Source -->
+
+[link-book-repo]: https://github.com/underscoreio/shapeless-guide
+[link-code-repo]: https://github.com/underscoreio/shapeless-guide-code
 
 <!-- Code -->
 
@@ -29,6 +32,7 @@
 [link-scalacheck-shapeless]: https://github.com/alexarchambault/scalacheck-shapeless
 [link-shapeless]: https://github.com/milessabin/shapeless
 [link-spray-json]: https://github.com/spray/spray-json
+[link-spray-json-shapeless]: https://github.com/fommil/spray-json-shapeless
 [link-tut]: https://github.com/tpolecat/tut
 
 <!-- Papers and articles -->
@@ -44,6 +48,7 @@
 
 [link-typelevel-scala-singleton-type-literals]: https://github.com/typelevel/scala#typelevel-scala-2118
 [link-lightbend-scala-singleton-type-literals]: https://github.com/scala/scala/pull/5310
+[link-si7046]: https://issues.scala-lang.org/browse/SI-7046
 
 <!-- Other -->
 

@@ -1,4 +1,4 @@
-## Mapping and flatMapping using Poly
+## Mapping and flatMapping using *Poly*
 
 Shapeless provides a suite of
 functional operations based on `Poly`,
@@ -36,8 +36,8 @@ we get a compile error:
 (1.5 :: HNil).map(sizeOf)
 ```
 
-We can also `flatMap` over an `HList`
-provided every corresponding case in our `Poly`
+We can also `flatMap` over an `HList`,
+as long as every corresponding case in our `Poly`
 returns another `HList`:
 
 ```tut:book:silent
@@ -67,9 +67,10 @@ or one of the cases doesn't return an `HList`:
 
 `map` and `flatMap` are based on type classes
 called `Mapper` and `FlatMapper` respectively.
-We'll see an example that makes direct use of `Mapper` in a moment.
+We'll see an example that makes direct use of `Mapper`
+in Section [@sec:poly:product-mapper].
 
-## Folding using Poly
+## Folding using *Poly*
 
 In addition to `map` and `flatMap`,
 shapeless also provides

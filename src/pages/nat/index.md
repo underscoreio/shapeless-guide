@@ -50,7 +50,7 @@ toInt.apply()
 ```
 
 The `Nat.toInt` method provides
-a convenient shorthand for calling `nat.apply()`.
+a convenient shorthand for calling `toInt.apply()`.
 It accepts the instance of `ToInt` as an implicit parameter:
 
 ```tut:book

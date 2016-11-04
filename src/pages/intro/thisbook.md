@@ -43,7 +43,7 @@ Part I consists of four chapters:
 
 In Part II we introduce the "ops type classes"
 provided in the `shapeless.ops` package.
-The ops type classes form a vast library of tools
+Ops type classes form an extensive library of tools
 for manipulating generic representations.
 Rather than discuss every op in detail,
 we provide a theoretical primer in three chapters:
@@ -55,7 +55,7 @@ we provide a theoretical primer in three chapters:
     to form a powerful "case class migration" tool.
 
   - In Chapter [@sec:poly] we introduce
-    *polymorphic functions* in shapeless,
+    *polymorphic functions*,
     also known as `Polys`,
     and show how they are used in
     ops type classes for mapping,
@@ -69,25 +69,18 @@ we provide a theoretical primer in three chapters:
     and use `Nat` to develop
     our own version of Scalacheck's `Arbitrary`.
 
-<div class="callout callout-info">
-*Source code and examples*
+## Source code and examples
 
 This book is open source.
-See the inside cover for licensing information.
-You can find the Markdown source on Github:
-
-`https://github.com/underscoreio/shapeless-guide`
-
+You can find the [Markdown source on Github][link-book-repo].
 The book receives constant updates from the community
 so be sure to check the Github repo
 for the most up-to-date version.
 
-We have also provided complete implementations of
-each of the major examples in an accompanying repo.
-See the README for details:
-
-`https://github.com/underscoreio/shapeless-guide-code`
+There are also complete implementations of
+the major examples in an [accompanying repo][link-code-repo].
+See the README for installation details.
 
 We assume shapeless 2.3.2 and either
-Typelevel Scala 2.11.8+ or Lightbend Scala 2.11.9+ / 2.12.1+.
-</div>
+Typelevel Scala 2.11.8+ or
+Lightbend Scala 2.11.9+ / 2.12.1+.

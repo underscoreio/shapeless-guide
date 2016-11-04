@@ -1,6 +1,6 @@
 ## Recap: algebraic data types
 
-*Algebraic data types* (*ADTs*[^adts])
+*Algebraic data types (ADTs)*[^adts]
 are a functional programming concept
 with a fancy name but a very simple meaning.
 They are an idiomatic way of representing data
@@ -10,8 +10,7 @@ using "ands" and "ors". For example:
  - a rectangle has a width **and** a height
  - a circle has a radius
 
-[^adts]: Be careful not to confuse
-algebraic data types with "abstract data types",
+[^adts]: Not to be confuses with "abstract data types",
 which are a different tool from computer science
 that has little bearing on the discussion here.
 
@@ -35,7 +34,7 @@ The compiler has complete knowledge of the algebras[^algebra] we define,
 so it can help us write complete,
 correctly typed methods involving our types:
 
-[^algebra]: The word "algebra" here means: the symbols we define, such as rectangle and circle; and the rules for manipulating those symbols, encoded as methods.
+[^algebra]: The word "algebra" meaning: the symbols we define, such as rectangle and circle; and the rules for manipulating those symbols, encoded as methods.
 
 ```tut:book:silent
 def area(shape: Shape): Double =
@@ -106,7 +105,8 @@ when we want interoperability (more on this later).
 However, instead of using `Tuples` and `Either`,
 shapeless uses its own data types to represent
 generic products and coproducts.
-We'll introduce to these types in the next sections.
+We'll introduce these types in the next sections.
 
-[^generic]: We're using "generic" with an informal way here
-rather than meaning "a type with a type parameter".
+[^generic]: We're using "generic" in an informal way here,
+rather than the conventional meaning of
+"a type with a type parameter".

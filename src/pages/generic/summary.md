@@ -1,23 +1,21 @@
 ## Summary
 
-In this chapter we discussed how to use 
-`Generic`, `HLists`, and `Coproducts` 
+In this chapter we discussed how to use
+`Generic`, `HLists`, and `Coproducts`
 to automatically derive type class instances.
-We also covered the `Lazy` type 
+We also covered the `Lazy` type
 as a means of handling complex/recursive types.
 Taking all of this into account,
-we can write a common skeleton 
+we can write a common skeleton
 for deriving type class instances as follows.
 
 First, define the type class:
 
 ```tut:book:silent
-import shapeless._
-
 trait MyTC[A]
 ```
 
-Define basic instances:
+Define primitive instances:
 
 ```tut:book:silent
 implicit def intInstance: MyTC[Int] = ???
@@ -28,6 +26,8 @@ implicit def booleanInstance: MyTC[Boolean] = ???
 Define instances for `HList`:
 
 ```tut:book:silent
+import shapeless._
+
 implicit def hnilInstance: MyTC[HNil] = ???
 
 implicit def hlistInstance[H, T <: HList](
@@ -59,11 +59,11 @@ implicit def genericInstance[A, R](
 ): MyTC[A] = ???
 ```
 
-In the next chapter we'll cover some useful theory,
-programming patterns, and debugging techniques
+In the next chapter we'll cover some useful theory
+and programming patterns
 to help write code in this style.
-In Chapter [@sec:labelled-generic] 
+In Chapter [@sec:labelled-generic]
 we will revisit type class derivation
 using a variant of `Generic` that
-allows us to inspect field and type names 
+allows us to inspect field and type names
 in our ADTs.

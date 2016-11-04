@@ -1,23 +1,22 @@
-# Functional operations on HLists {#sec:poly}
+# Functional operations on *HLists* {#sec:poly}
 
 "Regular" Scala programs make heavy use
 of functional operations like `map` and `flatMap`.
 A question arises: can we perform similar operations on `HLists`?
-The answer is "yes",
-but the heterogeneous element types require us
-to do things a little differently than in regular Scala.
-Unsurprisingly the mechanisms are type class based
+The answer is "yes", although
+we have to do things a little differently than in regular Scala.
+Unsurprisingly the mechanisms we use are type class based
 and there are a suite of ops type classes to help us out.
 
 Before we delve in to the type classes themselves,
 we need to discuss how shapeless represents
-*polymorphic* functions suitable for
+*polymorphic functions* suitable for
 mapping over heterogeneous data structures.
 
-## Motivation: mapping over an HList
+## Motivation: mapping over an *HList*
 
 We'll motivate the discussion of polymorphic functions
-with a look at the `map` method.
+by looking at the `map` method.
 Figure [@fig:poly:monomorphic-map] shows
 a type chart for mapping over a regular list.
 We start with a `List[A]`, supply a function `A => B`,

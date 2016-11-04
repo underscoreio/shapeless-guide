@@ -1,11 +1,14 @@
-## Creating a custom op {#sec:ops:penultimate}
+## Creating a custom op / the "lemma" pattern {#sec:ops:penultimate}
+
+If we find a particular sequence of ops useful,
+we can package them up and re-provide them as another ops type class.
+This is an example of the "lemma" pattern,
+a term we introduced in Section [@sec:type-level-programming:summary].
 
 Let's work through the creation of our own op as an exercise.
 We'll combine the power of `Last` and `Init`
 to create a `Penultimate` type class
 that retrieves the second-to-last element in an `HList`.
-This is an example of the "lemma" pattern
-we introduced in Section [@sec:type-level-programming:summary].
 Here's the type class definition,
 complete with `Aux` type alias and `apply` method:
 
@@ -24,7 +27,13 @@ object Penultimate {
 }
 ```
 
-We only need to define one instance,
+Again, notice that the `apply` method
+has a return type of `Aux[L, O]` instead of `Penultimate[L]`.
+This ensures type members are visible on summoned instances
+as discussed in the callout
+in Section [@sec:type-level-programming:depfun].
+
+We only need to define one instance of `Penultimate`,
 combining `Init` and `Last` using the techniques
 covered in Section [@sec:type-level-programming:chaining]:
 
@@ -46,11 +55,9 @@ implicit def hlistPenultimate[L <: HList, M <: HList, O](
 We can use `Penultimate` as follows:
 
 ```tut:book:silent
-type BigList =
-  String :: Int :: Boolean :: Double :: HNil
+type BigList = String :: Int :: Boolean :: Double :: HNil
 
-val bigList: BigList =
-  "foo" :: 123 :: true :: 456.0 :: HNil
+val bigList: BigList = "foo" :: 123 :: true :: 456.0 :: HNil
 ```
 
 ```tut:book
@@ -106,3 +113,9 @@ case class IceCream(name: String, numCherries: Int, inCone: Boolean)
 ```tut:book
 IceCream("Sundae", 1, false).penultimate
 ```
+
+The important point here is that,
+by defining `Penultimate` as another type class,
+we have created a reusable tool that we can apply elsewhere.
+Shapeless provides many ops for many purposes,
+but it's easy to add our own to the toolbox.

@@ -10,7 +10,7 @@ The one use case we did cover---converting between ADTs---is
 fun but not tremendously useful.
 
 The real power of `HLists` and `Coproducts` comes from their recursive structure.
-We can write code to traverse the structures
-and calculate values from their constituents.
+We can write code to traverse representations
+and calculate values from their constituent elements.
 In the next chapter we will look at our first real use case:
 automatically deriving type class instances.

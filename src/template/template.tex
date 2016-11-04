@@ -3,6 +3,16 @@
 % Colors ----------------------------------------
 
 \usepackage[xcolor]{mdframed}
+
+$if(blackandwhiteprintable)$
+% \definecolor{primarycolor}{gray}{0.6}
+% \definecolor{successcolor}{gray}{0.6}
+\definecolor{warningcolor}{gray}{0.6}
+\definecolor{dangercolor}{gray}{0.6}
+\definecolor{infocolor}{gray}{0.6}
+\definecolor{titlecolor}{gray}{0.6}
+\definecolor{brandcolor}{gray}{0.6}
+$else$
 % \definecolor{primarycolor}{HTML}{428BCA}
 % \definecolor{successcolor}{HTML}{5CB85C}
 \definecolor{warningcolor}{HTML}{F0AD4E}
@@ -10,6 +20,7 @@
 \definecolor{infocolor}{HTML}{5BC0DE}
 \definecolor{titlecolor}{HTML}{C02440}
 \definecolor{brandcolor}{HTML}{517679}
+$endif$
 
 % Fonts -----------------------------------------
 
@@ -136,9 +147,15 @@ $endif$
   pdfauthor={$author-meta$},
   pdftitle={$title-meta$},
   colorlinks=true,
+$if(blackandwhiteprintable)$
+  citecolor=black,
+  urlcolor=black,
+  linkcolor=black,
+$else$
   citecolor=$if(citecolor)$$citecolor$$else$blue$endif$,
   urlcolor=$if(urlcolor)$$urlcolor$$else$blue$endif$,
   linkcolor=$if(linkcolor)$$linkcolor$$else$magenta$endif$,
+$endif$
   pdfborder={0 0 0}}
 
 \urlstyle{same} % don't use monospace font for urls
@@ -230,11 +247,26 @@ $endfor$
 
 \usepackage{listings}
 
+$if(blackandwhiteprintable)$
+\definecolor{codebgcolor}{gray}{0.95}
+\definecolor{commentcolor}{gray}{0.4}
+\definecolor{stringcolor}{gray}{0.2}
+\newcommand{\commentstyle}{\tt\color{commentcolor}}
+\newcommand{\keywordstyle}{\tt\bfseries}
+\newcommand{\emphstyle}{\tt\itseries}
+\newcommand{\stringstyle}{\tt\color{stringcolor}}
+$else$
 \definecolor{codebgcolor}{HTML}{F7F7F7}
 \definecolor{commentcolor}{HTML}{8E5A13}
 \definecolor{keywordcolor}{HTML}{234A85}
 \definecolor{literalcolor}{HTML}{0100CB}
 \definecolor{stringcolor}{HTML}{519818}
+\definecolor{emphcolor}{HTML}{007777}
+\newcommand{\commentstyle}{\tt\color{commentcolor}}
+\newcommand{\keywordstyle}{\tt\color{keywordcolor}}
+\newcommand{\emphstyle}{\tt\color{emphcolor}}
+\newcommand{\stringstyle}{\tt\color{stringcolor}}
+$endif$
 
 \makeatletter
 \lst@CCPutMacro\lst@ProcessOther {"2D}{\lst@ttfamily{-{}}{-{}}}
@@ -251,16 +283,16 @@ $endfor$
   breakatwhitespace=false,
   language=scala,
   frame=none,
-  commentstyle=\tt\color{commentcolor},
+  commentstyle=\commentstyle,
   extendedchars=true,
   keepspaces=true,
-  keywordstyle=\tt\color{keywordcolor},
-  emphstyle=\tt\color{cyan},
+  keywordstyle=\keywordstyle,
+  emphstyle=\emphstyle,
   rulecolor=\tt\color{black},
   showspaces=false,
   showstringspaces=false,
   showtabs=false,
-  stringstyle=\tt\color{stringcolor},
+  stringstyle=\stringstyle,
   tabsize=2,
   aboveskip=0em,
   belowskip=0em,
@@ -303,10 +335,16 @@ $endfor$
 % ===============================================
 
 \begin{document}
+
+\frontmatter
+\pagestyle{empty}
+
 \pagecolor{white}
 
 % Title page ------------------------------------
 
+$if(blackandwhiteprintable)$
+$else$
 \begin{titlepage}
 
 \begin{center}
@@ -348,6 +386,7 @@ $endfor$
 % $endif$
 
 \pagecolor{white}
+$endif$
 
 % Abstract --------------------------------------
 
@@ -400,9 +439,14 @@ $endif$
 
 % Main document body ----------------------------
 
+\mainmatter
+\pagestyle{headings}
+
 $body$
 
 % Bibliography ----------------------------------
+
+\backmatter
 
 $if(natbib)$
 $if(biblio-files)$

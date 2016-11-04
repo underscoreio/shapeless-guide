@@ -46,7 +46,7 @@ def random[A](implicit r: Random[A]): A = r.get
 Let's start with some basic instances of `Random`:
 
 ```tut:book:silent
-// Helper method for creating instances:
+// Instance constructor:
 def createRandom[A](func: () => A): Random[A] =
   new Random[A] {
     def get = func()
@@ -94,10 +94,10 @@ implicit val hnilRandom: Random[HNil] =
 
 implicit def hlistRandom[H, T <: HList](
   implicit
-  hRandom: Random[H],
-  tRandom: Lazy[Random[T]]
+  hRandom: Lazy[Random[H]],
+  tRandom: Random[T]
 ): Random[H :: T] =
-  createRandom(() => hRandom.get :: tRandom.value.get)
+  createRandom(() => hRandom.value.get :: tRandom.get)
 ```
 
 This gets us as far as summoning random instances for case classes:
@@ -117,18 +117,18 @@ Generating a random instance of a coproduct
 involves choosing a random subtype.
 Let's start with a naïve implementation:
 
-```tut:book
+```tut:book:silent
 implicit val cnilRandom: Random[CNil] =
   createRandom(() => throw new Exception("Inconceivable!"))
 
 implicit def coproductRandom[H, T <: Coproduct](
   implicit
-  hRandom: Random[H],
-  tRandom: Lazy[Random[T]]
+  hRandom: Lazy[Random[H]],
+  tRandom: Random[T]
 ): Random[H :+: T] =
   createRandom { () =>
     val chooseH = scala.util.Random.nextDouble < 0.5
-    if(chooseH) Inl(hRandom.get) else Inr(tRandom.value.get)
+    if(chooseH) Inl(hRandom.value.get) else Inr(tRandom.get)
   }
 ```
 
@@ -155,10 +155,10 @@ And that's not all.
 If we look at the overall probability distribution
 we see something even more alarming:
 
-- `Red` is chosen 50% of the time
-- `Amber` is chosen 25% of the time
-- `Green` is chosen 12.5% of the time
-- `CNil` is chosen 6.75% of the time
+- `Red` is chosen 1/2 of the time
+- `Amber` is chosen 1/4 of the time
+- `Green` is chosen 1/8 of the time
+- *`CNil` is chosen 1/16 of the time*
 
 Our coproduct instances will throw exceptions 6.75% of the time!
 
@@ -171,10 +171,12 @@ for(i <- 1 to 100) random[Light]
 To fix this problem we have to alter
 the probability of choosing `H` over `T`.
 The correct behaviour should be to choose
-`H` `1/n`^th^ of the time,
+`H` `1/n` of the time,
 where `n` is the length of the coproduct.
 This ensures an even probability distribution
-across the subtypes of the coproduct,
+across the subtypes of the coproduct.
+It also ensures we choose the head
+of a single-subtype `Coproduct` 100% of the time,
 which means we never call `cnilProduct.get`.
 Here's an updated implementation:
 
@@ -184,15 +186,15 @@ import shapeless.ops.nat.ToInt
 
 implicit def coproductRandom[H, T <: Coproduct, L <: Nat](
   implicit
-  hRandom: Random[H],
-  tRandom: Lazy[Random[T]],
+  hRandom: Lazy[Random[H]],
+  tRandom: Random[T],
   tLength: coproduct.Length.Aux[T, L],
   tLengthAsInt: ToInt[L]
 ): Random[H :+: T] = {
   createRandom { () =>
     val length = 1 + tLengthAsInt()
     val chooseH = scala.util.Random.nextDouble < (1.0 / length)
-    if(chooseH) Inl(hRandom.get) else Inr(tRandom.value.get)
+    if(chooseH) Inl(hRandom.value.get) else Inr(tRandom.get)
   }
 }
 
@@ -205,6 +207,7 @@ we can generate random values of any product or coproduct:
 for(i <- 1 to 5) println(random[Light])
 ```
 
-Generating test data for ScalaCheck tests
+Generating test data for ScalaCheck
 normally requires a great real of boilerplate.
-This is a particularly compelling use case for shapeless.
+Random value generation is a compelling use case for shapeless
+of which `Nat` forms an essential component.

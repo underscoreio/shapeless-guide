@@ -1,7 +1,7 @@
 ## Deriving instances for products {#sec:generic:products}
 
 In this section we're going to use shapeless
-to derive type class instances for products
+to derive type class instances for product types
 (i.e. case classes).
 We'll use two intuitions:
 
@@ -42,12 +42,6 @@ object CsvEncoder {
 def writeCsv[A](values: List[A])(implicit encoder: CsvEncoder[A]): String =
   values.map(encoder.encode).map(_.mkString(",")).mkString("\n")
 
-def createEncoder[A](func: A => List[String]): CsvEncoder[A] =
-  new CsvEncoder[A] {
-    def encode(value: A): List[String] =
-      func(value)
-  }
-
 case class IceCream(name: String, numCherries: Int, inCone: Boolean)
 
 val iceCreams: List[IceCream] = List(
@@ -68,12 +62,15 @@ val employees: List[Employee] = List(
 
 ### Instances for *HLists*
 
-Let's start by writing `CsvEncoders`[^refer-createEncoder]
-for `String`, `Int`, and `Boolean`:
-
-[^refer-createEncoder]: Refer to Section [@sec:generic:type-classes] for the definition of `createEncoder`.
+Let's start by defining an instance constructor
+and `CsvEncoders` for `String`, `Int`, and `Boolean`:
 
 ```tut:book:silent
+def createEncoder[A](func: A => List[String]): CsvEncoder[A] =
+  new CsvEncoder[A] {
+    def encode(value: A): List[String] = func(value)
+  }
+
 implicit val stringEncoder: CsvEncoder[String] =
   createEncoder(str => List(str))
 
@@ -106,7 +103,7 @@ implicit def hlistEncoder[H, T <: HList](
   }
 ```
 
-Taken together, these five rules
+Taken together, these five instances
 allow us to summon `CsvEncoders` for any `HList`
 involving `Strings`, `Ints`, and `Booleans`:
 
@@ -175,7 +172,7 @@ we can't refer to a type member of one parameter
 from another parameter in the same block.
 The trick to solving this is
 to introduce a new type parameter to our method
-and refer to it in each of the associated parameters:
+and refer to it in each of the associated value parameters:
 
 ```tut:book:silent
 implicit def genericEncoder[A, R](
@@ -215,6 +212,8 @@ writeCsv(iceCreams)(
         hlistEncoder(booleanEncoder, hnilEncoder)))))
 ```
 
+and can infer the correct expansions
+for many different product types.
 I'm sure you'll agree,
 it's nice not to have to write this code by hand!
 
@@ -247,7 +246,8 @@ implicit def genericEncoder[A, R](
 
 Note that the `Aux` type isn't changing any semantics---it's
 just making things easier to read.
-This pattern is used frequently in the shapeless codebase.
+This "`Aux` pattern" is used frequently
+in the shapeless codebase.
 </div>
 
 ### So what are the downsides?
@@ -257,8 +257,8 @@ allow us to provide one significant dose of reality.
 If things go wrong, the compiler isn't great at telling us why.
 
 There are two main reasons the code above might fail to compile.
-The first is when we can't find
-an implicit `Generic` instance.
+The first is when the compiler can't find
+an instance of `Generic`.
 For example, here we try to call `writeCsv`
 with a non-case class:
 
@@ -281,7 +281,7 @@ is when the compiler can't calculate
 a `CsvEncoder` for our `HList`.
 This normally happens because we don't have
 an encoder for one of the fields in our ADT.
-For example, so far we haven't defined
+For example, we haven't yet defined
 a `CsvEncoder` for `java.util.Date`,
 so the following code fails:
 

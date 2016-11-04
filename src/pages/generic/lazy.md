@@ -76,7 +76,7 @@ CsvEncoder[Tree[Int]]
 
 The problem is that our type is recursive.
 The compiler senses an infinite loop
-applying our derivation rules and gives up.
+applying our implicits and gives up.
 
 ### Implicit divergence
 
@@ -108,7 +108,8 @@ CsvEncoder[Tree[Int]]                          // 5 uh oh
 
 We see `Tree[A]` twice in lines 1 and 5,
 so the compiler moves onto another branch of search.
-The result is failure to find a suitable implicit.
+The eventual consequence is that
+it fails to find a suitable implicit.
 
 In fact, the situation is worse than this.
 If the compiler sees the same type constructor twice
@@ -116,8 +117,11 @@ and the complexity of the type parameters is *increasing*,
 it assumes that branch of search is "diverging".
 This is a problem for shapeless
 because types like `::[H, T]` and `:+:[H, T]`
-come up in different generic representations
-and cause the compiler to give up prematurely.
+can appear several times as the compiler expands
+different generic representations.
+This causes the compiler to give up prematurely
+even though it would eventually find a solution
+if it persisted with the same expansion.
 Consider the following types:
 
 ```tut:book:silent
@@ -140,7 +144,7 @@ The type parameter for `T` is more complex on line 4 than on line 2,
 so the compiler assumes (incorrectly in this case)
 that the branch of search is diverging.
 It moves onto another branch and, again,
-the result is failure to find a suitable implicit.
+the result is failure to generate a suitable instance.
 
 ### *Lazy*
 
@@ -151,7 +155,7 @@ a type called `Lazy` as a workaround.
 `Lazy` does two things:
 
  1. it suppresses implicit divergence at compile time
-    by guarding against some of the aforementioned
+    by guarding against the aforementioned
     over-defensive convergence heuristics;
 
  2. it defers evaluation of the implicit parameter at runtime,
@@ -196,7 +200,7 @@ implicit val cnilEncoder: CsvEncoder[CNil] =
 ```tut:book:silent
 implicit def hlistEncoder[H, T <: HList](
   implicit
-  hEncoder: Lazy[CsvEncoder[H]], // wrapped in Lazy
+  hEncoder: Lazy[CsvEncoder[H]], // wrap in Lazy
   tEncoder: CsvEncoder[T]
 ): CsvEncoder[H :: T] = createEncoder {
   case h :: t =>
@@ -207,7 +211,7 @@ implicit def hlistEncoder[H, T <: HList](
 ```tut:book:silent
 implicit def coproductEncoder[H, T <: Coproduct](
   implicit
-  hEncoder: Lazy[CsvEncoder[H]], // wrapped in Lazy
+  hEncoder: Lazy[CsvEncoder[H]], // wrap in Lazy
   tEncoder: CsvEncoder[T]
 ): CsvEncoder[H :+: T] = createEncoder {
   case Inl(h) => hEncoder.value.encode(h)
@@ -219,7 +223,7 @@ implicit def coproductEncoder[H, T <: Coproduct](
 implicit def genericEncoder[A, R](
   implicit
   gen: Generic.Aux[A, R],
-  rEncoder: Lazy[CsvEncoder[R]] // wrapped in Lazy
+  rEncoder: Lazy[CsvEncoder[R]] // wrap in Lazy
 ): CsvEncoder[A] = createEncoder { value =>
   rEncoder.value.encode(gen.to(value))
 }

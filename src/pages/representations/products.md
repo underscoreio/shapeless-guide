@@ -11,10 +11,10 @@ that make them unsuitable for shapeless' purposes:
  2. There is no type for 0-length tuples,
     which are important for representing products with 0 fields.
     We could arguably use `Unit`,
-    but we would ideally like all generic representations
-    to have a common supertype.
+    but we ideally want all generic representations
+    to have a sensible common supertype.
     The least upper bound of `Unit` and `Tuple2` is `Any`
-    so a combination of the two is not ideal.
+    so a combination of the two is impractical.
 
 For these reasons, shapeless uses a different generic encoding
 for product types called *heterogeneous lists* or `HLists`[^hlist-name].
@@ -70,12 +70,12 @@ Shapeless also provides tools for performing more complex operations
 such as mapping, filtering, and concatenating lists.
 We'll discuss these in more detail in Part II.
 
-The behaviour described above isn't magic.
+The behaviour we get from `HLists` isn't magic.
 We could have achieved all of this functionality
 using `(A, B)` and `Unit` as alternatives to `::` and `HNil`.
 However, there is an advantage in
-keeping our representation types
-separate from the types used in our applications.
+keeping our representation types separate
+from the semantic types used in our applications.
 `HList` provides this separation.
 
 ### Switching representations using *Generic*
@@ -83,8 +83,8 @@ separate from the types used in our applications.
 Shapeless provides a type class called `Generic`
 that allows us to switch back and forth between
 a concrete ADT and its generic representation.
-There's some macro magic going on behind the scenes
-that allows us to summon instances of `Generic` without boilerplate:
+Some behind-the-scenes macro magic
+allows us to summon instances of `Generic` without boilerplate:
 
 ```tut:book:silent
 import shapeless.Generic
@@ -104,14 +104,11 @@ one for converting `to` the `Repr` type
 and one for converting `from` it:
 
 ```tut:book
-val iceCream: IceCream =
-  IceCream("Sundae", 1, false)
+val iceCream = IceCream("Sundae", 1, false)
 
-val repr: iceCreamGen.Repr =
-  iceCreamGen.to(iceCream)
+val repr = iceCreamGen.to(iceCream)
 
-val iceCream2: IceCream =
-  iceCreamGen.from(repr)
+val iceCream2 = iceCreamGen.from(repr)
 ```
 
 If two ADTs have the same `Repr`,
@@ -123,15 +120,15 @@ case class Employee(name: String, number: Int, manager: Boolean)
 
 ```tut:book
 // Create an employee from an ice cream:
-val strangeEmployee: Employee =
-  Generic[Employee].from(Generic[IceCream].to(iceCream))
+val employee = Generic[Employee].from(Generic[IceCream].to(iceCream))
 ```
 
 <div class="callout callout-info">
 *Other product types*
 
-It's useful to know that
-`Generic` understands tuples as well as case classes:
+It's worth noting that
+Scala tuples are actually case classes,
+so `Generic` works with them just fine:
 
 ```tut:book:silent
 val tupleGen = Generic[(String, Int, Boolean)]
@@ -140,5 +137,19 @@ val tupleGen = Generic[(String, Int, Boolean)]
 ```tut:book
 tupleGen.to(("Hello", 123, true))
 tupleGen.from("Hello" :: 123 :: true :: HNil)
+```
+
+It also works with case classes of more than 22 fields:
+
+```tut:book:silent
+case class BigData(
+  a:Int,b:Int,c:Int,d:Int,e:Int,f:Int,g:Int,h:Int,i:Int,j:Int,
+  k:Int,l:Int,m:Int,n:Int,o:Int,p:Int,q:Int,r:Int,s:Int,t:Int,
+  u:Int,v:Int,w:Int)
+```
+
+```tut:book
+Generic[BigData].from(Generic[BigData].to(BigData(
+  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23)))
 ```
 </div>

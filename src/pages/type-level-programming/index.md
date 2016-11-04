@@ -5,6 +5,6 @@ one of the most compelling use cases for shapeless:
 automatically deriving type class instances.
 There are plenty of even more powerful examples coming later.
 However, before we move on, we should take time
-to discuss some of theory we've so far skipped over
+to discuss some theory we've skipped over
 and establish a set of patterns for writing and debugging
 type- and implicit-heavy code.

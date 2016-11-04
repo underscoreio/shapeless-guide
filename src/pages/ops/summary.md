@@ -5,11 +5,13 @@ type classes that are provided in the `shapeless.ops` package.
 We looked at `Last` and `Init`
 as two simple examples of the ops pattern,
 and built our own `Penultimate` and `Migration` type classes
-purely by chaining together existing building blocks.
+by chaining together existing building blocks.
 
-Many of the ops type classes share a similar pattern.
+Many of the ops type classes share a similar pattern
+to the ops we've seen here.
 The easiest way to learn them is to
-look at the source code in `shapeless.ops` and `shapeless.syntax`.
+look at the source code
+in `shapeless.ops` and `shapeless.syntax`.
 
 In the next chapters we will look at two suites
 of that require further theoretical discussion.
@@ -19,5 +21,5 @@ and Chapter [@sec:nat] discusses
 how to implement type classes that require
 type level representations of numbers.
 This knowledge will help us gain
-a complete understanding of
-nearly every type class that `shapeless.ops` has to offer.
+a more complete understanding of
+the variety of type classes from `shapeless.ops`.

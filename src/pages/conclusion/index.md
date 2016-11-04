@@ -1,4 +1,4 @@
-# Preparing for launch #{-}
+# Prepare for launch! #{-}
 
 With Part II's look at `shapeless.ops`
 we have arrived at the end of this guide.

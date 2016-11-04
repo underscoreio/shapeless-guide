@@ -163,3 +163,10 @@ val shape: Shape = Circle(1.0)
 ```tut:book
 JsonEncoder[Shape].encode(shape)
 ```
+
+Other encodings are possible with a little more work.
+We can add a `"type"` field to the output, for example,
+or even allow the user to configure the format.
+Sam Halliday's [spray-json-shapeless][link-spray-json-shapeless]
+is an excellent example of a codebase
+that is approachable while providing a great deal of flexibility.

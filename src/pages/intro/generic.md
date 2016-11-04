@@ -38,8 +38,8 @@ into generic ones that we can manipulate with common code.
 
 For example, we can use the code below to
 convert employees and ice creams to values of the same type.
-Don't worry if you don't follow this example yet:
-we'll get to grips with the various concepts later on:
+Don't worry if you don't follow this example yet---we'll
+get to grips with the various concepts later on:
 
 ```tut:book:silent
 import shapeless._
@@ -53,11 +53,11 @@ val genericIceCream = Generic[IceCream].to(IceCream("Sundae", 1, false))
 Both values are now the same type.
 They are both heterogeneous lists (`HLists` for short)
 containing a `String`, an `Int`, and a `Boolean`.
-We will look at `HLists` and the important role they play soon.
-For now the important point is that both values are the same type.
-This means we can serialize them with the same function:
+We'll look at `HLists` and the important role they play soon.
+For now the point is that we can serialize each value
+with the same function:
 
-```tut:book
+```tut:book:silent
 def genericCsv(gen: String :: Int :: Boolean :: HNil): List[String] =
   List(gen(0), gen(1).toString, gen(2).toString)
 ```

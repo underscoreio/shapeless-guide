@@ -28,18 +28,16 @@ trait JsonEncoder[A] {
 }
 
 object JsonEncoder {
-  def apply[A](implicit enc: JsonEncoder[A]): JsonEncoder[A] =
-    enc
+  def apply[A](implicit enc: JsonEncoder[A]): JsonEncoder[A] = enc
 }
 ```
 
-then a few basic instances:
+then a few primitive instances:
 
 ```tut:book:silent
 def createEncoder[A](func: A => JsonValue): JsonEncoder[A] =
   new JsonEncoder[A] {
-    def encode(value: A): JsonValue =
-      func(value)
+    def encode(value: A): JsonValue = func(value)
   }
 
 implicit val stringEncoder: JsonEncoder[String] =
@@ -53,7 +51,11 @@ implicit val intEncoder: JsonEncoder[Int] =
 
 implicit val booleanEncoder: JsonEncoder[Boolean] =
   createEncoder(bool => JsonBoolean(bool))
+```
 
+and a few instance combinators:
+
+```tut:book:silent
 implicit def listEncoder[A]
     (implicit enc: JsonEncoder[A]): JsonEncoder[List[A]] =
   createEncoder(list => JsonArray(list.map(enc.encode)))
@@ -109,12 +111,12 @@ we can still use `Witness` and `FieldType` to extract the tags,
 but they come out as `Symbols` instead of `Strings`[^future-tags].
 
 [^future-tags]: Future versions of shapeless may switch
-to using `Strings` as tags instead of `Symbols`.
+to using `Strings` as tags.
 
 ### Instances for *HLists*
 
 Let's define `JsonEncoder` instances for `HNil` and `::`.
-These encoders are going to generate and manipulate `JsonObjects`,
+Our encoders are going to generate and manipulate `JsonObjects`,
 so we'll introduce a new type of encoder to make that easier:
 
 ```tut:book:silent
@@ -167,7 +169,7 @@ implicit def hlistObjectEncoder[K, H, T <: HList](
 
 In the body of our method
 we're going to need the value associated with `K`.
-We'll add an implicit `Witness[K]` to do this for us:
+We'll add an implicit `Witness` to do this for us:
 
 ```tut:book:silent
 implicit def hlistObjectEncoder[K, H, T <: HList](
@@ -184,7 +186,7 @@ implicit def hlistObjectEncoder[K, H, T <: HList](
 We can access the value of `K` using `witness.value`,
 but the compiler has no way of knowing
 what type of tag we're going to get.
-`LabelledGeneric` uses `Symbols` as the tag types,
+`LabelledGeneric` uses `Symbols` for tags,
 so we'll put a type bound on `K`
 and use `symbol.name` to convert it to a `String`:
 

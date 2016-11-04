@@ -20,6 +20,8 @@ lstPrefixTemplate: "$$i$$"
 secPrefixTemplate: "$$i$$"
 # Used by Grunt to assemble pandoc command line:
 pages:
+  - foreword.md
+
   - intro/index.md
   - intro/generic.md
   - intro/thisbook.md

@@ -1,13 +1,15 @@
 ## Polymorphic functions
 
-Shapeless represents polymorphic functions
-using a type called `Poly`.
+Shapeless provides a type called `Poly`
+for representing *polymorphic functions*,
+where the result type depends on the parameter types.
 Here is a simplified explanation of how it works.
-Note that this isn't real shapeless code---we're
-eliding much that makes real shapeless `Polys`
-more flexible and easier to use.
+Note that the next section doesn't contain real shapeless code---we're
+eliding much of the flexibility and ease of use
+that comes with real shapeless `Polys`
+to create a simplified API for illustrative purposes.
 
-### How Polys work
+### How *Poly* works
 
 At its core, a `Poly` is an object with a generic `apply` method.
 In addition to its regular parameter of type `A`,
@@ -15,7 +17,7 @@ In addition to its regular parameter of type `A`,
 
 ```tut:book:silent
 // This is not real shapeless code.
-// It is purely for illustration.
+// It's just for demonstration.
 
 trait Case[P, A] {
   type Result
@@ -35,7 +37,7 @@ These implement the actual function body:
 
 ```tut:book:silent
 // This is not real shapeless code.
-// It is purely for illustration.
+// It's just for demonstration.
 
 object myPoly extends Poly {
   implicit def intCase =
@@ -55,7 +57,7 @@ object myPoly extends Poly {
 
 When we call `myPoly.apply`,
 the compiler searches for the relevant implicit `Case`
-and fills it in as usual:
+and inserts it as usual:
 
 ```tut:book
 myPoly.apply(123)
@@ -68,11 +70,12 @@ without any additional imports.
 referincing the singleton type of the `Poly`.
 The implicit scope for `Case[P, A]` includes
 the companion objects for `Case`, `P`, and `A`.
-The companion object for `myPoly.type` is `myPoly` itself,
-so `Cases` defined in the body of the `Poly`
+We've assigned `P` to be `myPoly.type`
+and the companion object for `myPoly.type` is `myPoly` itself.
+In other words, `Cases` defined in the body of the `Poly`
 are always in scope no matter where the call site is.
 
-### Poly syntax
+### *Poly* syntax
 
 The code above isn't real shapeless code.
 Fortunately, shapeless makes `Polys` much simpler to define.
@@ -104,8 +107,9 @@ There are a few key differences with our earlier toy syntax:
     The singleton type is there---we just don't see it.
 
  3. We're using a helper method, `at`, to define cases.
-    This lets us eliminate a lot of boilerplate
-    such as writing out full definitions of `Result` and `apply`.
+    This acts as an instance constructor method
+    as discussed in Section [@sec:generic:idiomatic-style]),
+    which eliminates a lot of boilerplate.
 
 Syntactic differences aside,
 the shapeless version of `myPoly` is functionally
@@ -147,22 +151,16 @@ totals numbers in different contexts:
 import scala.math.Numeric
 
 object total extends Poly1 {
-  implicit def baseCase[A](
-    implicit
-    num: Numeric[A]
-  ): Case.Aux[A, Double] =
+  implicit def base[A](implicit num: Numeric[A]):
+      Case.Aux[A, Double] =
     at(num.toDouble)
 
-  implicit def optionCase[A](
-    implicit
-    num: Numeric[A]
-  ): Case.Aux[Option[A], Double] =
+  implicit def option[A](implicit num: Numeric[A]):
+      Case.Aux[Option[A], Double] =
     at(opt => opt.map(num.toDouble).getOrElse(0.0))
 
-  implicit def listCase[A](
-    implicit
-    num: Numeric[A]
-  ): Case.Aux[List[A], Double] =
+  implicit def list[A](implicit num: Numeric[A]):
+      Case.Aux[List[A], Double] =
     at(list => num.toDouble(list.sum))
 }
 ```
@@ -186,16 +184,13 @@ val a = myPoly.apply(123)
 val b: Double = a
 ```
 
-However, if we try to combine the two lines in to one
-we get a compilation error:
+However, combining the two lines causes a compilation error:
 
 ```tut:book:fail
 val a: Double = myPoly.apply(123)
 ```
 
-If we give the compiler a hint by
-telling it what the parameter type is,
-the code compiles again:
+If we add a type annotation, the code compiles again:
 
 ```tut:book
 val a: Double = myPoly.apply[Int](123)
@@ -203,7 +198,8 @@ val a: Double = myPoly.apply[Int](123)
 
 This behaviour is confusing and annoying.
 Unfortunately there are no concrete rules to follow to avoid problems.
-The only general guideline is
-to avoid over-constraining the compiler---solve one constraint at a time
+The only general guideline is to
+try not to over-constrain the compiler,
+solve one constraint at a time,
 and give it a hint when it gets stuck.
 </div>

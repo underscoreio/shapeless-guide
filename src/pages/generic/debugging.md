@@ -74,7 +74,7 @@ can be confusing and frustrating.
 Here are a couple of techniques to use
 when implicits go bad.
 
-### Debugging by summoning implicits
+### Debugging using *implicitly*
 
 What can we do when the compiler
 simply fails to find an implicit value?
@@ -91,7 +91,7 @@ CsvEncoder[Foo]
 ```
 
 The reason for the failure is that
-we haven't defined an `Ordering` for `Float`.
+we haven't defined a `CsvEncoder` for `Float`.
 However, this may not be obvious in application code.
 We can work through the expected expansion sequence
 to find the source of the error,
@@ -103,8 +103,7 @@ We start with the generic representation of `Foo`:
 CsvEncoder[Int :: Float :: HNil]
 ```
 
-This fails to compile so we know
-we can ignore `genericEncoder` for now.
+This fails so we know we have to search deeper in the expansion.
 The next step is to try the components of the `HList`:
 
 ```tut:book:silent
@@ -117,12 +116,11 @@ CsvEncoder[Float]
 
 `Int` passes but `Float` fails.
 `CsvEncoder[Float]` is a leaf in our tree of expansions,
-so we know to start by
-implementing this missing type class instance.
+so we know to start by implementing this missing instance.
 If adding the instance doesn't fix the problem
 we repeat the process to find the next point of failure.
 
-### Debugging using reify
+### Debugging using *reify*
 
 The `reify` method from `scala.reflect`
 takes a Scala expression as a parameter and returns

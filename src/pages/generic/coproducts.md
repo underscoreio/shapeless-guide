@@ -93,23 +93,22 @@ implicit def coproductEncoder[H, T <: Coproduct](
 
 There are two key points of note:
 
-1. Alarmingly, the encoder for `CNil` throws an exception!
-   Don't panic, though.
-   Remember that we can't
-   create values of type `CNil`.
-   It's there as a marker for the compiler.
-   It's ok to fail abruptly here because
-   we will never reach this point.
-   The `throw` expression is dead code.
+ 1. Because `Coproducts` are *disjunctions* of types,
+    the encoder for `:+:` has to *choose*
+    whether to encode a left or right value.
+    We pattern match on the two subtypes of `:+:`,
+    which are `Inl` for left and `Inr` for right.
 
-2. Because `Coproducts` are *disjunctions* of types,
-   the encoder for `:+:` has to *choose*
-   whether to encode a left or right value.
-   We pattern match on the two subtypes of `:+:`,
-   which are `Inl` for left and `Inr` for right.
+ 2. Alarmingly, the encoder for `CNil` throws an exception!
+    Don't panic, though.
+    Remember that we can't
+    create values of type `CNil`,
+    so the `throw` expression is dead code.
+    It's ok to fail abruptly here because
+    we will never reach this point.
 
-With these definitions
-and our product encoders from Section [@sec:generic:products],
+If we place these definitions
+alongside our product encoders from Section [@sec:generic:products],
 we should be able to serialize a list of shapes.
 Let's give it a try:
 
@@ -147,7 +146,10 @@ writeCsv(shapes)
   that can cause coproduct generic resolution to fail.
   The bug causes certain parts of the macro API,
   on which shapeless depends, to be sensitive
-  to the order in which types are defined in source code.
+  to the order of the definitions in our source code.
+  Problems can often be worked around
+  by reordering code and renaming files,
+  but such workarounds tend to be volatile and unreliable.
 
   If you are using Lightbend Scala 2.11.8 or earlier
   and coproduct resolution fails for you,

@@ -42,7 +42,7 @@ implicit val employeeEncoder: CsvEncoder[Employee] =
 ```
 
 We mark each instance with the keyword `implicit`,
-and define one or more *summoner* methods (also known as *materializers*)
+and define one or more entry point methods
 that accept an implicit parameter of the corresponding type:
 
 ```tut:book:silent
@@ -50,10 +50,7 @@ def writeCsv[A](values: List[A])(implicit enc: CsvEncoder[A]): String =
   values.map(value => enc.encode(value).mkString(",")).mkString("\n")
 ```
 
-When we call the entry point,
-the compiler calculates the value of the type parameter
-and searches for an implicit `CsvWriter`
-of the corresponding type:
+We'll test `writeCsv` with some test data:
 
 ```tut:book:silent
 val employees: List[Employee] = List(
@@ -63,8 +60,12 @@ val employees: List[Employee] = List(
 )
 ```
 
+When we call `writeCsv`,
+the compiler calculates the value of the type parameter
+and searches for an implicit `CsvWriter`
+of the corresponding type:
+
 ```tut:book
-// The compiler inserts a CsvEncoder[Employee] parameter:
 writeCsv(employees)
 ```
 
@@ -184,15 +185,26 @@ the `implicitly` method defined in `scala.Predef`:
 implicitly[CsvEncoder[IceCream]]
 ```
 
-As we will see in Section [@sec:type-level-programming:depfun],
+However,
+as we will see in Section [@sec:type-level-programming:depfun],
 when working with shapeless we encounter situations
 where `implicitly` doesn't infer types correctly.
 We can always define the summoner method to do the right thing,
 so it's worth writing one for every type class we create.
+We can also use a special method from shapeless called "`the`"
+(more on this later):
+
+```tut:book:silent
+import shapeless._
+```
+
+```tut:book
+the[CsvEncoder[IceCream]]
+```
 
 The `instance` method, sometimes named `pure`,
 provides a terse syntax for creating new type class instances,
-reducing the boilerplate of defining an anonymous class:
+reducing the boilerplate of anonymous class syntax:
 
 ```tut:book:silent
 implicit val booleanEncoder: CsvEncoder[Boolean] =
@@ -214,11 +226,12 @@ implicit val booleanEncoder: CsvEncoder[Boolean] =
 ```
 
 Unfortunately,
-the layout of the code in this book
-prevents us writing long singletons
+several limitations of typesetting code in a book
+prevent us writing long singletons
 containing lots of methods and instances.
-We therefore tend to define constructors and
-instances individually instead of in a companion object.
+We therefore tend to describe definitions
+outside of their context in the companion object.
 Bear this in mind as you read
-and check the repo linked in Section [@sec:intro:about-this-book]
+and check the accompanying repo
+linked in Section [@sec:intro:about-this-book]
 for complete worked examples.

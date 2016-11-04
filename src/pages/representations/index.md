@@ -17,7 +17,7 @@ In this chapter we will start with
 a recap of the theory of algebraic data types
 and why they might be familiar to Scala developers.
 Then we will look at
-the data types shapeless uses as generic representations
+generic representations used by shapeless
 and discuss how they map on to concrete ADTs.
 Finally, we will introduce a type class called `Generic`
 that provides automatic mapping

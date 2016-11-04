@@ -8,8 +8,7 @@ We mustn't leave without mentioning a third important package:
 
 Shapeless' "record ops" provide `Map`-like
 operations on `HLists` of tagged elements.
-Here are a handful of examples of the many available ops.
-Our examples will involve ice creams:
+Here are a handful of examples involving ice creams:
 
 ```tut:book:silent
 import shapeless._
@@ -31,9 +30,9 @@ import shapeless.record._
 
 ### Selecting fields
 
-The `get` method from `shapeless.syntax.record`
+The `get` extension method
 and its corresponding `Selector` type class
-allow us to fetch a field by tag.
+allow us to fetch a field by tag:
 
 ```tut:book
 sundae.get('name)
@@ -70,7 +69,7 @@ to modify a field with an update function:
 sundae.updateWith('name)("MASSIVE " + _)
 ```
 
-### Converting to a regular Map
+### Converting to a regular *Map*
 
 The `toMap` method and `ToMap` type class
 allow us to convert a record to a `Map`:

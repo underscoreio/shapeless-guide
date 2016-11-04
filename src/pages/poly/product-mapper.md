@@ -1,4 +1,4 @@
-## Defining type classes using Poly
+## Defining type classes using *Poly* {#sec:poly:product-mapper}
 
 We can use `Poly` and type classes
 like `Mapper` and `FlatMapper`
@@ -39,7 +39,8 @@ implicit def genericProductMapper[
 Interestingly, although we define a type `P` for our `Poly`,
 we don't reference any values of type `P` anywhere in our code.
 The `Mapper` type class uses implicit resolution to find `Cases`,
-so we only need to know the type to do the mapping.
+so the compiler only needs to know the singleton type of `P`
+to locate the relevant instances.
 
 Let's create an extension method
 to make `ProductMapper` easier to use.
@@ -52,12 +53,11 @@ from a value parameter:
 implicit class ProductMapperOps[A](a: A) {
   class Builder[B] {
     def apply[P <: Poly](poly: P)
-        (implicit prodMap: ProductMapper[A, B, P]): B =
-      prodMap(a)
+        (implicit pm: ProductMapper[A, B, P]): B =
+      pm.apply(a)
   }
 
-  def mapTo[B]: Builder[B] =
-    new Builder[B]
+  def mapTo[B]: Builder[B] = new Builder[B]
 }
 ```
 
@@ -82,4 +82,5 @@ The `mapTo` syntax looks like a single method call,
 but is actually two calls:
 one call to `mapTo` to fix the `B` type parameter,
 and one call to `Builder.apply` to specify the `Poly`.
-Some of shapeless' built-in ops extension methods use similar tricks.
+Some of shapeless' built-in ops extension methods use similar tricks
+to provide the user with convenient syntax.

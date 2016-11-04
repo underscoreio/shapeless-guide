@@ -3,10 +3,10 @@
 The power of ops type classes fully crystallizes
 when we chain them together
 as building blocks for our own code.
-We'll finish this chapter with a powerful example:
+We'll finish this chapter with a compelling example:
 a type class for performing "migrations"
 (aka "evolutions") on case classes[^database-migrations].
-For example, if version 1 of our app has a case class:
+For example, if version 1 of our app contains the following case class:
 
 [^database-migrations]: The term is stolen from
 "database migrations"---SQL scripts that
@@ -16,7 +16,7 @@ automate upgrades to a database schema.
 case class IceCreamV1(name: String, numCherries: Int, inCone: Boolean)
 ```
 
-our type class should let us perform certain
+our migration library should enable certain
 mechanical "upgrades" for free:
 
 ```tut:book:silent
@@ -55,8 +55,8 @@ trait Migration[A, B] {
 }
 ```
 
-We'll introduce an extension method now
-to make later examples easier to read:
+We'll also introduce an extension method
+to make examples easier to read:
 
 ```tut:book:silent
 implicit class MigrationOps[A](a: A) {
@@ -77,7 +77,9 @@ We can do this in several steps:
  3. convert the output of step 2 to `B`.
 
 We can implement steps 1 and 3 with `Generic` or `LabelledGeneric`,
-and step 2 with an op called `Intersection`:
+and step 2 with an op called `Intersection`.
+`LabelledGeneric` seems a sensible choice
+because we need to identify fields by name:
 
 ```tut:book:silent
 import shapeless._
@@ -85,9 +87,9 @@ import shapeless.ops.hlist
 
 implicit def genericMigration[A, B, ARepr <: HList, BRepr <: HList](
   implicit
-  aGen    : Generic.Aux[A, ARepr],
-  bGen    : Generic.Aux[B, BRepr],
-  inter   : hlist.Intersection.Aux[ARepr, BRepr, BRepr]
+  aGen  : Generic.Aux[A, ARepr],
+  bGen  : Generic.Aux[B, BRepr],
+  inter : hlist.Intersection.Aux[ARepr, BRepr, BRepr]
 ): Migration[A, B] = new Migration[A, B] {
   def apply(a: A): B =
     bGen.from(inter.apply(aGen.to(a)))
@@ -116,25 +118,12 @@ we try to use `Migration` with non-conforming types:
 IceCreamV1("Sundae", 1, true).migrateTo[IceCreamV2b]
 ```
 
-<div class="callout callout-info">
-*Field uniqueness*
-
-`Intersection` doesn't use the field names from `LabelledGeneric`.
-What would have happened if we had used `Generic` above instead?
-
-Although we're not using the field names directly,
-they are having an effect on the uniqueness checks
-`Intersection` uses to identify fields.
-If we had used regular `Generic`,
-the behaviour would be different and likely incorrect.
-</div>
-
 ### Step 2. Reordering fields
 
 We need to lean on another ops type class
 to add support for reordering.
-[`hlist.Align`][code-ops-hlist-align]
-allows us reorder the fields in one `HList`
+The [`Align`][code-ops-hlist-align] op
+lets us reorder the fields in one `HList`
 to match the order the appear in another `HList`.
 We can redefine our instance using `Align` as follows:
 
@@ -159,8 +148,8 @@ We introduce a new type parameter called `Unaligned`
 to represent the intersection of `ARepr` and `BRepr`
 before alignment,
 and use `Align` to convert `Unaligned` to `BRepr`.
-With this modified type class instance
-we can support the removal and reordering of fields:
+With this modified definition of `Migration`
+we can both remove and reorder fields:
 
 ```tut:book
 IceCreamV1("Sundae", 1, true).migrateTo[IceCreamV2a]
@@ -168,7 +157,7 @@ IceCreamV1("Sundae", 1, true).migrateTo[IceCreamV2b]
 
 ```
 
-However, we still get a failure if we try to add fields:
+However, if we try to add fields we still get a failure:
 
 ```tut:book:fail
 IceCreamV1("Sundae", 1, true).migrateTo[IceCreamV2c]
@@ -177,8 +166,8 @@ IceCreamV1("Sundae", 1, true).migrateTo[IceCreamV2c]
 ### Step 3. Adding new fields
 
 We need a mechanism for calculating default values
-to suppose the addition of new fields.
-Shapeless doesn't provide a type class for this
+to support the addition of new fields.
+Shapeless doesn't provide a type class for this,
 but Cats does in the form of a `Monoid`.
 Here's a simplified definition:
 
@@ -192,13 +181,13 @@ trait Monoid[A] {
 ```
 
 `Monoid` defines two operations:
-`empty` for creating a "default" value of the type
+`empty` for creating a "zero" value
 and `combine` for "adding" two values.
-We don't need `combine` in our code
-but in most cases it is trivial to define.
+We only need `empty` in our code,
+but it will be trivial to define `combine` as well.
 
 Cats provides instance of `Monoid`
-for all of the primitive types we care about
+for all the primitive types we care about
 (`Int`, `Double`, `Boolean`, and `String`).
 We can define instances for `HNil` and `::`
 using the techniques from Chapter [@sec:labelled-generic]:
@@ -244,9 +233,9 @@ Here's the full list of steps:
 [^monoid-pun]: Pun intended.
 
 We've already seen how to implement steps 1, 2, 4, 6, and 7.
-We can implement step 3 using an ops type class called `Diff`
-that works very similarly to `Intersection`.
-We can implement step 5 using another ops type class called `Prepend`.
+We can implement step 3 using an op called `Diff`
+that is very similar to `Intersection`,
+and step 5 using another op called `Prepend`.
 Here's the complete solution:
 
 ```tut:book:silent
@@ -269,11 +258,11 @@ implicit def genericMigration[
   }
 ```
 
-Note that we don't end up using
+Note that this code doesn't use
 every type class at the value level.
 We use `Diff` to calculate the `Added` data type,
 but we don't actually need `diff.apply` at run time.
-Instead we use `Monoid` to summon an instance of `Added`.
+Instead we use our `Monoid` to summon an instance of `Added`.
 
 With this final version of the type class instance in place
 we can use `Migration` for all the use cases we set out
@@ -291,4 +280,4 @@ with a single line of value-level implementation.
 It allows us to automate migrations between *any* pair of case classes,
 in roughly the same amount of code we'd write
 to handle a *single* pair of types using the standard library.
-It's a wonderful demonstration of the power of shapeless!
+Such is the power of shapeless!

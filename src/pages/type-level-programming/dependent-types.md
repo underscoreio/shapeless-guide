@@ -1,4 +1,4 @@
-## Theory: dependent types
+## Dependent types
 
 Last chapter we spent a lot of time using `Generic`,
 the type class for mapping ADT types to generic representations.
@@ -10,8 +10,6 @@ To illustrate this, let's take a closer look at `Generic`.
 Here's a simplified version of the definition:
 
 ```scala
-package shapeless
-
 trait Generic[A] {
   type Repr
   def to(value: A): Repr
@@ -64,7 +62,6 @@ def getRepr2[A, R](value: A)(implicit generic: Generic2[A, R]): R =
 We would have had to pass the desired value of `Repr`
 to `getRepr` as a type parameter,
 effectively making `getRepr` useless.
-
 The intuitive take-away from this is
 that type parameters are useful as "inputs"
 and type members are useful as "outputs".

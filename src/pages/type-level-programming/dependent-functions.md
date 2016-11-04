@@ -2,7 +2,8 @@
 
 Shapeless uses dependent types all over the place:
 in `Generic`, in `Witness` (which we will see in the next chapter),
-and in a host of other implicit values that operate on `HLists`.
+and in a host of other "ops" type classes
+that we will survey in Part II of this guide.
 
 For example, shapeless provides a type class called `Last`
 that returns the last element in an `HList`.
@@ -13,8 +14,7 @@ package shapeless.ops.hlist
 
 trait Last[L <: HList] {
   type Out
-  def apply(in: L): Out =
-    ??? // definition omitted for brevity
+  def apply(in: L): Out
 }
 ```
 
@@ -36,7 +36,8 @@ val last2 = Last[Int :: String :: HNil]
 ```
 
 Once we have summoned instances of `Last`,
-we can use them at the value level:
+we can use them at the value level
+via their `apply` methods:
 
 ```tut:book
 last1("foo" :: 123 :: HNil)
@@ -88,8 +89,8 @@ the standard `apply` method for summoning instances.
 
 Note that the return type on `apply` is `Aux[L, O]`, not `Second[L]`.
 This is important.
-Using `Aux` prevents the `apply` method
-erasing the type members on summoned instances.
+Using `Aux` ensures the `apply` method
+does not erase the type members on summoned instances.
 If we define the return type as `Second[L]`,
 the `Out` type member will be erased from the return type
 and the type class will not work correctly.
@@ -138,10 +139,7 @@ implicit def hlistSecond[A, B, Rest <: HList]: Aux[A :: B :: Rest, B] =
   }
 ```
 
-We can summon instances of `Second`
-subject to similar constraints to `Last`.
-If we try to summon an instance for an incompatible `HList`,
-resolution fails and we get a compile error:
+We can summon instances using `Second.apply`:
 
 ```tut:book:invisible
 import Second._
@@ -152,13 +150,16 @@ val second1 = Second[String :: Boolean :: Int :: HNil]
 val second2 = Second[String :: Int :: Boolean :: HNil]
 ```
 
+Summoning is subject to similar constraints as `Last`.
+If we try to summon an instance for an incompatible `HList`,
+resolution fails and we get a compile error:
+
 ```tut:book:fail
 Second[String :: HNil]
 ```
 
-When we are able to summon an instance
-it comes with an `apply` method that works
-as expected at the value level:
+Summoned instances come with an `apply` method
+that operates on the relevant type of `HList` at the value level:
 
 ```tut:book
 second1("foo" :: true :: 123 :: HNil)
@@ -229,17 +230,16 @@ a case class of exactly one field.
 We might be tempted to write this:
 
 ```tut:book:silent
-def getWrappedValue[A, Head](input: A)(
+def getWrappedValue[A, H](input: A)(
   implicit
-  gen: Generic.Aux[A, Head :: HNil]
-): Head = gen.to(input).head
+  gen: Generic.Aux[A, H :: HNil]
+): H = gen.to(input).head
 ```
 
 The result here is more insidious.
 The method definition compiles but
 the compiler can never
-find the implicits its needs
-at the call site:
+find implicits at the call site:
 
 ```tut:book:silent
 case class Wrapper(value: Int)
@@ -249,20 +249,15 @@ case class Wrapper(value: Int)
 getWrappedValue(Wrapper(42))
 ```
 
-The error message hints at the problem:
-
-> error: could not find implicit value for parameter gen:
->
->   `Generic.Aux[Wrapper, Head :: HNil]`
-
-The clue is in the appearance of the type `Head`.
+The error message hints at the problem.
+The clue is in the appearance of the type `H`.
 This is the name of a type parameter in the method:
 it shouldn't be appearing
 in the type the compiler is trying to unify.
 The problem is that the `gen` parameter is over-constrained:
 the compiler can't find a `Repr`
 *and* ensure its length at the same time.
-`Nothing` also often provides a clue,
+The type `Nothing` also often provides a clue,
 appearing when the compiler
 fails to unify covariant type parameters.
 
@@ -270,7 +265,7 @@ The solution to our problem above
 is to separate implicit resolution into steps:
 
 1. find a `Generic` with a suitable `Repr` for `A`;
-2. provide that the `Repr` has a `Head` type.
+2. provide that the `Repr` has a head type `H`.
 
 Here's a revised version of the method
 using `=:=` to constrain `Repr`:
@@ -317,7 +312,8 @@ Shapeless provides a lot of tools like this
 and we can supplement them where necessary
 with our own type classes.
 The important point is
-the process we used to write code that compiles
+to understand the process we use
+to write code that compiles
 and is capable of finding solutions.
 We'll finish off this section
 with a step-by-step guide
