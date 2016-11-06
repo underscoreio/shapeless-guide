@@ -6,7 +6,7 @@ Code samples licensed [Apache 2.0][code-license]
 
 ## Reading the Book
 
-An up-to-date PDF should can be found in [dist/shapeless-guide.pdf][pdf].
+An up-to-date PDF can be found in [dist/shapeless-guide.pdf][pdf].
 
 ## Related Material
 
