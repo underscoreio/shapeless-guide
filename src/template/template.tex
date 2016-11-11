@@ -316,7 +316,7 @@ $endif$
     super,this,throw,trait,true,try,%
     type,val,var,while,with,yield},
   moreemph={},
-  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  otherkeywords={},
   sensitive=true,
   morecomment=[l]{//},
   morecomment=[n]{/*}{*/},
@@ -338,7 +338,6 @@ $endif$
 
 \frontmatter
 \pagestyle{empty}
-
 \pagecolor{white}
 
 % Title page ------------------------------------
@@ -388,14 +387,6 @@ $endfor$
 \pagecolor{white}
 $endif$
 
-% Abstract --------------------------------------
-
-$if(abstract)$
-\begin{abstract}
-$abstract$
-\end{abstract}
-$endif$
-
 % Include-before hook ---------------------------
 
 \vspace*{\fill}
@@ -423,19 +414,11 @@ $endfor$
 
 % Tables of contents, etc. ----------------------
 
-$if(toc)$
-{
+\clearpage
+\pagestyle{empty}
 \hypersetup{linkcolor=black}
 \setcounter{tocdepth}{$if(toc-depth)$$toc-depth$$else$3$endif$}
 \tableofcontents
-}
-$endif$
-$if(lot)$
-\listoftables
-$endif$
-$if(lof)$
-\listoffigures
-$endif$
 
 % Main document body ----------------------------
 
@@ -443,35 +426,6 @@ $endif$
 \pagestyle{headings}
 
 $body$
-
-% Bibliography ----------------------------------
-
-\backmatter
-
-$if(natbib)$
-$if(biblio-files)$
-$if(biblio-title)$
-$if(book-class)$
-\renewcommand\bibname{$biblio-title$}
-$else$
-\renewcommand\refname{$biblio-title$}
-$endif$
-$endif$
-\bibliography{$biblio-files$}
-
-$endif$
-$endif$
-$if(biblatex)$
-\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
-
-$endif$
-
-% Include-after hook ----------------------------
-
-$for(include-after)$
-$include-after$
-
-$endfor$
 
 % The end ---------------------------------------
 

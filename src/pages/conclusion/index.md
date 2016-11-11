@@ -33,3 +33,6 @@ pros and cons, implementation strategies, and so on---to
 widen the understanding of this valuable tool.
 So please share this book with a friend...
 and let's scrap some boilerplate together!
+
+\clearpage
+\pagestyle{empty}
