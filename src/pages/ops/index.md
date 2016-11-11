@@ -1,4 +1,4 @@
-# Working with HLists and Coproducts {#sec:ops}
+# Working with *HLists* and *Coproducts* {#sec:ops}
 
 In Part I we discussed methods for
 derivind type class instances

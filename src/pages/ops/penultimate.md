@@ -1,4 +1,4 @@
-## Creating a custom op / the "lemma" pattern {#sec:ops:penultimate}
+## Creating a custom op (the "lemma" pattern) {#sec:ops:penultimate}
 
 If we find a particular sequence of ops useful,
 we can package them up and re-provide them as another ops type class.

@@ -1,1 +1,1 @@
-\part{Type Class Derivation}
+\part{Type class derivation}

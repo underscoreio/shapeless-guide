@@ -1,1 +1,1 @@
-\part{Shapeless Ops}
+\part{Shapeless ops}

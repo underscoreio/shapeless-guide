@@ -1,4 +1,4 @@
-## Other operations involving Nat
+## Other operations involving *Nat*
 
 Shapeless provides a suite of other operations based on `Nat`.
 The `apply` methods on `HList` and `Coproduct`
