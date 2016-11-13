@@ -201,7 +201,7 @@ import shapeless.labelled.field
 field[Cherries](123)
 ```
 
-`FieldType` is type alias that simplifies
+`FieldType` is a type alias that simplifies
 extracting the tag and base types from a tagged type:
 
 ```scala
