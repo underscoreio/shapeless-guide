@@ -219,7 +219,7 @@ How do we convert them to values we can use at runtime?
 Shapeless provides a type class called `Witness` for this purpose.
 If we combine `Witness` and `FieldType`,
 we get something very compelling---the
-ability extract the field name
+ability to extract the field name
 from a tagged field:
 
 ```tut:book:silent
