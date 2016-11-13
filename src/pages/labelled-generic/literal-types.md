@@ -163,7 +163,7 @@ to avoid such unsavoriness.
 
 The first syntax, `->>`,
 tags the expression on the right of the arrow
-with singleton type of the literal expression on the left:
+with the singleton type of the literal expression on the left:
 
 ```tut:book:silent
 import shapeless.labelled.{KeyTag, FieldType}
