@@ -124,7 +124,7 @@ We need to lean on another ops type class
 to add support for reordering.
 The [`Align`][code-ops-hlist-align] op
 lets us reorder the fields in one `HList`
-to match the order the appear in another `HList`.
+to match the order they appear in another `HList`.
 We can redefine our instance using `Align` as follows:
 
 ```tut:book:silent
