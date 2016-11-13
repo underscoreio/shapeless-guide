@@ -256,7 +256,7 @@ we get a data structure that has some of the properties of a `Map`.
 We can reference fields by tag,
 manipulate and replace them,
 and maintain all of the type and naming information along the way.
-Shapeless calls these structured "records".
+Shapeless calls these structures "records".
 
 ### Records and *LabelledGeneric*
 
