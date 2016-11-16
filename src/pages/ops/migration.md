@@ -186,7 +186,7 @@ and `combine` for "adding" two values.
 We only need `empty` in our code,
 but it will be trivial to define `combine` as well.
 
-Cats provides instance of `Monoid`
+Cats provides instances of `Monoid`
 for all the primitive types we care about
 (`Int`, `Double`, `Boolean`, and `String`).
 We can define instances for `HNil` and `::`
