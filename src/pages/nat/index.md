@@ -5,7 +5,7 @@ For example, we may need to know the length of an `HList`
 or the number of terms we have expanded so far in a computation.
 We can represent numbers as values easily enough,
 but if we want to influence implicit resolution
-we need to represent them as the type level.
+we need to represent them at the type level.
 This chapter covers the theory behind counting with types,
 and provides some compelling use cases for type class derivation.
 
