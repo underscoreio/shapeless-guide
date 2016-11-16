@@ -102,7 +102,7 @@ There are a few key differences with our earlier toy syntax:
 
  2. The `Case.Aux` types doesn't seem to reference
     the singleton type of the `Poly`.
-    `Case.Aux` is actually actually a type alias
+    `Case.Aux` is actually a type alias
     defined within the body of `Poly1`.
     The singleton type is there---we just don't see it.
 
