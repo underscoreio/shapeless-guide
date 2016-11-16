@@ -2,7 +2,7 @@
 
 Shapeless provides a suite of other operations based on `Nat`.
 The `apply` methods on `HList` and `Coproduct`
-and can accept `Nats` as value or type parameters:
+can accept `Nats` as value or type parameters:
 
 ```tut:book:silent
 import shapeless._
