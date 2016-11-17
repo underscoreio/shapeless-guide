@@ -208,6 +208,6 @@ for(i <- 1 to 5) println(random[Light])
 ```
 
 Generating test data for ScalaCheck
-normally requires a great real of boilerplate.
+normally requires a great deal of boilerplate.
 Random value generation is a compelling use case for shapeless
 of which `Nat` forms an essential component.

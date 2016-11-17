@@ -124,7 +124,7 @@ We need to lean on another ops type class
 to add support for reordering.
 The [`Align`][code-ops-hlist-align] op
 lets us reorder the fields in one `HList`
-to match the order the appear in another `HList`.
+to match the order they appear in another `HList`.
 We can redefine our instance using `Align` as follows:
 
 ```tut:book:silent
@@ -186,7 +186,7 @@ and `combine` for "adding" two values.
 We only need `empty` in our code,
 but it will be trivial to define `combine` as well.
 
-Cats provides instance of `Monoid`
+Cats provides instances of `Monoid`
 for all the primitive types we care about
 (`Int`, `Double`, `Boolean`, and `String`).
 We can define instances for `HNil` and `::`

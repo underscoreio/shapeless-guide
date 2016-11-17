@@ -14,7 +14,7 @@ look at the source code
 in `shapeless.ops` and `shapeless.syntax`.
 
 In the next chapters we will look at two suites
-of that require further theoretical discussion.
+of ops type classes that require further theoretical discussion.
 Chapter [@sec:poly] discusses functional operations
 such as `map` and `flatMap` on `HLists`,
 and Chapter [@sec:nat] discusses

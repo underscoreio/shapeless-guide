@@ -1,9 +1,9 @@
 # Working with *HLists* and *Coproducts* {#sec:ops}
 
 In Part I we discussed methods for
-derivind type class instances
+deriving type class instances
 for algebraic data types.
-We can use type class derication
+We can use type class derivation
 to augment almost any type class,
 although in more complex cases
 we may have to write a lot of supporting code

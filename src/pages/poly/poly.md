@@ -67,7 +67,7 @@ There is some subtle scoping behaviour here
 that allows the compiler to locate instances of `Case`
 without any additional imports.
 `Case` has an extra type parameter `P`
-referincing the singleton type of the `Poly`.
+referencing the singleton type of the `Poly`.
 The implicit scope for `Case[P, A]` includes
 the companion objects for `Case`, `P`, and `A`.
 We've assigned `P` to be `myPoly.type`
@@ -102,7 +102,7 @@ There are a few key differences with our earlier toy syntax:
 
  2. The `Case.Aux` types doesn't seem to reference
     the singleton type of the `Poly`.
-    `Case.Aux` is actually actually a type alias
+    `Case.Aux` is actually a type alias
     defined within the body of `Poly1`.
     The singleton type is there---we just don't see it.
 
