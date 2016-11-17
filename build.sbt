@@ -32,7 +32,7 @@ lazy val html = taskKey[Unit]("Build the HTML version of the book")
 lazy val epub = taskKey[Unit]("Build the ePub version of the book")
 lazy val all  = taskKey[Unit]("Build all versions of the book")
 
-pdf  := { tut.value ; "grunt pdf"  ! }
-html := { tut.value ; "grunt html" ! }
-epub := { tut.value ; "grunt epub" ! }
+pdf  := { tutQuick.value ; "grunt pdf"  ! }
+html := { tutQuick.value ; "grunt html" ! }
+epub := { tutQuick.value ; "grunt epub" ! }
 all  := { pdf ; html ; epub }
