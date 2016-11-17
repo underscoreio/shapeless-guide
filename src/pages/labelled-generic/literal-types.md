@@ -163,7 +163,7 @@ to avoid such unsavoriness.
 
 The first syntax, `->>`,
 tags the expression on the right of the arrow
-with singleton type of the literal expression on the left:
+with the singleton type of the literal expression on the left:
 
 ```tut:book:silent
 import shapeless.labelled.{KeyTag, FieldType}
@@ -201,7 +201,7 @@ import shapeless.labelled.field
 field[Cherries](123)
 ```
 
-`FieldType` is type alias that simplifies
+`FieldType` is a type alias that simplifies
 extracting the tag and base types from a tagged type:
 
 ```scala
@@ -219,7 +219,7 @@ How do we convert them to values we can use at runtime?
 Shapeless provides a type class called `Witness` for this purpose.
 If we combine `Witness` and `FieldType`,
 we get something very compelling---the
-ability extract the field name
+ability to extract the field name
 from a tagged field:
 
 ```tut:book:silent
@@ -256,7 +256,7 @@ we get a data structure that has some of the properties of a `Map`.
 We can reference fields by tag,
 manipulate and replace them,
 and maintain all of the type and naming information along the way.
-Shapeless calls these structured "records".
+Shapeless calls these structures "records".
 
 ### Records and *LabelledGeneric*
 

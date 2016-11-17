@@ -69,7 +69,7 @@ genericCsv(genericIceCream)
 
 This example is basic
 but it hints at the essence of generic programming.
-We reformulate problems so we can solve them use generic building blocks,
+We reformulate problems so we can solve them using generic building blocks,
 and write small kernels of code that work with a wide variety of types.
 Generic programming with shapeless
 allows us to eliminate huge amounts of boilerplate,
