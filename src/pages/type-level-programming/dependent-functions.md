@@ -290,10 +290,10 @@ We can use `IsHCons` instead of `=:=`:
 ```tut:book:silent
 import shapeless.ops.hlist.IsHCons
 
-def getWrappedValue[A, Repr <: HList, Head, Tail <: HList](in: A)(
+def getWrappedValue[A, Repr <: HList, Head](in: A)(
   implicit
   gen: Generic.Aux[A, Repr],
-  isHCons: IsHCons.Aux[Repr, Head, Tail]
+  isHCons: IsHCons.Aux[Repr, Head, HNil]
 ): Head = gen.to(in).head
 ```
 
