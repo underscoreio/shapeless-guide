@@ -87,8 +87,8 @@ import shapeless.ops.hlist
 
 implicit def genericMigration[A, B, ARepr <: HList, BRepr <: HList](
   implicit
-  aGen  : Generic.Aux[A, ARepr],
-  bGen  : Generic.Aux[B, BRepr],
+  aGen  : LabelledGeneric.Aux[A, ARepr],
+  bGen  : LabelledGeneric.Aux[B, BRepr],
   inter : hlist.Intersection.Aux[ARepr, BRepr, BRepr]
 ): Migration[A, B] = new Migration[A, B] {
   def apply(a: A): B =
