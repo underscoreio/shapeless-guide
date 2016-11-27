@@ -1,4 +1,11 @@
 ---
 solutions:
   headingText: "Solutions to Exercises"
+pandocArgs:
+  - "--toc-depth=3"
+  - "--filter=pandoc-crossref"
+  - "--filter=src/main/filters/html/merge-code.coffee"
+  - "--filter=src/main/filters/html/tables.coffee"
+  - "--filter=src/main/filters/html/solutions.coffee"
+  - "--filter=src/main/filters/html/vector-images.coffee"
 ...

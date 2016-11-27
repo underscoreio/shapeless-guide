@@ -1,4 +1,10 @@
 ---
 solutions:
   headingText: "Solutions to Exercises"
+pandocArgs:
+  - "--toc-depth=3"
+  - "--filter=pandoc-crossref"
+  - "--filter=src/main/filters/epub/merge-code.coffee"
+  - "--filter=src/main/filters/epub/solutions.coffee"
+  - "--filter=src/main/filters/epub/vector-images.coffee"
 ...

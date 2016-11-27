@@ -6,4 +6,13 @@ geometry: "margin=.75in"
 solutions:
   headingText: "Solutions to Exercises"
 "links-as-notes": true
+pandocArgs:
+  - "--toc-depth=3"
+  - "--filter=pandoc-crossref"
+  - "--filter=src/main/filters/pdf/merge-code.coffee"
+  - "--filter=src/main/filters/pdf/callout.coffee"
+  - "--filter=src/main/filters/pdf/columns.coffee"
+  - "--filter=src/main/filters/pdf/solutions.coffee"
+  - "--filter=src/main/filters/pdf/vector-images.coffee"
+  - "--filter=src/main/filters/pdf/listings.coffee"
 ...

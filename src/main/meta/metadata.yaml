@@ -7,7 +7,6 @@ date: "November 2016"
 filenameStem: "shapeless-guide"
 # Used by Grunt to create a ZIP of source code:
 exercisesRepo: null
-tocDepth: 3
 copyright: "2016"
 # Enable pandoc-crossref (must be installed on user's computer)
 # There's no distinction here between section and chapter prefixes,

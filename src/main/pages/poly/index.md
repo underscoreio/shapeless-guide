@@ -22,7 +22,7 @@ a type chart for mapping over a regular list.
 We start with a `List[A]`, supply a function `A => B`,
 and end up with a `List[B]`.
 
-![Mapping over a regular list ("monomorphic" map)](src/pages/poly/monomorphic-map.pdf+svg){#fig:poly:monomorphic-map}
+![Mapping over a regular list ("monomorphic" map)](src/main/pages/poly/monomorphic-map.pdf+svg){#fig:poly:monomorphic-map}
 
 The heterogeneous element types in an `HList`
 cause this model to break down.
@@ -37,7 +37,7 @@ and uses it to determine the type of each output.
 This gives us a closed, composable transformation
 that retains the heterogeneous nature of the `HList`.
 
-![Mapping over a heterogeneous list ("polymorphic" map)](src/pages/poly/polymorphic-map.pdf+svg){#fig:poly:polymorphic-map}
+![Mapping over a heterogeneous list ("polymorphic" map)](src/main/pages/poly/polymorphic-map.pdf+svg){#fig:poly:polymorphic-map}
 
 Unfortunately we can't use Scala functions
 to implement this kind of operation.
