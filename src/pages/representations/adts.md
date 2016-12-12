@@ -10,7 +10,7 @@ using "ands" and "ors". For example:
  - a rectangle has a width **and** a height
  - a circle has a radius
 
-[^adts]: Not to be confuses with "abstract data types",
+[^adts]: Not to be confused with "abstract data types",
 which are a different tool from computer science
 that has little bearing on the discussion here.
 
