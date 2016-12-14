@@ -15,7 +15,7 @@ https://github.com/underscoreio/shapeless-guide-code
 
 Check the `solutions` branch for complete versions of each example.
 
-## Building the Book
+## Building the eBook
 
 Install Docker and use `go.sh` to boot an instance
 with all the right dependencies:
@@ -29,6 +29,14 @@ Then use `sbt` to build the book:
 ~~~
 sbt pdf
 ~~~
+
+## Building a printable book
+
+To build a black and white,
+print-ready version of the book,
+edit `src/meta/pdf.yaml` and set
+`blackandwhiteprintable` to `true`.
+Then run `sbt pdf` as above.
 
 ## Acknowledgements
 
