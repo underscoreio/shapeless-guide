@@ -94,7 +94,7 @@ If the compiler sees the same target type twice
 in a particular branch of search,
 it gives up and moves on.
 We can see this happening if
-we look at the expansion for `CsvEncode[Tree[Int]]`
+we look at the expansion for `CsvEncoder[Tree[Int]]`
 The implicit resolution process
 goes through the following types:
 
