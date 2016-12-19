@@ -6,7 +6,12 @@ Code samples licensed [Apache 2.0][code-license]
 
 ## Reading the Book
 
-An up-to-date PDF can be found in [dist/shapeless-guide.pdf][pdf].
+You have three options for grabbing the book:
+
+- grab an up-to-date PDF from [dist/shapeless-guide.pdf][pdf] (free);
+- download the book from [Underscore][underscore] (also free)
+  and get notified of future updates by email;
+- order a print copy from [Underscore][underscore] (sold at cost).
 
 ## Related Material
 
@@ -51,3 +56,5 @@ for their invaluable help and feedback.
 [slides]: https://github.com/davegurnell/shapeless-guide-slides
 [code]: https://github.com/underscoreio/shapeless-guide-code
 [contributors]: https://github.com/underscoreio/shapeless-guide/graphs/contributors
+[underscore]: https://underscore.io/books/shapeless-guide
+[lulu]: http://www.lulu.com/shop/dave-gurnell/the-type-astronauts-guide-to-shapeless/paperback/product-22992219.html
