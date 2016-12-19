@@ -11,7 +11,7 @@ You have three options for grabbing the book:
 - grab an up-to-date PDF from [dist/shapeless-guide.pdf][pdf] (free);
 - download the book from [Underscore][underscore] (also free)
   and get notified of future updates by email;
-- order a print copy from [Underscore][underscore] (sold at cost).
+- order a print copy from [Underscore][underscore].
 
 ## Related Material
 
