@@ -23,13 +23,19 @@ Check the `solutions` branch for complete versions of each example.
 ## Building the eBook
 
 Install Docker and use `go.sh` to boot an instance
-with all the right dependencies:
+with most of the right dependencies:
 
 ~~~
 bash$ ./go.sh
 ~~~
 
-Then use `sbt` to build the book:
+Then run `npm install` to install the remaining dependencies:
+
+~~~
+npm install
+~~~
+
+And finally use `sbt` to build the book:
 
 ~~~
 sbt pdf
