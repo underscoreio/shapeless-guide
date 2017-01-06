@@ -62,7 +62,7 @@ val employees: List[Employee] = List(
 
 When we call `writeCsv`,
 the compiler calculates the value of the type parameter
-and searches for an implicit `CsvWriter`
+and searches for an implicit `CsvEncoder`
 of the corresponding type:
 
 ```tut:book
