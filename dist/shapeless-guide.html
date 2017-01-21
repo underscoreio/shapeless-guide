@@ -226,7 +226,7 @@ Creator of shapeless</p>
 
 <span class="kw">val</span> genericIceCream = Generic[IceCream].<span class="fu">to</span>(<span class="fu">IceCream</span>(<span class="st">&quot;Sundae&quot;</span>, <span class="dv">1</span>, <span class="kw">false</span>))
 <span class="co">// genericIceCream: shapeless.::[String,shapeless.::[Int,shapeless.::[Boolean,shapeless.HNil]]] = Sundae :: 1 :: false :: HNil</span></code></pre></div>
-<p>Both values are now the same type. They are both heterogeneous lists (<code>HLists</code> for short) containing a <code>String</code>, an <code>Int</code>, and a <code>Boolean</code>. We’ll look at <code>HLists</code> and the important role they play soon. For now the point is that we can serialize each value with the same function:</p>
+<p>Both values are now of the same type. They are both heterogeneous lists (<code>HLists</code> for short) containing a <code>String</code>, an <code>Int</code>, and a <code>Boolean</code>. We’ll look at <code>HLists</code> and the important role they play soon. For now the point is that we can serialize each value with the same function:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">genericCsv</span>(gen: String :: Int :: Boolean :: HNil): List[String] =
   List(<span class="fu">gen</span>(<span class="dv">0</span>), <span class="fu">gen</span>(<span class="dv">1</span>).<span class="fu">toString</span>, <span class="fu">gen</span>(<span class="dv">2</span>).<span class="fu">toString</span>)
 
@@ -458,7 +458,7 @@ gen.<span class="fu">to</span>(<span class="fu">Circle</span>(<span class="fl">1
   <span class="fu">Employee</span>(<span class="st">&quot;Peter&quot;</span>, <span class="dv">2</span>, <span class="kw">false</span>),
   <span class="fu">Employee</span>(<span class="st">&quot;Milton&quot;</span>, <span class="dv">3</span>, <span class="kw">false</span>)
 )</code></pre></div>
-<p>When we call <code>writeCsv</code>, the compiler calculates the value of the type parameter and searches for an implicit <code>CsvWriter</code> of the corresponding type:</p>
+<p>When we call <code>writeCsv</code>, the compiler calculates the value of the type parameter and searches for an implicit <code>CsvEncoder</code> of the corresponding type:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="fu">writeCsv</span>(employees)
 <span class="co">// res4: String =</span>
 <span class="co">// Bill,1,yes</span>
@@ -527,15 +527,15 @@ gen.<span class="fu">to</span>(<span class="fu">Circle</span>(<span class="fl">1
 }</code></pre></div>
 <p>The <code>apply</code> method, known as a “summoner” or “materializer”, allows us to summon a type class instance given a target type:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">CsvEncoder[IceCream]
-<span class="co">// res9: CsvEncoder[IceCream] = $anon$1@354ae88d</span></code></pre></div>
+<span class="co">// res9: CsvEncoder[IceCream] = $anon$1@72cbaad9</span></code></pre></div>
 <p>In simple cases the summoner does the same job as the <code>implicitly</code> method defined in <code>scala.Predef</code>:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">implicitly[CsvEncoder[IceCream]]
-<span class="co">// res10: CsvEncoder[IceCream] = $anon$1@354ae88d</span></code></pre></div>
+<span class="co">// res10: CsvEncoder[IceCream] = $anon$1@72cbaad9</span></code></pre></div>
 <p>However, as we will see in Section 4.2, when working with shapeless we encounter situations where <code>implicitly</code> doesn’t infer types correctly. We can always define the summoner method to do the right thing, so it’s worth writing one for every type class we create. We can also use a special method from shapeless called “<code>the</code>” (more on this later):</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">import</span> shapeless.<span class="fu">_</span>
 
 the[CsvEncoder[IceCream]]
-<span class="co">// res11: CsvEncoder[IceCream] = $anon$1@354ae88d</span></code></pre></div>
+<span class="co">// res11: CsvEncoder[IceCream] = $anon$1@72cbaad9</span></code></pre></div>
 <p>The <code>instance</code> method, sometimes named <code>pure</code>, provides a terse syntax for creating new type class instances, reducing the boilerplate of anonymous class syntax:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">implicit</span> <span class="kw">val</span> booleanEncoder: CsvEncoder[Boolean] =
   <span class="kw">new</span> CsvEncoder[Boolean] {
@@ -746,7 +746,7 @@ reprEncoder.<span class="fu">encode</span>(<span class="st">&quot;abc&quot;</spa
 <p>The problem is that our type is recursive. The compiler senses an infinite loop applying our implicits and gives up.</p>
 <h3 id="implicit-divergence"><span class="header-section-number">3.4.1</span> Implicit divergence</h3>
 <p>Implicit resolution is a search process. The compiler uses heuristics to determine whether it is “converging” on a solution. If the heuristics don’t yield favorable results for a particular branch of search, the compiler assumes the branch is not converging and moves onto another.</p>
-<p>One heuristic is specifically designed to avoid infinite loops. If the compiler sees the same target type twice in a particular branch of search, it gives up and moves on. We can see this happening if we look at the expansion for <code>CsvEncode[Tree[Int]]</code> The implicit resolution process goes through the following types:</p>
+<p>One heuristic is specifically designed to avoid infinite loops. If the compiler sees the same target type twice in a particular branch of search, it gives up and moves on. We can see this happening if we look at the expansion for <code>CsvEncoder[Tree[Int]]</code> The implicit resolution process goes through the following types:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">CsvEncoder[Tree[Int]]                          <span class="co">// 1</span>
 CsvEncoder[Branch[Int] :+: Leaf[Int] :+: CNil] <span class="co">// 2</span>
 CsvEncoder[Branch[Int]]                        <span class="co">// 3</span>
@@ -796,7 +796,7 @@ CsvEncoder[Int :: String :: HNil] <span class="co">// 4 uh oh</span></code></pre
 }</code></pre></div>
 <p>This prevents the compiler giving up prematurely, and enables the solution to work on complex/recursive types like <code>Tree</code>:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">CsvEncoder[Tree[Int]]
-<span class="co">// res2: CsvEncoder[Tree[Int]] = $anon$1@15405ca9</span></code></pre></div>
+<span class="co">// res2: CsvEncoder[Tree[Int]] = $anon$1@7e4bf21c</span></code></pre></div>
 <h2 id="sec:generic:debugging"><span class="header-section-number">3.5</span> Debugging implicit resolution</h2>
 <p>Failures in implicit resolution can be confusing and frustrating. Here are a couple of techniques to use when implicits go bad.</p>
 <h3 id="debugging-using-implicitly"><span class="header-section-number">3.5.1</span> Debugging using <em>implicitly</em></h3>
@@ -1073,7 +1073,7 @@ the[Last[String :: Int :: HNil]]
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">object</span> Foo
 
 Foo
-<span class="co">// res3: Foo.type = Foo$@6daeb9f0</span></code></pre></div>
+<span class="co">// res3: Foo.type = Foo$@1210e948</span></code></pre></div>
 <p>The type <code>Foo.type</code> is the type of <code>Foo</code>, and <code>Foo</code> is the only value with that type.</p>
 <p>Singleton types applied to literal values are called <em>literal types</em>. These have existed in Scala for a long time, but we don’t normally interact with them because the default behaviour of the compiler is to “widen” literals to their nearest non-singleton type. For example, these two expressions are essentially equivalent:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="st">&quot;hello&quot;</span>
@@ -1150,7 +1150,7 @@ field[Cherries](<span class="dv">123</span>)
 <p><code>FieldType</code> is a type alias that simplifies extracting the tag and base types from a tagged type:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">type</span> FieldType[K, V] = V <span class="kw">with</span> KeyTag[K, V]</code></pre></div>
 <p>As we’ll see in a moment, shapeless uses this mechanism to tag fields and subtypes with their names in our source code.</p>
-<p>Tags exist purely at compile time and have no runtime representation. How do we convert them to values we can use at runtime? Shapeless provides a type class called <code>Witness</code> for this purpose. If we combine <code>Witness</code> and <code>FieldType</code>, we get something very compelling—the ability to extract the field name from a tagged field:</p>
+<p>Tags exist purely at compile time and have no runtime representation. How do we convert them to values we can use at runtime? Shapeless provides a type class called <code>Witness</code> for this purpose<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a>. If we combine <code>Witness</code> and <code>FieldType</code>, we get something very compelling—the ability to extract the field name from a tagged field:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">import</span> shapeless.<span class="fu">Witness</span>
 
 <span class="kw">val</span> numCherries = <span class="st">&quot;numCherries&quot;</span> -&gt;&gt; <span class="dv">123</span>
@@ -1247,7 +1247,7 @@ field[Cherries](<span class="dv">123</span>)
 <span class="co">// Int     with KeyTag[Symbol with Tagged[&quot;numCherries&quot;], Int] ::</span>
 <span class="co">// Boolean with KeyTag[Symbol with Tagged[&quot;inCone&quot;], Boolean]  ::</span>
 <span class="co">// HNil</span></code></pre></div>
-<p>The type here is slightly more complex than we have seen. Instead of representing the field names with literal string types, shapeless is representing them with symbols tagged with literal string types. The details of the implementation aren’t particularly important: we can still use <code>Witness</code> and <code>FieldType</code> to extract the tags, but they come out as <code>Symbols</code> instead of <code>Strings</code><a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a>.</p>
+<p>The type here is slightly more complex than we have seen. Instead of representing the field names with literal string types, shapeless is representing them with symbols tagged with literal string types. The details of the implementation aren’t particularly important: we can still use <code>Witness</code> and <code>FieldType</code> to extract the tags, but they come out as <code>Symbols</code> instead of <code>Strings</code><a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a>.</p>
 <h3 id="instances-for-hlists-1"><span class="header-section-number">5.3.1</span> Instances for <em>HLists</em></h3>
 <p>Let’s define <code>JsonEncoder</code> instances for <code>HNil</code> and <code>::</code>. Our encoders are going to generate and manipulate <code>JsonObjects</code>, so we’ll introduce a new type of encoder to make that easier:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">trait</span> JsonObjectEncoder[A] <span class="kw">extends</span> JsonEncoder[A] {
@@ -1329,6 +1329,47 @@ field[Cherries](<span class="dv">123</span>)
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">JsonEncoder[IceCream].<span class="fu">encode</span>(iceCream)
 <span class="co">// res14: JsonValue = JsonObject(List((name,JsonString(Sundae)), (numCherries,JsonNumber(1.0)), (inCone,JsonBoolean(false))))</span></code></pre></div>
 <h2 id="deriving-coproduct-instances-with-labelledgeneric"><span class="header-section-number">5.4</span> Deriving coproduct instances with <em>LabelledGeneric</em></h2>
+<p>Applying <code>LabelledGeneric</code> with <code>Coproducts</code> involves a mixture of the concepts we’ve covered already. Let’s start by examining a <code>Coproduct</code> type derived by <code>LabelledGeneric</code>. We’ll re-visit our <code>Shape</code> ADT from Chapter 3:</p>
+<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">import</span> shapeless.<span class="fu">LabelledGeneric</span>
+
+<span class="kw">sealed</span> <span class="kw">trait</span> Shape
+<span class="kw">final</span> <span class="kw">case</span> <span class="kw">class</span> Rectangle(width: Double, height: Double) <span class="kw">extends</span> Shape
+<span class="kw">final</span> <span class="kw">case</span> <span class="kw">class</span> <span class="fu">Circle</span>(radius: Double) <span class="kw">extends</span> Shape
+
+LabelledGeneric[Shape].<span class="fu">to</span>(<span class="fu">Circle</span>(<span class="fl">1.0</span>))
+<span class="co">// res5: shapeless.:+:[Rectangle with shapeless.labelled.KeyTag[Symbol with shapeless.tag.Tagged[String(&quot;Rectangle&quot;)],Rectangle],shapeless.:+:[Circle with shapeless.labelled.KeyTag[Symbol with shapeless.tag.Tagged[String(&quot;Circle&quot;)],Circle],shapeless.CNil]] = Inr(Inl(Circle(1.0)))</span></code></pre></div>
+<p>Here is that <code>Coproduct</code> type in a more readable format:</p>
+<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="co">// Rectangle with KeyTag[Symbol with Tagged[&quot;Rectangle&quot;], Rectangle] :+:</span>
+<span class="co">// Circle    with KeyTag[Symbol with Tagged[&quot;Circle&quot;],    Circle]    :+:</span>
+<span class="co">// CNil</span></code></pre></div>
+<p>As you can see, the result is a <code>Coproduct</code> of the subtypes of <code>Shape</code>, each tagged with the type name. We can use this information to write <code>JsonEncoders</code> for <code>:+:</code> and <code>CNil</code>:</p>
+<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">import</span> shapeless.{Coproduct, :+:, CNil, Inl, Inr, Witness, Lazy}
+<span class="kw">import</span> shapeless.<span class="fu">labelled</span>.<span class="fu">FieldType</span>
+
+<span class="kw">implicit</span> <span class="kw">val</span> cnilObjectEncoder: JsonObjectEncoder[CNil] =
+  <span class="fu">createObjectEncoder</span>(cnil =&gt; <span class="kw">throw</span> <span class="kw">new</span> Exception(<span class="st">&quot;Inconceivable!&quot;</span>))
+
+<span class="kw">implicit</span> <span class="kw">def</span> coproductObjectEncoder[K &lt;: Symbol, H, T &lt;: Coproduct](
+  <span class="kw">implicit</span>
+  witness: Witness.<span class="fu">Aux</span>[K],
+  hEncoder: Lazy[JsonEncoder[H]],
+  tEncoder: JsonObjectEncoder[T]
+): JsonObjectEncoder[FieldType[K, H] :+: T] = {
+  <span class="kw">val</span> typeName = witness.<span class="fu">value</span>.<span class="fu">name</span>
+  createObjectEncoder {
+    <span class="kw">case</span> <span class="fu">Inl</span>(h) =&gt;
+      <span class="fu">JsonObject</span>(List(typeName -&gt; hEncoder.<span class="fu">value</span>.<span class="fu">encode</span>(h)))
+
+    <span class="kw">case</span> <span class="fu">Inr</span>(t) =&gt;
+      tEncoder.<span class="fu">encode</span>(t)
+  }
+}</code></pre></div>
+<p><code>coproductEncoder</code> follows the same pattern as <code>hlistEncoder</code>. We have three type parameters: <code>K</code> for the type name, <code>H</code> for the value at the head of the <code>HList</code>, and <code>T</code> for the value at the tail. We use <code>FieldType</code> and <code>:+:</code> in the result type to declare the relationships between the three, and we use a <code>Witness</code> to access the runtime value of the type name. The result is an object containing a single key/value pair, the key being the type name and the value the result:</p>
+<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">val</span> shape: Shape = <span class="fu">Circle</span>(<span class="fl">1.0</span>)
+
+JsonEncoder[Shape].<span class="fu">encode</span>(shape)
+<span class="co">// res8: JsonValue = JsonObject(List((Circle,JsonObject(List((radius,JsonNumber(1.0)))))))</span></code></pre></div>
+<p>Other encodings are possible with a little more work. We can add a <code>&quot;type&quot;</code> field to the output, for example, or even allow the user to configure the format. Sam Halliday’s <a href="https://github.com/fommil/spray-json-shapeless">spray-json-shapeless</a> is an excellent example of a codebase that is approachable while providing a great deal of flexibility.</p>
 <h2 id="summary-2"><span class="header-section-number">5.5</span> Summary</h2>
 <p>In this chapter we discussed <code>LabelledGeneric</code>, a variant of <code>Generic</code> that exposes type and field names in its generic representations.</p>
 <p>The names exposed by <code>LabelledGeneric</code> are encoded as type-level tags so we can target them during implicit resolution. We started the chapter discussing <em>literal types</em> and the way shapeless uses them in its tags. We also discussed the <code>Witness</code> type class, which is used to reify literal types as values.</p>
@@ -1450,7 +1491,7 @@ bigList.<span class="fu">penultimate</span>
 <span class="co">// res9: Int = 1</span></code></pre></div>
 <p>The important point here is that, by defining <code>Penultimate</code> as another type class, we have created a reusable tool that we can apply elsewhere. Shapeless provides many ops for many purposes, but it’s easy to add our own to the toolbox.</p>
 <h2 id="sec:ops:migration"><span class="header-section-number">6.3</span> Case study: case class migrations</h2>
-<p>The power of ops type classes fully crystallizes when we chain them together as building blocks for our own code. We’ll finish this chapter with a compelling example: a type class for performing “migrations” (aka “evolutions”) on case classes<a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a>. For example, if version 1 of our app contains the following case class:</p>
+<p>The power of ops type classes fully crystallizes when we chain them together as building blocks for our own code. We’ll finish this chapter with a compelling example: a type class for performing “migrations” (aka “evolutions”) on case classes<a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a>. For example, if version 1 of our app contains the following case class:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">case</span> <span class="kw">class</span> <span class="fu">IceCreamV1</span>(name: String, numCherries: Int, inCone: Boolean)</code></pre></div>
 <p>our migration library should enable certain mechanical “upgrades” for free:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="co">// Remove fields:</span>
@@ -1563,7 +1604,7 @@ bigList.<span class="fu">penultimate</span>
       field[K](hMonoid.<span class="fu">value</span>.<span class="fu">combine</span>(x.<span class="fu">head</span>, y.<span class="fu">head</span>)) ::
         tMonoid.<span class="fu">combine</span>(x.<span class="fu">tail</span>, y.<span class="fu">tail</span>)
   }</code></pre></div>
-<p>We need to combine <code>Monoid</code><a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a> with a couple of other ops to complete our final implementation of <code>Migration</code>. Here’s the full list of steps:</p>
+<p>We need to combine <code>Monoid</code><a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a> with a couple of other ops to complete our final implementation of <code>Migration</code>. Here’s the full list of steps:</p>
 <ol style="list-style-type: decimal">
 <li>use <code>LabelledGeneric</code> to convert <code>A</code> to its generic representation;</li>
 <li>use <code>Intersection</code> to calculate an <code>HList</code> of fields common to <code>A</code> and <code>B</code>;</li>
@@ -2125,14 +2166,15 @@ hlist.<span class="fu">updatedAt</span>(Nat.<span class="fu">_1</span>, <span cl
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>Not to be confuses with “abstract data types”, which are a different tool from computer science that has little bearing on the discussion here.<a href="#fnref1">↩</a></p></li>
+<li id="fn1"><p>Not to be confused with “abstract data types”, which are a different tool from computer science that has little bearing on the discussion here.<a href="#fnref1">↩</a></p></li>
 <li id="fn2"><p>The word “algebra” meaning: the symbols we define, such as rectangle and circle; and the rules for manipulating those symbols, encoded as methods.<a href="#fnref2">↩</a></p></li>
 <li id="fn3"><p>We’re using “generic” in an informal way here, rather than the conventional meaning of “a type with a type parameter”.<a href="#fnref3">↩</a></p></li>
 <li id="fn4"><p><code>Product</code> is perhaps a better name for <code>HList</code>, but the standard library unfortunately already has a type <code>scala.Product</code>.<a href="#fnref4">↩</a></p></li>
 <li id="fn5"><p><code>String</code> also has a bunch of other types like <code>Serializable</code> and <code>Comparable</code> but let’s ignore those for now.<a href="#fnref5">↩</a></p></li>
-<li id="fn6"><p>Future versions of shapeless may switch to using <code>Strings</code> as tags.<a href="#fnref6">↩</a></p></li>
-<li id="fn7"><p>The term is stolen from “database migrations”—SQL scripts that automate upgrades to a database schema.<a href="#fnref7">↩</a></p></li>
-<li id="fn8"><p>Pun intended.<a href="#fnref8">↩</a></p></li>
+<li id="fn6"><p>The term “witness” is borrowed from <a href="https://en.wikipedia.org/wiki/Witness_(mathematics)">mathematical proofs</a>.<a href="#fnref6">↩</a></p></li>
+<li id="fn7"><p>Future versions of shapeless may switch to using <code>Strings</code> as tags.<a href="#fnref7">↩</a></p></li>
+<li id="fn8"><p>The term is stolen from “database migrations”—SQL scripts that automate upgrades to a database schema.<a href="#fnref8">↩</a></p></li>
+<li id="fn9"><p>Pun intended.<a href="#fnref9">↩</a></p></li>
 </ol>
 </div>
 </article>
