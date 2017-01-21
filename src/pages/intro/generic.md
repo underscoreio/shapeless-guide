@@ -50,7 +50,7 @@ val genericEmployee = Generic[Employee].to(Employee("Dave", 123, false))
 val genericIceCream = Generic[IceCream].to(IceCream("Sundae", 1, false))
 ```
 
-Both values are now the same type.
+Both values are now of the same type.
 They are both heterogeneous lists (`HLists` for short)
 containing a `String`, an `Int`, and a `Boolean`.
 We'll look at `HLists` and the important role they play soon.
