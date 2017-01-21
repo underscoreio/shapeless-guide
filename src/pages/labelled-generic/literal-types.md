@@ -216,11 +216,14 @@ their names in our source code.
 Tags exist purely at compile time
 and have no runtime representation.
 How do we convert them to values we can use at runtime?
-Shapeless provides a type class called `Witness` for this purpose.
+Shapeless provides a type class called `Witness` for this purpose[^witness].
 If we combine `Witness` and `FieldType`,
 we get something very compelling---the
 ability to extract the field name
 from a tagged field:
+
+[^witness]: The term "witness" is borrowed from
+[mathematical proofs][link-witness].
 
 ```tut:book:silent
 import shapeless.Witness
