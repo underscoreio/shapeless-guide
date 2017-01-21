@@ -2,7 +2,7 @@
 
 This book is a guide to using [shapeless][link-shapeless],
 a library for *generic programming* in Scala.
-Shapeless is large library,
+Shapeless is a large library,
 so rather than cover everything it has to offer
 we will concentrate on a few compelling use cases
 and use them to build a picture
