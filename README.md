@@ -1,8 +1,4 @@
-# The Type Astronaut's Guide to Shapeless (Working Title)
-
-Content for my Scala World 2016 workshop on [shapeless][shapeless].
-This is a very early release of this material.
-The title, repo location, and build system are likely to change.
+# The Type Astronaut's Guide to Shapeless
 
 Copyright 2016 Dave Gurnell.
 Text and diagrams licensed [CC-BY-SA 3.0][text-license].
@@ -10,9 +6,21 @@ Code samples licensed [Apache 2.0][code-license]
 
 ## Reading the Book
 
-An up-to-date PDF should can be found in [dist/shapeless-guide.pdf][pdf].
+You have three options for grabbing the book:
 
-## Building the Book
+- grab an up-to-date PDF from [dist/shapeless-guide.pdf][pdf] (free);
+- download the book from [Underscore][underscore] (also free)
+  and get notified of future updates by email;
+- order a print copy from [Underscore][underscore].
+
+## Related Material
+
+Accompanying code samples can be found here:<br>
+https://github.com/underscoreio/shapeless-guide-code
+
+Check the `solutions` branch for complete versions of each example.
+
+## Building the eBook
 
 Install Docker and use `go.sh` to boot an instance
 with all the right dependencies:
@@ -27,23 +35,26 @@ Then use `sbt` to build the book:
 sbt pdf
 ~~~
 
-## Related Material
+## Building a printable book
 
-The slides from my Scala World workshop can be found [here][slides]
-and the accompanying live-coding examples can be found [here][code].
-Check the `solutions` branch for complete versions of the example code.
+To build a black and white,
+print-ready version of the book,
+edit `src/meta/pdf.yaml` and set
+`blackandwhiteprintable` to `true`.
+Then run `sbt pdf` as above.
 
 ## Acknowledgements
 
-Thanks to these fine people for their contributions:
-
-- [ErunamoJAZZ](https://github.com/ErunamoJAZZ)
-- [ronanM](https://github.com/ronanM)
-- [Yoshimura Yuu](https://github.com/y-yu)
+Thanks to Miles Sabin, Richard Dallaway, Noel Welsh, Travis Brown,
+and our [fellow space-farers on Github][contributors]
+for their invaluable help and feedback.
 
 [text-license]: https://creativecommons.org/licenses/by-sa/3.0/
 [code-license]: http://www.apache.org/licenses/LICENSE-2.0
 [shapeless]: https://github.com/milessabin/shapeless
-[pdf]: https://github.com/davegurnell/shapeless-guide/blob/develop/dist/shapeless-guide.pdf
+[pdf]: https://github.com/underscoreio/shapeless-guide/blob/develop/dist/shapeless-guide.pdf
 [slides]: https://github.com/davegurnell/shapeless-guide-slides
-[code]: https://github.com/davegurnell/shapeless-guide-code
+[code]: https://github.com/underscoreio/shapeless-guide-code
+[contributors]: https://github.com/underscoreio/shapeless-guide/graphs/contributors
+[underscore]: https://underscore.io/books/shapeless-guide
+[lulu]: http://www.lulu.com/shop/dave-gurnell/the-type-astronauts-guide-to-shapeless/paperback/product-22992219.html

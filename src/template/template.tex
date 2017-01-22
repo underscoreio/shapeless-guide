@@ -3,6 +3,16 @@
 % Colors ----------------------------------------
 
 \usepackage[xcolor]{mdframed}
+
+$if(blackandwhiteprintable)$
+% \definecolor{primarycolor}{gray}{0.6}
+% \definecolor{successcolor}{gray}{0.6}
+\definecolor{warningcolor}{gray}{0.6}
+\definecolor{dangercolor}{gray}{0.6}
+\definecolor{infocolor}{gray}{0.6}
+\definecolor{titlecolor}{gray}{0.6}
+\definecolor{brandcolor}{gray}{0.6}
+$else$
 % \definecolor{primarycolor}{HTML}{428BCA}
 % \definecolor{successcolor}{HTML}{5CB85C}
 \definecolor{warningcolor}{HTML}{F0AD4E}
@@ -10,6 +20,7 @@
 \definecolor{infocolor}{HTML}{5BC0DE}
 \definecolor{titlecolor}{HTML}{C02440}
 \definecolor{brandcolor}{HTML}{517679}
+$endif$
 
 % Fonts -----------------------------------------
 
@@ -74,6 +85,13 @@ $if(mathfont)$
 $endif$
 \fi
 
+% Cover page ------------------------------------
+
+$if(blackandwhiteprintable)$
+$else$
+\usepackage{pdfpages}
+$endif$
+
 % -----------------------------------------------
 
 % use upquote if available, for straight quotes in verbatim environments
@@ -136,9 +154,15 @@ $endif$
   pdfauthor={$author-meta$},
   pdftitle={$title-meta$},
   colorlinks=true,
+$if(blackandwhiteprintable)$
+  citecolor=black,
+  urlcolor=black,
+  linkcolor=black,
+$else$
   citecolor=$if(citecolor)$$citecolor$$else$blue$endif$,
   urlcolor=$if(urlcolor)$$urlcolor$$else$blue$endif$,
   linkcolor=$if(linkcolor)$$linkcolor$$else$magenta$endif$,
+$endif$
   pdfborder={0 0 0}}
 
 \urlstyle{same} % don't use monospace font for urls
@@ -230,11 +254,26 @@ $endfor$
 
 \usepackage{listings}
 
+$if(blackandwhiteprintable)$
+\definecolor{codebgcolor}{gray}{0.95}
+\definecolor{commentcolor}{gray}{0.4}
+\definecolor{stringcolor}{gray}{0.2}
+\newcommand{\commentstyle}{\tt\color{commentcolor}}
+\newcommand{\keywordstyle}{\tt\bfseries}
+\newcommand{\emphstyle}{\tt\itseries}
+\newcommand{\stringstyle}{\tt\color{stringcolor}}
+$else$
 \definecolor{codebgcolor}{HTML}{F7F7F7}
 \definecolor{commentcolor}{HTML}{8E5A13}
 \definecolor{keywordcolor}{HTML}{234A85}
 \definecolor{literalcolor}{HTML}{0100CB}
 \definecolor{stringcolor}{HTML}{519818}
+\definecolor{emphcolor}{HTML}{007777}
+\newcommand{\commentstyle}{\tt\color{commentcolor}}
+\newcommand{\keywordstyle}{\tt\color{keywordcolor}}
+\newcommand{\emphstyle}{\tt\color{emphcolor}}
+\newcommand{\stringstyle}{\tt\color{stringcolor}}
+$endif$
 
 \makeatletter
 \lst@CCPutMacro\lst@ProcessOther {"2D}{\lst@ttfamily{-{}}{-{}}}
@@ -251,16 +290,16 @@ $endfor$
   breakatwhitespace=false,
   language=scala,
   frame=none,
-  commentstyle=\tt\color{commentcolor},
+  commentstyle=\commentstyle,
   extendedchars=true,
   keepspaces=true,
-  keywordstyle=\tt\color{keywordcolor},
-  emphstyle=\tt\color{cyan},
+  keywordstyle=\keywordstyle,
+  emphstyle=\emphstyle,
   rulecolor=\tt\color{black},
   showspaces=false,
   showstringspaces=false,
   showtabs=false,
-  stringstyle=\tt\color{stringcolor},
+  stringstyle=\stringstyle,
   tabsize=2,
   aboveskip=0em,
   belowskip=0em,
@@ -284,7 +323,7 @@ $endfor$
     super,this,throw,trait,true,try,%
     type,val,var,while,with,yield},
   moreemph={},
-  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  otherkeywords={},
   sensitive=true,
   morecomment=[l]{//},
   morecomment=[n]{/*}{*/},
@@ -303,58 +342,17 @@ $endfor$
 % ===============================================
 
 \begin{document}
+
+\frontmatter
+\pagestyle{empty}
 \pagecolor{white}
 
 % Title page ------------------------------------
 
-\begin{titlepage}
-
-\begin{center}
-
-{\fontsize{1cm}{1em} \color{titlecolor} \textsf{The Type Astronaut's}}
-
-\vspace{.5em}
-
-{\fontsize{1.3cm}{1em} \color{titlecolor} \textsf{Guide to Shapeless}}
-
-\vspace{4em}
-
-\includegraphics[width=9cm]{src/template/images/spaaace.pdf}
-
-\begin{bottompar}
-\begin{center}
-$if(date)$
-{\fontsize{.5cm}{1em} \color{brandcolor} \textsf{$date$}}
-$endif$
-
-\vspace{1em}
-
-$for(author)$
-{\fontsize{.6cm}{1em} \color{brandcolor} \textsf{$author$}}
-$endfor$
-
-\vspace{1em}
-
-\includegraphics[width=3cm]{src/template/images/brand.pdf}
-
-\end{center}
-\end{bottompar}
-
-\end{center}
-\end{titlepage}
-
-% $if(title)$
-% \maketitle
-% $endif$
-
-\pagecolor{white}
-
-% Abstract --------------------------------------
-
-$if(abstract)$
-\begin{abstract}
-$abstract$
-\end{abstract}
+$if(blackandwhiteprintable)$
+$else$
+\includepdf[pages={1}]{src/covers/pdf-cover.pdf}
+\clearpage
 $endif$
 
 % Include-before hook ---------------------------
@@ -369,7 +367,7 @@ $date$
 
 Copyright $copyright$ $author$. CC-BY-SA 3.0.
 
-Published by \href{http://underscore.io}{Underscore Consulting LLP}, Brighton, UK.
+Published by Underscore Consulting LLP, Brighton, UK.
 
 \end{center}
 
@@ -384,50 +382,18 @@ $endfor$
 
 % Tables of contents, etc. ----------------------
 
-$if(toc)$
-{
+\clearpage
+\pagestyle{empty}
 \hypersetup{linkcolor=black}
 \setcounter{tocdepth}{$if(toc-depth)$$toc-depth$$else$3$endif$}
 \tableofcontents
-}
-$endif$
-$if(lot)$
-\listoftables
-$endif$
-$if(lof)$
-\listoffigures
-$endif$
 
 % Main document body ----------------------------
 
+\mainmatter
+\pagestyle{headings}
+
 $body$
-
-% Bibliography ----------------------------------
-
-$if(natbib)$
-$if(biblio-files)$
-$if(biblio-title)$
-$if(book-class)$
-\renewcommand\bibname{$biblio-title$}
-$else$
-\renewcommand\refname{$biblio-title$}
-$endif$
-$endif$
-\bibliography{$biblio-files$}
-
-$endif$
-$endif$
-$if(biblatex)$
-\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
-
-$endif$
-
-% Include-after hook ----------------------------
-
-$for(include-after)$
-$include-after$
-
-$endfor$
 
 % The end ---------------------------------------
 

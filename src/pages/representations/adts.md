@@ -1,23 +1,22 @@
 ## Recap: algebraic data types
 
-*Algebraic data types* (*ADTs*[^adts])
+*Algebraic data types (ADTs)*[^adts]
 are a functional programming concept
 with a fancy name but a very simple meaning.
-They are simply an idiomatic way of representing data
+They are an idiomatic way of representing data
 using "ands" and "ors". For example:
 
  - a shape is a rectangle **or** a circle
  - a rectangle has a width **and** a height
  - a circle has a radius
 
-[^adts]: Be careful not to confuse
-algebraic data types with "abstract data types",
-which are a different modelling tool
-with little bearing on the discussion here.
+[^adts]: Not to be confused with "abstract data types",
+which are a different tool from computer science
+that has little bearing on the discussion here.
 
 In ADT terminology,
-"and types" such as rectangle and circle are called *products*,
-and "or types" such as shape are called *coproducts*.
+"and" types such as rectangle and circle are called *products*
+and "or" types such as shape are called *coproducts*.
 In Scala we typically represent products using
 case classes and coproducts using sealed traits:
 
@@ -31,9 +30,11 @@ val circ: Shape = Circle(1.0)
 ```
 
 The beauty of ADTs is that they are completely type safe.
-The compiler has complete knowledge of the algebras we define,
-so it can support us in writing complete,
+The compiler has complete knowledge of the algebras[^algebra] we define,
+so it can help us write complete,
 correctly typed methods involving our types:
+
+[^algebra]: The word "algebra" meaning: the symbols we define, such as rectangle and circle; and the rules for manipulating those symbols, encoded as methods.
 
 ```tut:book:silent
 def area(shape: Shape): Double =
@@ -75,7 +76,7 @@ We can still write completely type safe operations involving `Shape2`:
 def area2(shape: Shape2): Double =
   shape match {
     case Left((w, h)) => w * h
-    case Right(r)    => math.Pi * r * r
+    case Right(r)     => math.Pi * r * r
   }
 ```
 
@@ -87,22 +88,25 @@ area2(circ2)
 Importantly, `Shape2` is a more *generic* encoding than `Shape`[^generic].
 Any code that operates on a pair of `Doubles`
 will be able to operate on a `Rectangle2` and vice versa.
-As Scala developers we tend to see interoperability as a bad thing:
-what havoc will we accidentally wreak across our codebase with such freedom?!
-However, in some cases it is a desirable feature.
+As Scala developers we tend to prefer
+semantic types like `Rectangle` and `Circle`
+to generic ones like `Rectangle2` and `Circle2`
+precisely because of their specialised nature.
+However, in some cases generality is desirable.
 For example, if we're serializing data to disk,
 we don't care about the difference
 between a pair of `Doubles` and a `Rectangle2`.
-Just write or read two numbers and we're done.
+We just write two numbers and we're done.
 
-shapeless gives us the best of both worlds:
-we can use friendly sealed traits and case classes by default,
-and switch to generic representations when we want interoperability
-(more on this later).
+Shapeless gives us the best of both worlds:
+we can use friendly semantic types by default
+and switch to generic representations
+when we want interoperability (more on this later).
 However, instead of using `Tuples` and `Either`,
 shapeless uses its own data types to represent
 generic products and coproducts.
-We'll introduce to these types in the next sections.
+We'll introduce these types in the next sections.
 
-[^generic]: We're using "generic" with an informal way here,
-not the formal meaning of "a type with a type parameter".
+[^generic]: We're using "generic" in an informal way here,
+rather than the conventional meaning of
+"a type with a type parameter".

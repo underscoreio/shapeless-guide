@@ -6,7 +6,7 @@ tutSourceDirectory := sourceDirectory.value / "pages"
 tutTargetDirectory := target.value / "pages"
 
 // scalaOrganization in ThisBuild := "org.typelevel"
-scalaVersion      in ThisBuild := "2.11.8"
+scalaVersion in ThisBuild := "2.11.8"
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -21,14 +21,24 @@ scalacOptions ++= Seq(
 
 resolvers ++= Seq(Resolver.sonatypeRepo("snapshots"))
 
-libraryDependencies ++= Seq("com.chuusai" %% "shapeless" % "2.3.2")
+libraryDependencies ++= Seq(
+  "com.chuusai"    %% "shapeless"  % "2.3.2",
+  "org.scalacheck" %% "scalacheck" % "1.10.1",
+  "org.typelevel"  %% "cats"       % "0.7.2"
+)
 
 lazy val pdf  = taskKey[Unit]("Build the PDF version of the book")
 lazy val html = taskKey[Unit]("Build the HTML version of the book")
 lazy val epub = taskKey[Unit]("Build the ePub version of the book")
 lazy val all  = taskKey[Unit]("Build all versions of the book")
 
-pdf  := { tut.value ; "grunt pdf"  ! }
-html := { tut.value ; "grunt html" ! }
-epub := { tut.value ; "grunt epub" ! }
-all  := { pdf ; html ; epub }
+pdf  := { tutQuick.value ; "grunt pdf".!  }
+html := { tutQuick.value ; "grunt html".! }
+epub := { tutQuick.value ; "grunt epub".! }
+
+all  := {
+  tutQuick.value
+  "grunt pdf".!
+  "grunt html".!
+  "grunt epub".!
+}

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1761px" height="360px" viewBox="0 0 1761 360" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <title>monomorphic-map</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <ellipse id="path-1" cx="80" cy="80" rx="80" ry="80"></ellipse>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="160" height="160" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <ellipse id="path-3" cx="100" cy="100" rx="80" ry="80"></ellipse>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="160" height="160" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+        <ellipse id="path-5" cx="120" cy="120" rx="80" ry="80"></ellipse>
+        <mask id="mask-6" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="160" height="160" fill="white">
+            <use xlink:href="#path-5"></use>
+        </mask>
+        <ellipse id="path-7" cx="727" cy="143" rx="80" ry="80"></ellipse>
+        <mask id="mask-8" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="160" height="160" fill="white">
+            <use xlink:href="#path-7"></use>
+        </mask>
+        <polygon id="path-9" points="1037.59509 197 984.694414 224.811529 994.797543 165.905765 952 124.188471 1011.14475 115.594235 1037.59509 62 1064.04542 115.594235 1123.19017 124.188471 1080.39263 165.905765 1090.49576 224.811529"></polygon>
+        <mask id="mask-10" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="171.190173" height="162.811529" fill="white">
+            <use xlink:href="#path-9"></use>
+        </mask>
+        <polygon id="path-11" points="85.5950865 135 32.6944138 162.811529 42.7975432 103.905765 -1.17239551e-13 62.1884705 59.1447501 53.5942353 85.5950865 0 112.045423 53.5942353 171.190173 62.1884705 128.39263 103.905765 138.495759 162.811529"></polygon>
+        <mask id="mask-12" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="171.190173" height="162.811529" fill="white">
+            <use xlink:href="#path-11"></use>
+        </mask>
+        <polygon id="path-13" points="101.595086 155 48.6944138 182.811529 58.7975432 123.905765 16 82.1884705 75.1447501 73.5942353 101.595086 20 128.045423 73.5942353 187.190173 82.1884705 144.39263 123.905765 154.495759 182.811529"></polygon>
+        <mask id="mask-14" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="171.190173" height="162.811529" fill="white">
+            <use xlink:href="#path-13"></use>
+        </mask>
+        <polygon id="path-15" points="119.595086 178 66.6944138 205.811529 76.7975432 146.905765 34 105.188471 93.1447501 96.5942353 119.595086 43 146.045423 96.5942353 205.190173 105.188471 162.39263 146.905765 172.495759 205.811529"></polygon>
+        <mask id="mask-16" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="171.190173" height="162.811529" fill="white">
+            <use xlink:href="#path-15"></use>
+        </mask>
+        <polygon id="path-17" points="849 123 889 123 889 103 929 142.497767 889 183 889 163 849 163"></polygon>
+        <mask id="mask-18" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="80" height="80" fill="white">
+            <use xlink:href="#path-17"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="monomorphic-map">
+            <rect id="Background" fill="#FFFFFF" x="0" y="0" width="1761" height="360"></rect>
+            <g id="Group-2-Copy" transform="translate(259.000000, 40.000000)" stroke="#000000" stroke-width="8" fill="#FFFFFF">
+                <use id="Oval-1" mask="url(#mask-2)" xlink:href="#path-1"></use>
+                <use id="Oval-1" mask="url(#mask-4)" xlink:href="#path-3"></use>
+                <use id="Oval-1" mask="url(#mask-6)" xlink:href="#path-5"></use>
+            </g>
+            <use id="Oval-1-Copy" stroke="#000000" mask="url(#mask-8)" stroke-width="8" fill="#FFFFFF" xlink:href="#path-7"></use>
+            <use id="Star-1-Copy" stroke="#000000" mask="url(#mask-10)" stroke-width="8" fill="#FFFFFF" xlink:href="#path-9"></use>
+            <g id="Group-Copy" transform="translate(1299.000000, 40.000000)" stroke="#000000" stroke-width="8" fill="#FFFFFF">
+                <use id="Star-1" mask="url(#mask-12)" xlink:href="#path-11"></use>
+                <use id="Star-1" mask="url(#mask-14)" xlink:href="#path-13"></use>
+                <use id="Star-1" mask="url(#mask-16)" xlink:href="#path-15"></use>
+            </g>
+            <use id="Path-1-Copy" stroke="#000000" mask="url(#mask-18)" stroke-width="8" fill="#000000" xlink:href="#path-17"></use>
+            <polygon id="Path-1-Copy-2" fill="#F6A623" points="1179 123 1219 123 1219 103 1259 142.497767 1219 183 1219 163 1179 163"></polygon>
+            <text id="List[A]-Copy" font-family="FiraMono-Regular, Fira Mono" font-size="42" font-weight="normal" fill="#000000">
+                <tspan x="270.8" y="317">List[A]</tspan>
+            </text>
+            <text id="map-copy" font-family="FiraMono-Bold, Fira Mono" font-size="64" font-weight="bold" fill="#F6A623">
+                <tspan x="496.4" y="159">map</tspan>
+            </text>
+            <text id="List[B]-Copy" font-family="FiraMono-Regular, Fira Mono" font-size="42" font-weight="normal" fill="#000000">
+                <tspan x="1314.8" y="317">List[B]</tspan>
+            </text>
+            <text id="A-=&gt;-B-Copy" font-family="FiraMono-Regular, Fira Mono" font-size="42" font-weight="normal" fill="#000000">
+                <tspan x="823.4" y="317">A =&gt; B</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

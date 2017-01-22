@@ -2,13 +2,13 @@
 # Used by Pandoc to print covers:
 title: "The Type Astronaut's Guide to Shapeless"
 author: "Dave Gurnell"
-date: "August 2016"
+date: "January 2017"
 # Used by Grunt to name output files:
 filenameStem: "shapeless-guide"
 # Used by Grunt to create a ZIP of source code:
 exercisesRepo: null
 tocDepth: 3
-copyright: "2016"
+copyright: "2016-17"
 # Enable pandoc-crossref (must be installed on user's computer)
 # There's no distinction here between section and chapter prefixes,
 # we disable all prefixes for consistency and write them by hand:
@@ -20,31 +20,63 @@ lstPrefixTemplate: "$$i$$"
 secPrefixTemplate: "$$i$$"
 # Used by Grunt to assemble pandoc command line:
 pages:
+  - foreword.md
+
   - intro/index.md
   - intro/generic.md
   - intro/thisbook.md
+  - intro/acknowledgements.md
+
+  - parts/part1.md
+
   - representations/index.md
   - representations/adts.md
   - representations/products.md
   - representations/coproducts.md
   - representations/summary.md
+
   - generic/index.md
   - generic/type-classes.md
   - generic/products.md
   - generic/coproducts.md
   - generic/lazy.md
+  - generic/debugging.md
   - generic/summary.md
+
   - type-level-programming/index.md
   - type-level-programming/dependent-types.md
   - type-level-programming/dependent-functions.md
   - type-level-programming/summary.md
+
   - labelled-generic/index.md
   - labelled-generic/literal-types.md
   - labelled-generic/products.md
   - labelled-generic/coproducts.md
   - labelled-generic/summary.md
-  - notes/outline.md
-  - notes/libraries.md
-  - solutions.md
+
+  - parts/part2.md
+
+  - ops/index.md
+  - ops/init-last.md
+  - ops/penultimate.md
+  - ops/migration.md
+  - ops/record.md
+  - ops/summary.md
+
+  - poly/index.md
+  - poly/poly.md
+  - poly/map-flatmap-fold.md
+  - poly/product-mapper.md
+  - poly/summary.md
+
+  - nat/index.md
+  - nat/length.md
+  - nat/random.md
+  - nat/ops.md
+  - nat/summary.md
+
+  - conclusion/index.md
+
+  # - notes/todos.md
   - links.md
 ...

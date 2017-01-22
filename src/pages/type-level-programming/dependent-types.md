@@ -1,17 +1,15 @@
-## Theory: dependent types
+## Dependent types
 
 Last chapter we spent a lot of time using `Generic`,
 the type class for mapping ADT types to generic representations.
 However, we haven't yet discussed an important bit of theory
-that underpins much of shapeless, including `Generic`:
+that underpins `Generic` and much of shapeless:
 *dependent types*.
 
 To illustrate this, let's take a closer look at `Generic`.
 Here's a simplified version of the definition:
 
 ```scala
-package shapeless
-
 trait Generic[A] {
   type Repr
   def to(value: A): Repr
@@ -47,11 +45,11 @@ getRepr(Vec(1, 2))
 getRepr(Rect(Vec(0, 0), Vec(5, 5)))
 ```
 
-What we're seeing here *dependent typing*:
-the return type of `getRepr` is dependent
-on type members in its parameters.
-
-Suppose we had specified `Repr` as type parameter on `Generic`
+What we're seeing here is called *dependent typing*:
+the result type of `getRepr` depends on its value parameters
+via their type members.
+Suppose we had specified `Repr`
+as type parameter on `Generic`
 instead of a type member:
 
 ```tut:book:silent
@@ -64,7 +62,6 @@ def getRepr2[A, R](value: A)(implicit generic: Generic2[A, R]): R =
 We would have had to pass the desired value of `Repr`
 to `getRepr` as a type parameter,
 effectively making `getRepr` useless.
-
 The intuitive take-away from this is
 that type parameters are useful as "inputs"
 and type members are useful as "outputs".
