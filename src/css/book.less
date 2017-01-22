@@ -1,1 +1,38 @@
-@book-color: #ffffff;
+@book-color: #042742;
+
+.hero {
+  background: @book-color url(src/covers/html-cover.png) center top no-repeat;
+
+  .container {
+    height: 600px;
+  }
+
+  .hero-text {
+    top: auto;
+    height: auto;
+    bottom: 0;
+    padding-bottom: 60px;
+
+    h1.title {
+      margin-bottom: 0;
+      font-size: 36px;
+    }
+
+    h3.author {
+      margin-bottom: 10px;
+      font-size: 30px;
+    }
+
+    p.date {
+      margin-bottom: 30px;
+    }
+
+    img.brand-logo {
+      height: 80px;
+    }
+  }
+}
+
+footer {
+  background: @book-color;
+}
