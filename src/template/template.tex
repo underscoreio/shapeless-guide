@@ -85,6 +85,13 @@ $if(mathfont)$
 $endif$
 \fi
 
+% Cover page ------------------------------------
+
+$if(blackandwhiteprintable)$
+$else$
+\usepackage{pdfpages}
+$endif$
+
 % -----------------------------------------------
 
 % use upquote if available, for straight quotes in verbatim environments
@@ -344,47 +351,8 @@ $endif$
 
 $if(blackandwhiteprintable)$
 $else$
-\begin{titlepage}
-
-\begin{center}
-
-{\fontsize{1cm}{1em} \color{titlecolor} \textsf{The Type Astronaut's}}
-
-\vspace{.5em}
-
-{\fontsize{1.3cm}{1em} \color{titlecolor} \textsf{Guide to Shapeless}}
-
-\vspace{4em}
-
-\includegraphics[width=9cm]{src/template/images/spaaace.pdf}
-
-\begin{bottompar}
-\begin{center}
-$if(date)$
-{\fontsize{.5cm}{1em} \color{brandcolor} \textsf{$date$}}
-$endif$
-
-\vspace{1em}
-
-$for(author)$
-{\fontsize{.6cm}{1em} \color{brandcolor} \textsf{$author$}}
-$endfor$
-
-\vspace{1em}
-
-\includegraphics[width=3cm]{src/template/images/brand.pdf}
-
-\end{center}
-\end{bottompar}
-
-\end{center}
-\end{titlepage}
-
-% $if(title)$
-% \maketitle
-% $endif$
-
-\pagecolor{white}
+\includepdf[pages={1}]{src/covers/pdf-cover.pdf}
+\clearpage
 $endif$
 
 % Include-before hook ---------------------------
