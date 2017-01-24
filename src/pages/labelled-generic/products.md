@@ -231,7 +231,7 @@ except that we're using `LabelledGeneric` instead of `Generic`:
 ```tut:book:silent
 import shapeless.LabelledGeneric
 
-implicit def genericObjectEncoder[A, H <: HList](
+implicit def genericObjectEncoder[A, H](
   implicit
   generic: LabelledGeneric.Aux[A, H],
   hEncoder: Lazy[JsonObjectEncoder[H]]
