@@ -1,0 +1,54 @@
+language: scala
+jdk:
+  - oraclejdk8
+os:
+  - linux
+dist: trusty
+sudo: false
+cache:
+  directories:
+    - "$HOME/.ivy2/cache"
+    - "$HOME/.sbt/boot"
+    - "$HOME/.sbt/launchers"
+    - "$HOME/texlive/2016/texmf-var/luatex-cache"
+    - "$HOME/.ghc"
+    - "$HOME/.cabal"
+    - "$HOME/.stack"
+    - "$HOME/.local"
+    - node_modules
+addons:
+  apt:
+    packages:
+      - cabal-install-1.22
+      - ghc-7.10.3
+      - ttf-bitstream-vera
+    sources:
+      - hvr-ghc
+before_install:
+  - export CXX='g++-4.8'
+  - nvm install 5.12.0 && nvm use 5.12.0
+  - export PATH=/opt/ghc/7.10.3/bin:/opt/cabal/1.22/bin:$HOME/.local/bin:$HOME/.cabal/bin:$HOME/.nvm/v5.12.0/bin:$PATH
+  - cabal update
+  - wget https://raw.githubusercontent.com/y-yu/install-tex-travis/master/install-tex.sh
+  - wget https://raw.githubusercontent.com/y-yu/install-tex-travis/master/tlmgr.sh
+  - chmod +x install-tex.sh tlmgr.sh
+install:
+  - cabal install pandoc-1.16 pandoc-crossref-0.2.1.3
+  - npm install -g grunt-cli coffee-script
+  - npm install
+  - ". ./install-tex.sh"
+  - "./tlmgr.sh install collection-fontsrecommended mdframed needspace"
+script:
+  - |
+    cat <<EOF > ./src/meta/pdf.yml
+    ---
+    papersize: "a5paper"
+    fontsize: "11pt"
+    geometry: "margin=.75in"
+    blackandwhiteprintable: true
+    solutions:
+      headingText: "Solutions to Exercises"
+    "links-as-notes": true
+    ...
+    EOF
+  - "./sbt.sh pdf"
