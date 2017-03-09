@@ -8,8 +8,8 @@ that make them unsuitable for shapeless' purposes:
  1. Each size of tuple has a different, unrelated type,
     making it difficult to write code that abstracts over sizes.
 
- 2. There is no type for 0-length tuples,
-    which are important for representing products with 0 fields.
+ 2. There is no type for zero-length tuples,
+    which are important for representing products with zero fields.
     We could arguably use `Unit`,
     but we ideally want all generic representations
     to have a sensible common supertype.
