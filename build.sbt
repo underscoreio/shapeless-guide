@@ -5,8 +5,8 @@ tutSourceDirectory := sourceDirectory.value / "pages"
 
 tutTargetDirectory := target.value / "pages"
 
-// scalaOrganization in ThisBuild := "org.typelevel"
-scalaVersion in ThisBuild := "2.11.8"
+scalaOrganization in ThisBuild := "org.typelevel"
+scalaVersion in ThisBuild := "2.12.1"
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -14,17 +14,17 @@ scalacOptions ++= Seq(
   "-unchecked",
   "-feature",
   "-Xlint",
-  "-Xfatal-warnings",
-  "-Ywarn-dead-code"
-  //"-Yliteral-types"
+  //"-Xfatal-warnings",
+  "-Ywarn-dead-code",
+  "-Yliteral-types"
 )
 
 resolvers ++= Seq(Resolver.sonatypeRepo("snapshots"))
 
 libraryDependencies ++= Seq(
   "com.chuusai"    %% "shapeless"  % "2.3.2",
-  "org.scalacheck" %% "scalacheck" % "1.10.1",
-  "org.typelevel"  %% "cats"       % "0.7.2"
+  "org.scalacheck" %% "scalacheck" % "1.13.5",
+  "org.typelevel"  %% "cats"       % "0.9.0"
 )
 
 lazy val pdf  = taskKey[Unit]("Build the PDF version of the book")

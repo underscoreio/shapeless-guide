@@ -2,6 +2,7 @@
 
 [link-book-repo]: https://github.com/underscoreio/shapeless-guide
 [link-code-repo]: https://github.com/underscoreio/shapeless-guide-code
+[link-underscore-book]: https://underscore.io/books/shapeless-guide
 
 <!-- Code -->
 

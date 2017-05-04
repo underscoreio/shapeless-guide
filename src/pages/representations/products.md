@@ -62,8 +62,7 @@ Again, notice how the type of the result reflects
 the number and types of its elements:
 
 ```tut:book:silent
-val newProduct: Long :: String :: Int :: Boolean :: HNil =
-  42L :: product
+val newProduct = 42L :: product
 ```
 
 Shapeless also provides tools for performing more complex operations

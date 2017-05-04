@@ -55,8 +55,8 @@ def createObjectEncoder[A](func: A => JsonObject): JsonObjectEncoder[A] =
       func(value)
   }
 
-import shapeless.{HList, ::, HNil, Witness, Lazy},
-       shapeless.labelled.FieldType
+import shapeless.{HList, ::, HNil, Witness, Lazy}
+import shapeless.labelled.FieldType
 
 implicit val hnilObjectEncoder: JsonObjectEncoder[HNil] =
   createObjectEncoder(hnil => JsonObject(Nil))

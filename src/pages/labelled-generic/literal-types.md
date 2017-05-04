@@ -55,8 +55,9 @@ literal expression to a singleton-typed literal expression:
 import shapeless.syntax.singleton._
 ```
 
-```tut:book
+```scala
 var x = 42.narrow
+// x: Int(42) = 42
 ```
 
 Note the type of `x` here: `Int(42)` is a literal type.
@@ -64,12 +65,21 @@ It is a subtype of `Int` that only contains the value `42`.
 If we attempt to assign a different number to `x`,
 we get a compile error:
 
-```tut:book:fail
+```scala
 x = 43
+// <console>:16: error: type mismatch:
+//  found   : Int(43)
+//  required: Int(42)
+//        x = 43
+//            ^
 ```
 
 However, `x` is still an `Int` according to normal subtyping rules.
 If we operate on `x` we get a regular type of result:
+
+```tut:book:invisible
+var x: 42 = 42
+```
 
 ```tut:book
 x + 1
@@ -77,17 +87,35 @@ x + 1
 
 We can use `narrow` on any literal in Scala:
 
-```tut:book
+```scala
 1.narrow
+// res7: Int(1) = 1
+
 true.narrow
+// res8: Boolean(true) = true
+
 "hello".narrow
+// res9: String("hello") = hello
+
 // and so on...
+```
+
+```tut:book:invisible
+1 : 1
+true : true
+"hello" : "hello"
 ```
 
 However, we can't use it on compound expressions:
 
-```tut:book:fail
+```scala
 math.sqrt(4).narrow
+// <console>:17: error: Expression scala.math.`package`.sqrt(4.0) does not evaluate to a constant or a stable reference value
+//        math.sqrt(4.0).narrow
+//                 ^
+// <console>:17: error: value narrow is not a member of Double
+//        math.sqrt(4.0).narrow
+//                       ^
 ```
 
 <div class="callout callout-info">
@@ -100,9 +128,10 @@ However, as of Lightbend Scala 2.12.1, Lightbend Scala 2.11.9,
 and Typelevel Scala 2.11.8 we have
 direct syntax support for literal types.
 In these versions of Scala
-we can write declarations like the following:
+we can use the `-Yliteral-types` compiler option
+and write declarations like the following:
 
-```scala
+```tut:book
 val theAnswer: 42 = 42
 ```
 
