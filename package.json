@@ -20,7 +20,7 @@
     "jquery": "2.1.1",
     "uglifyify": "2.6.0",
     "underscore": "1.7.0",
-    "underscore-ebook-template": "git+https://github.com/underscoreio/underscore-ebook-template.git#0.2.1"
+    "underscore-ebook-template": "git+https://github.com/underscoreio/underscore-ebook-template.git#0.3.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specificed\" && exit 1"
