@@ -175,7 +175,7 @@ to introduce a new type parameter to our method
 and refer to it in each of the associated value parameters:
 
 ```tut:book:silent
-implicit def genericEncoder[A, R](
+implicit def genericEncoder[A, R <: HList](
   implicit
   gen: Generic[A] { type Repr = R },
   enc: CsvEncoder[R]
