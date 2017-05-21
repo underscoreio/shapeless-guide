@@ -46,6 +46,7 @@
 [link-travisbrown-generic-type-class-derivation]: https://meta.plasm.us/posts/2015/11/08/type-classes-and-generic-derivation
 [link-travisbrown-incomplete-generic-type-class-derivation]: https://meta.plasm.us/posts/2015/06/21/deriving-incomplete-type-class-instances
 [link-travisbrown-type-level-checksum]: https://meta.plasm.us/posts/2013/06/09/learning-shapeless
+[link-dallaway-twenty-two]: http://underscore.io/blog/posts/2016/10/11/twenty-two.html
 
 [link-typelevel-scala-singleton-type-literals]: https://github.com/typelevel/scala#typelevel-scala-2118
 [link-lightbend-scala-singleton-type-literals]: https://github.com/scala/scala/pull/5310
