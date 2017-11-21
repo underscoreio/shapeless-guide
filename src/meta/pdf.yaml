@@ -2,8 +2,8 @@
 papersize: "a5paper"
 fontsize: "11pt"
 geometry: "margin=.75in"
-blackandwhiteprintable: true
 solutions:
   headingText: "Solutions to Exercises"
-"links-as-notes": true
+# blackandwhiteprintable: true
+# "links-as-notes": true
 ...
