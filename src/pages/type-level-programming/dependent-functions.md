@@ -131,7 +131,7 @@ import Second._
 ```
 
 ```tut:book:silent
-implicit def hlistSecond[A, B, Rest <: HList]: Aux[A :: B :: Rest, B] =
+implicit def hlistSecond[A, B, Rest <: HList]: Second.Aux[A :: B :: Rest, B] =
   new Second[A :: B :: Rest] {
     type Out = B
     def apply(value: A :: B :: Rest): B =
