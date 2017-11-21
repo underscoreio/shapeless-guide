@@ -49,6 +49,12 @@ edit `src/meta/pdf.yaml` and set
 `blackandwhiteprintable` to `true`.
 Then run `sbt pdf` as above.
 
+## Contributing
+
+Please raise an issue or submit a PR.
+If you submit a PR, make sure to add yourself to
+`src/pages/intro/constributors.md`!
+
 ## Acknowledgements
 
 Thanks to Miles Sabin, Richard Dallaway, Noel Welsh, Travis Brown,
