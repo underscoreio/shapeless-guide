@@ -131,6 +131,8 @@ import Second._
 ```
 
 ```tut:book:silent
+import Second.Aux
+
 implicit def hlistSecond[A, B, Rest <: HList]: Aux[A :: B :: Rest, B] =
   new Second[A :: B :: Rest] {
     type Out = B
