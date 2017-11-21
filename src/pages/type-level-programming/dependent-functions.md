@@ -126,12 +126,8 @@ the[Last[String :: Int :: HNil]]
 We only need a single instance,
 defined for `HLists` of at least two elements:
 
-```tut:book:invisible
-import Second._
-```
-
 ```tut:book:silent
-import Second.Aux
+import Second._
 
 implicit def hlistSecond[A, B, Rest <: HList]: Aux[A :: B :: Rest, B] =
   new Second[A :: B :: Rest] {
