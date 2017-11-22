@@ -40,7 +40,7 @@
 <!-- Papers and articles -->
 
 [link-folone-scalax-2014]: https://skillsmatter.com/skillscasts/5946-42-rise-of-the-dependent-types
-[link-fommil-scalax-2015]: https://github.com/fommil/shapeless-for-mortals
+[link-fommil-scalax-2015]: http://fommil.com/scalax15/
 [link-kevinwright-type-classes]: http://stackoverflow.com/questions/5408861/what-are-type-classes-in-scala-useful-for
 [link-propensive-nescala-2016]: https://www.youtube.com/watch?v=R8GksuRw3VI
 [link-tpolecat-adts]: http://tpolecat.github.io/presentations/algebraic_types.html
