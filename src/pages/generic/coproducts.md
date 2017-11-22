@@ -168,6 +168,6 @@ the definition of `CsvEncoder`
 to incorporate the width of the data type
 and space the output accordingly.
 The examples repo linked
-in Section [@sec:intro:about-this-book]
+in Section [@sec:intro:source-code]
 contains a complete implementation of `CsvEncoder`
 that addresses this problem.

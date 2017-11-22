@@ -233,5 +233,5 @@ We therefore tend to describe definitions
 outside of their context in the companion object.
 Bear this in mind as you read
 and check the accompanying repo
-linked in Section [@sec:intro:about-this-book]
+linked in Section [@sec:intro:source-code]
 for complete worked examples.
