@@ -1,4 +1,4 @@
-## Source code and examples
+## Source code and examples {#sec:intro:source-code}
 
 This book is open source.
 You can find the [Markdown source on Github][link-book-repo].
