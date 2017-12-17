@@ -3,7 +3,9 @@
 `HList` has `init` and `last`
 extension methods based on two type classes:
 `shapeless.ops.hlist.Init` and
-`shapeless.ops.hlist.Last`.
+`shapeless.ops.hlist.Last`. 
+While `init` drops the last element of an `HList`, 
+`last` drops all except the last one.
 `Coproduct` has similar methods and type classes.
 These serve as perfect examples of the ops pattern.
 Here are simplified definitions of the extension methods:
