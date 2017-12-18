@@ -183,7 +183,7 @@ implicit def genericEncoder[A, R](
   createEncoder(a => enc.encode(gen.to(a)))
 ```
 
-We'll cover this coding style in more detail the next chapter.
+We'll cover this coding style in more detail in the next chapter.
 Suffice to say, this definition now compiles and works as expected
 and we can use it with any case class as expected.
 Intuitively, this definition says:
