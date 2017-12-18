@@ -33,7 +33,7 @@
 [link-scalacheck-shapeless]: https://github.com/alexarchambault/scalacheck-shapeless
 [link-shapeless]: https://github.com/milessabin/shapeless
 [link-spray-json]: https://github.com/spray/spray-json
-[link-spray-json-shapeless]: https://github.com/fommil/spray-json-shapeless
+[link-spray-json-shapeless]: https://github.com/milessabin/spray-json-shapeless
 [link-tut]: https://github.com/tpolecat/tut
 [link-witness]: https://en.wikipedia.org/wiki/Witness_(mathematics)
 
