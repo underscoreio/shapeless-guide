@@ -12,6 +12,7 @@ You have three options for grabbing the book:
 - download the book from [Underscore][underscore] (also free)
   and get notified of future updates by email;
 - order a print copy from [Underscore][underscore].
+- a french translation is also [available][fr]
 
 ## Related Material
 
@@ -70,3 +71,4 @@ for their invaluable help and feedback.
 [contributors]: https://github.com/underscoreio/shapeless-guide/graphs/contributors
 [underscore]: https://underscore.io/books/shapeless-guide
 [lulu]: http://www.lulu.com/shop/dave-gurnell/the-type-astronauts-guide-to-shapeless/paperback/product-22992219.html
+[fr]: https://github.com/crakjie/shapeless-guide
