@@ -56,3 +56,4 @@
 <!-- Other -->
 
 [link-underscore]: https://underscore.io
+[link-fr]: https://github.com/crakjie/shapeless-guide

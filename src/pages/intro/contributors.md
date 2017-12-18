@@ -32,6 +32,11 @@ ronanM,
 Tony Lottsm
 and Yoshimura Yuu
 
+A separately maintained French translation
+of this book is also available [on Github][link-fr].
+Thanks to etienne and fellow contributors
+for producing and maintaining it!
+
 If you spot an error or potential improvement,
 please raise an issue or submit a PR
 on the [Github page][link-book-repo].
