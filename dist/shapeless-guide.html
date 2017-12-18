@@ -88,7 +88,7 @@ The Type Astronaut’s Guide to Shapeless
 <li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a><ul>
 <li><a href="#what-is-generic-programming"><span class="toc-section-number">1.1</span> What is generic programming?</a></li>
 <li><a href="#sec:intro:about-this-book"><span class="toc-section-number">1.2</span> About this book</a></li>
-<li><a href="#source-code-and-examples"><span class="toc-section-number">1.3</span> Source code and examples</a></li>
+<li><a href="#sec:intro:source-code"><span class="toc-section-number">1.3</span> Source code and examples</a></li>
 <li><a href="#acknowledgements"><span class="toc-section-number">1.4</span> Acknowledgements</a></li>
 </ul></li>
 <li><a href="#sec:representations"><span class="toc-section-number">2</span> Algebraic data types and generic representations</a><ul>
@@ -249,7 +249,7 @@ Creator of shapeless</p>
 <li><p>In Chapter 7 we introduce <em>polymorphic functions</em>, also known as <code>Polys</code>, and show how they are used in ops type classes for mapping, flat mapping, and folding over generic representations.</p></li>
 <li><p>Finally, in Chapter 8 we introduce the <code>Nat</code> type that shapeless uses to represent natural numbers at the type level. We introduce several related ops type classes, and use <code>Nat</code> to develop our own version of Scalacheck’s <code>Arbitrary</code>.</p></li>
 </ul>
-<h2 id="source-code-and-examples"><span class="header-section-number">1.3</span> Source code and examples</h2>
+<h2 id="sec:intro:source-code"><span class="header-section-number">1.3</span> Source code and examples</h2>
 <p>This book is open source. You can find the <a href="https://github.com/underscoreio/shapeless-guide">Markdown source on Github</a>. The book receives constant updates from the community so be sure to check the Github repo for the most up-to-date version.</p>
 <p>We also maintain a copy of the book on the <a href="https://underscore.io/books/shapeless-guide">Underscore web site</a>. If you grab a copy of the book from there we will notify you whenever we release an update.</p>
 <p>There are complete implementations of the major examples in an <a href="https://github.com/underscoreio/shapeless-guide-code">accompanying repo</a>. See the README for installation details. We assume shapeless 2.3.2 and either Typelevel Scala 2.11.8+ or Lightbend Scala 2.11.9+ / 2.12.1+.</p>
@@ -266,9 +266,10 @@ scalaVersion      := <span class="st">&quot;2.12.1&quot;</span></code></pre></di
 <pre><code>sbt.version=0.13.13</code></pre>
 <h2 id="acknowledgements"><span class="header-section-number">1.4</span> Acknowledgements</h2>
 <p>Thanks to Miles Sabin, Richard Dallaway, Noel Welsh, and Travis Brown, for their invaluable contributions to this guide.</p>
-<p>Special thanks to Sam Halliday for this excellent workshop <a href="https://github.com/fommil/shapeless-for-mortals">Shapeless for Mortals</a>, which provided the initial inspiration and skeleton, and to Rob Norris and his fellow contributors for the awesome <a href="https://github.com/tpolecat/tut">Tut</a>, which keeps our examples compiling correctly.</p>
+<p>Special thanks to Sam Halliday for this excellent workshop <a href="http://fommil.com/scalax15/">Shapeless for Mortals</a>, which provided the initial inspiration and skeleton, and to Rob Norris and his fellow contributors for the awesome <a href="https://github.com/tpolecat/tut">Tut</a>, which keeps our examples compiling correctly.</p>
 <p>Finally, thanks to everyone who has contributed on Github. Here is an alphabetical list of contributors:</p>
-<p>Aaron S. Hawley, Aleksandr Vinokurov, Aristotelis Dossas, Chris Birchall, ErunamoJAZZ, Jasper Moeys, ltbs, Matt Kohl, Maximilien Riehl, Mike Limansky, Philippus Baalman, Piotr Gołębiewski, Richard Dallaway, ronanM, Tony Lottsm and Yoshimura Yuu</p>
+<p>Aaron S. Hawley, Aleksandr Vinokurov, Aristotelis Dossas, Chris Birchall, Dani Rey, Dennis Hunziker, ErunamoJAZZ, Jasper Moeys, ltbs, Matt Kohl, Maximilien Riehl, Mike Limansky, Philippus Baalman, Piotr Gołębiewski, Richard Dallaway, ronanM, Tony Lottsm and Yoshimura Yuu</p>
+<p>A separately maintained French translation of this book is also available <a href="https://github.com/crakjie/shapeless-guide">on Github</a>. Thanks to etienne and fellow contributors for producing and maintaining it!</p>
 <p>If you spot an error or potential improvement, please raise an issue or submit a PR on the <a href="https://github.com/underscoreio/shapeless-guide">Github page</a>.</p>
 
 <h1 id="sec:representations"><span class="header-section-number">2</span> Algebraic data types and generic representations</h1>
@@ -363,7 +364,7 @@ scalaVersion      := <span class="st">&quot;2.12.1&quot;</span></code></pre></di
 <span class="kw">case</span> <span class="kw">class</span> <span class="fu">IceCream</span>(name: String, numCherries: Int, inCone: Boolean)
 
 <span class="kw">val</span> iceCreamGen = Generic[IceCream]
-<span class="co">// iceCreamGen: shapeless.Generic[IceCream]{type Repr = String :: Int :: Boolean :: shapeless.HNil} = anon$macro$4$1@6f75aada</span></code></pre></div>
+<span class="co">// iceCreamGen: shapeless.Generic[IceCream]{type Repr = String :: Int :: Boolean :: shapeless.HNil} = anon$macro$4$1@371cae43</span></code></pre></div>
 <p>Note that the instance of <code>Generic</code> has a type member <code>Repr</code> containing the type of its generic representation. In this case <code>iceCreamGen.Repr</code> is <code>String :: Int :: Boolean :: HNil</code>. Instances of <code>Generic</code> have two methods: one for converting <code>to</code> the <code>Repr</code> type and one for converting <code>from</code> it:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">val</span> iceCream = <span class="fu">IceCream</span>(<span class="st">&quot;Sundae&quot;</span>, <span class="dv">1</span>, <span class="kw">false</span>)
 <span class="co">// iceCream: IceCream = IceCream(Sundae,1,false)</span>
@@ -426,7 +427,7 @@ Generic[BigData].<span class="fu">from</span>(Generic[BigData].<span class="fu">
 <span class="kw">final</span> <span class="kw">case</span> <span class="kw">class</span> <span class="fu">Circle</span>(radius: Double) <span class="kw">extends</span> Shape
 
 <span class="kw">val</span> gen = Generic[Shape]
-<span class="co">// gen: shapeless.Generic[Shape]{type Repr = Rectangle :+: Circle :+: shapeless.CNil} = anon$macro$1$1@1059f3b1</span></code></pre></div>
+<span class="co">// gen: shapeless.Generic[Shape]{type Repr = Rectangle :+: Circle :+: shapeless.CNil} = anon$macro$1$1@1d776b80</span></code></pre></div>
 <p>The <code>Repr</code> of the <code>Generic</code> for <code>Shape</code> is a <code>Coproduct</code> of the subtypes of the sealed trait: <code>Rectangle :+: Circle :+: CNil</code>. We can use the <code>to</code> and <code>from</code> methods of the generic to map back and forth between <code>Shape</code> and <code>gen.Repr</code>:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">gen.<span class="fu">to</span>(Rectangle(<span class="fl">3.0</span>, <span class="fl">4.0</span>))
 <span class="co">// res3: gen.Repr = Inl(Rectangle(3.0,4.0))</span>
@@ -537,15 +538,15 @@ gen.<span class="fu">to</span>(<span class="fu">Circle</span>(<span class="fl">1
 }</code></pre></div>
 <p>The <code>apply</code> method, known as a “summoner” or “materializer”, allows us to summon a type class instance given a target type:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">CsvEncoder[IceCream]
-<span class="co">// res9: CsvEncoder[IceCream] = $anon$1@3b37a02a</span></code></pre></div>
+<span class="co">// res9: CsvEncoder[IceCream] = $anon$1@1ca9104e</span></code></pre></div>
 <p>In simple cases the summoner does the same job as the <code>implicitly</code> method defined in <code>scala.Predef</code>:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">implicitly[CsvEncoder[IceCream]]
-<span class="co">// res10: CsvEncoder[IceCream] = $anon$1@3b37a02a</span></code></pre></div>
+<span class="co">// res10: CsvEncoder[IceCream] = $anon$1@1ca9104e</span></code></pre></div>
 <p>However, as we will see in Section 4.2, when working with shapeless we encounter situations where <code>implicitly</code> doesn’t infer types correctly. We can always define the summoner method to do the right thing, so it’s worth writing one for every type class we create. We can also use a special method from shapeless called “<code>the</code>” (more on this later):</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">import</span> shapeless._
 
 the[CsvEncoder[IceCream]]
-<span class="co">// res11: CsvEncoder[IceCream] = $anon$1@3b37a02a</span></code></pre></div>
+<span class="co">// res11: CsvEncoder[IceCream] = $anon$1@1ca9104e</span></code></pre></div>
 <p>The <code>instance</code> method, sometimes named <code>pure</code>, provides a terse syntax for creating new type class instances, reducing the boilerplate of anonymous class syntax:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">implicit</span> <span class="kw">val</span> booleanEncoder: CsvEncoder[Boolean] =
   <span class="kw">new</span> CsvEncoder[Boolean] {
@@ -555,7 +556,7 @@ the[CsvEncoder[IceCream]]
 <p>down to something much shorter:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">implicit</span> <span class="kw">val</span> booleanEncoder: CsvEncoder[Boolean] =
   <span class="fu">instance</span>(b =&gt; <span class="kw">if</span>(b) List(<span class="st">&quot;yes&quot;</span>) <span class="kw">else</span> List(<span class="st">&quot;no&quot;</span>))</code></pre></div>
-<p>Unfortunately, several limitations of typesetting code in a book prevent us writing long singletons containing lots of methods and instances. We therefore tend to describe definitions outside of their context in the companion object. Bear this in mind as you read and check the accompanying repo linked in Section 1.2 for complete worked examples.</p>
+<p>Unfortunately, several limitations of typesetting code in a book prevent us writing long singletons containing lots of methods and instances. We therefore tend to describe definitions outside of their context in the companion object. Bear this in mind as you read and check the accompanying repo linked in Section 1.3 for complete worked examples.</p>
 <h2 id="sec:generic:products"><span class="header-section-number">3.2</span> Deriving instances for products</h2>
 <p>In this section we’re going to use shapeless to derive type class instances for product types (i.e. case classes). We’ll use two intuitions:</p>
 <ol style="list-style-type: decimal">
@@ -642,7 +643,7 @@ reprEncoder.<span class="fu">encode</span>(<span class="st">&quot;abc&quot;</spa
   enc: CsvEncoder[R]
 ): CsvEncoder[A] =
   <span class="fu">createEncoder</span>(a =&gt; enc.<span class="fu">encode</span>(gen.<span class="fu">to</span>(a)))</code></pre></div>
-<p>We’ll cover this coding style in more detail the next chapter. Suffice to say, this definition now compiles and works as expected and we can use it with any case class as expected. Intuitively, this definition says:</p>
+<p>We’ll cover this coding style in more detail in the next chapter. Suffice to say, this definition now compiles and works as expected and we can use it with any case class as expected. Intuitively, this definition says:</p>
 <blockquote>
 <p><em>Given a type <code>A</code> and an <code>HList</code> type <code>R</code>, an implicit <code>Generic</code> to map <code>A</code> to <code>R</code>, and a <code>CsvEncoder</code> for <code>R</code>, create a <code>CsvEncoder</code> for <code>A</code>.</em></p>
 </blockquote>
@@ -742,7 +743,7 @@ reprEncoder.<span class="fu">encode</span>(<span class="st">&quot;abc&quot;</spa
 <p>If you are using Lightbend Scala 2.11.8 or earlier and coproduct resolution fails for you, consider upgrading to Lightbend Scala 2.11.9 or Typelevel Scala 2.11.8. SI-7046 is fixed in each of these releases.</p>
 </div>
 <h3 id="aligning-csv-output"><span class="header-section-number">3.3.1</span> Aligning CSV output</h3>
-<p>Our CSV encoder isn’t very practical in its current form. It allows fields from <code>Rectangle</code> and <code>Circle</code> to occupy the same columns in the output. To fix this problem we need to modify the definition of <code>CsvEncoder</code> to incorporate the width of the data type and space the output accordingly. The examples repo linked in Section 1.2 contains a complete implementation of <code>CsvEncoder</code> that addresses this problem.</p>
+<p>Our CSV encoder isn’t very practical in its current form. It allows fields from <code>Rectangle</code> and <code>Circle</code> to occupy the same columns in the output. To fix this problem we need to modify the definition of <code>CsvEncoder</code> to incorporate the width of the data type and space the output accordingly. The examples repo linked in Section 1.3 contains a complete implementation of <code>CsvEncoder</code> that addresses this problem.</p>
 <h2 id="deriving-instances-for-recursive-types"><span class="header-section-number">3.4</span> Deriving instances for recursive types</h2>
 <p>Let’s try something more ambitious—a binary tree:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> Tree[A]
@@ -806,7 +807,7 @@ CsvEncoder[Int :: String :: HNil] <span class="co">// 4 uh oh</span></code></pre
 }</code></pre></div>
 <p>This prevents the compiler giving up prematurely, and enables the solution to work on complex/recursive types like <code>Tree</code>:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">CsvEncoder[Tree[Int]]
-<span class="co">// res2: CsvEncoder[Tree[Int]] = $anon$1@67b94cfb</span></code></pre></div>
+<span class="co">// res2: CsvEncoder[Tree[Int]] = $anon$1@2c5966fd</span></code></pre></div>
 <h2 id="sec:generic:debugging"><span class="header-section-number">3.5</span> Debugging implicit resolution</h2>
 <p>Failures in implicit resolution can be confusing and frustrating. Here are a couple of techniques to use when implicits go bad.</p>
 <h3 id="debugging-using-implicitly"><span class="header-section-number">3.5.1</span> Debugging using <em>implicitly</em></h3>
@@ -915,10 +916,10 @@ CsvEncoder[Float]
 <span class="kw">import</span> shapeless.<span class="fu">ops</span>.<span class="fu">hlist</span>.<span class="fu">Last</span>
 
 <span class="kw">val</span> last1 = Last[String :: Int :: HNil]
-<span class="co">// last1: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil]{type Out = Int} = shapeless.ops.hlist$Last$$anon$34@1ab38783</span>
+<span class="co">// last1: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil]{type Out = Int} = shapeless.ops.hlist$Last$$anon$34@2ef26e2d</span>
 
 <span class="kw">val</span> last2 = Last[Int :: String :: HNil]
-<span class="co">// last2: shapeless.ops.hlist.Last[Int :: String :: shapeless.HNil]{type Out = String} = shapeless.ops.hlist$Last$$anon$34@128c599e</span></code></pre></div>
+<span class="co">// last2: shapeless.ops.hlist.Last[Int :: String :: shapeless.HNil]{type Out = String} = shapeless.ops.hlist$Last$$anon$34@597854a</span></code></pre></div>
 <p>Once we have summoned instances of <code>Last</code>, we can use them at the value level via their <code>apply</code> methods:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="fu">last1</span>(<span class="st">&quot;foo&quot;</span> :: <span class="dv">123</span> :: HNil)
 <span class="co">// res1: last1.Out = 123</span>
@@ -955,15 +956,15 @@ CsvEncoder[Float]
 <p>Note that the return type on <code>apply</code> is <code>Aux[L, O]</code>, not <code>Second[L]</code>. This is important. Using <code>Aux</code> ensures the <code>apply</code> method does not erase the type members on summoned instances. If we define the return type as <code>Second[L]</code>, the <code>Out</code> type member will be erased from the return type and the type class will not work correctly.</p>
 <p>The <code>implicitly</code> method from <code>scala.Predef</code> has this behaviour. Compare the type of an instance of <code>Last</code> summoned with <code>implicitly</code>:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">implicitly[Last[String :: Int :: HNil]]
-<span class="co">// res6: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil] = shapeless.ops.hlist$Last$$anon$34@3fb2af8</span></code></pre></div>
+<span class="co">// res6: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil] = shapeless.ops.hlist$Last$$anon$34@7d1c7ca</span></code></pre></div>
 <p>to the type of an instance summoned with <code>Last.apply</code>:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">Last[String :: Int :: HNil]
-<span class="co">// res7: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil]{type Out = Int} = shapeless.ops.hlist$Last$$anon$34@609660ae</span></code></pre></div>
+<span class="co">// res7: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil]{type Out = Int} = shapeless.ops.hlist$Last$$anon$34@744f8711</span></code></pre></div>
 <p>The type summoned by <code>implicitly</code> has no <code>Out</code> type member. For this reason, we should avoid <code>implicitly</code> when working with dependently typed functions. We can either use custom summoner methods, or we can use shapeless’ replacement method, <code>the</code>:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">import</span> shapeless._
 
 the[Last[String :: Int :: HNil]]
-<span class="co">// res8: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil]{type Out = Int} = shapeless.ops.hlist$Last$$anon$34@3f76f826</span></code></pre></div>
+<span class="co">// res8: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil]{type Out = Int} = shapeless.ops.hlist$Last$$anon$34@56c3e5ad</span></code></pre></div>
 </div>
 <p>We only need a single instance, defined for <code>HLists</code> of at least two elements:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">import</span> Second._
@@ -976,10 +977,10 @@ the[Last[String :: Int :: HNil]]
   }</code></pre></div>
 <p>We can summon instances using <code>Second.apply</code>:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">val</span> second1 = Second[String :: Boolean :: Int :: HNil]
-<span class="co">// second1: Second[String :: Boolean :: Int :: shapeless.HNil]{type Out = Boolean} = $anon$1@3911dc79</span>
+<span class="co">// second1: Second[String :: Boolean :: Int :: shapeless.HNil]{type Out = Boolean} = $anon$1@c358f62</span>
 
 <span class="kw">val</span> second2 = Second[String :: Int :: Boolean :: HNil]
-<span class="co">// second2: Second[String :: Int :: Boolean :: shapeless.HNil]{type Out = Int} = $anon$1@f6aff4d</span></code></pre></div>
+<span class="co">// second2: Second[String :: Int :: Boolean :: shapeless.HNil]{type Out = Int} = $anon$1@53b8f1f8</span></code></pre></div>
 <p>Summoning is subject to similar constraints as <code>Last</code>. If we try to summon an instance for an incompatible <code>HList</code>, resolution fails and we get a compile error:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">Second[String :: HNil]
 <span class="co">// &lt;console&gt;:26: error: could not find implicit value for parameter inst: Second[String :: shapeless.HNil]</span>
@@ -1085,7 +1086,7 @@ the[Last[String :: Int :: HNil]]
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">object</span> Foo
 
 Foo
-<span class="co">// res3: Foo.type = Foo$@3d75fcd3</span></code></pre></div>
+<span class="co">// res3: Foo.type = Foo$@24f3f2c9</span></code></pre></div>
 <p>The type <code>Foo.type</code> is the type of <code>Foo</code>, and <code>Foo</code> is the only value with that type.</p>
 <p>Singleton types applied to literal values are called <em>literal types</em>. These have existed in Scala for a long time, but we don’t normally interact with them because the default behaviour of the compiler is to “widen” literals to their nearest non-singleton type. For example, these two expressions are essentially equivalent:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="st">&quot;hello&quot;</span>
@@ -1382,7 +1383,7 @@ LabelledGeneric[Shape].<span class="fu">to</span>(<span class="fu">Circle</span>
 
 JsonEncoder[Shape].<span class="fu">encode</span>(shape)
 <span class="co">// res8: JsonValue = JsonObject(List((Circle,JsonObject(List((radius,JsonNumber(1.0)))))))</span></code></pre></div>
-<p>Other encodings are possible with a little more work. We can add a <code>&quot;type&quot;</code> field to the output, for example, or even allow the user to configure the format. Sam Halliday’s <a href="https://github.com/fommil/spray-json-shapeless">spray-json-shapeless</a> is an excellent example of a codebase that is approachable while providing a great deal of flexibility.</p>
+<p>Other encodings are possible with a little more work. We can add a <code>&quot;type&quot;</code> field to the output, for example, or even allow the user to configure the format. Sam Halliday’s <a href="https://github.com/milessabin/spray-json-shapeless">spray-json-shapeless</a> is an excellent example of a codebase that is approachable while providing a great deal of flexibility.</p>
 <h2 id="summary-2"><span class="header-section-number">5.5</span> Summary</h2>
 <p>In this chapter we discussed <code>LabelledGeneric</code>, a variant of <code>Generic</code> that exposes type and field names in its generic representations.</p>
 <p>The names exposed by <code>LabelledGeneric</code> are encoded as type-level tags so we can target them during implicit resolution. We started the chapter discussing <em>literal types</em> and the way shapeless uses them in its tags. We also discussed the <code>Witness</code> type class, which is used to reify literal types as values.</p>
@@ -1400,7 +1401,7 @@ JsonEncoder[Shape].<span class="fu">encode</span>(shape)
 </ul>
 <p>We don’t have room in this book to cover all of the available ops. Fortunately, in most cases the code is understandable and well documented. Rather than provide an exhaustive guide, we will touch on the major theoretical and structural points and show you how to extract further information from the shapeless codebase.</p>
 <h2 id="simple-ops-examples"><span class="header-section-number">6.1</span> Simple ops examples</h2>
-<p><code>HList</code> has <code>init</code> and <code>last</code> extension methods based on two type classes: <code>shapeless.ops.hlist.Init</code> and <code>shapeless.ops.hlist.Last</code>. <code>Coproduct</code> has similar methods and type classes. These serve as perfect examples of the ops pattern. Here are simplified definitions of the extension methods:</p>
+<p><code>HList</code> has <code>init</code> and <code>last</code> extension methods based on two type classes: <code>shapeless.ops.hlist.Init</code> and <code>shapeless.ops.hlist.Last</code>. While <code>init</code> drops the last element of an <code>HList</code>, <code>last</code> drops all except the last one. <code>Coproduct</code> has similar methods and type classes. These serve as perfect examples of the ops pattern. Here are simplified definitions of the extension methods:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">package</span> shapeless
 <span class="kw">package</span> syntax
 
@@ -1973,10 +1974,10 @@ toInt.<span class="fu">apply</span>()
 <span class="kw">import</span> shapeless.<span class="fu">ops</span>.{hlist, coproduct, nat}
 
 <span class="kw">val</span> hlistLength = hlist.<span class="fu">Length</span>[String :: Int :: Boolean :: HNil]
-<span class="co">// hlistLength: shapeless.ops.hlist.Length[String :: Int :: Boolean :: shapeless.HNil]{type Out = shapeless.Succ[shapeless.Succ[shapeless.Succ[shapeless._0]]]} = shapeless.ops.hlist$Length$$anon$3@3f9c93b0</span>
+<span class="co">// hlistLength: shapeless.ops.hlist.Length[String :: Int :: Boolean :: shapeless.HNil]{type Out = shapeless.Succ[shapeless.Succ[shapeless.Succ[shapeless._0]]]} = shapeless.ops.hlist$Length$$anon$3@4888f759</span>
 
 <span class="kw">val</span> coproductLength = coproduct.<span class="fu">Length</span>[Double :+: Char :+: CNil]
-<span class="co">// coproductLength: shapeless.ops.coproduct.Length[Double :+: Char :+: shapeless.CNil]{type Out = shapeless.Succ[shapeless.Succ[shapeless._0]]} = shapeless.ops.coproduct$Length$$anon$29@2680baa8</span></code></pre></div>
+<span class="co">// coproductLength: shapeless.ops.coproduct.Length[Double :+: Char :+: shapeless.CNil]{type Out = shapeless.Succ[shapeless.Succ[shapeless._0]]} = shapeless.ops.coproduct$Length$$anon$29@2d8bad0c</span></code></pre></div>
 <p>Instances of <code>Length</code> have a type member <code>Out</code> that represents the length as a <code>Nat</code>:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">Nat.<span class="fu">toInt</span>[hlistLength.<span class="fu">Out</span>]
 <span class="co">// res0: Int = 3</span>
