@@ -131,7 +131,7 @@ object multiply extends Poly2 {
     at((a, b) => a * b)
 
   implicit val intStrCase: Case.Aux[Int, String, String] =
-    at((a, b) => b.toString * a)
+    at((a, b) => b * a)
 }
 ```
 
