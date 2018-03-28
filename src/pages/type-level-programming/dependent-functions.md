@@ -263,7 +263,7 @@ The solution to our problem above
 is to separate implicit resolution into steps:
 
 1. find a `Generic` with a suitable `Repr` for `A`;
-2. provide that the `Repr` has a head type `H`.
+2. provide the `Repr` that has a head type `H`.
 
 Here's a revised version of the method
 using `=:=` to constrain `Repr`:
