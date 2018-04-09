@@ -30,6 +30,7 @@ Philippus Baalman,
 Piotr Gołębiewski,
 Richard Dallaway,
 ronanM,
+s3ni0r,
 Tony Lottsm
 and Yoshimura Yuu
 
