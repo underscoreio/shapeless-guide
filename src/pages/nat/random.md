@@ -37,6 +37,9 @@ scala.util.Random.setSeed(0)
 trait Random[A] {
   def get: A
 }
+object Random {
+  def apply[A](implicit r: Random[A]): Random[A] = r
+}
 
 def random[A](implicit r: Random[A]): A = r.get
 ```
@@ -66,7 +69,9 @@ implicit val booleanRandom: Random[Boolean] =
 ```
 
 We can use these simple generators
-via the `random` method as follows:
+via the `random` method as follows
+(or alternatively via the summoner
+method in order to reuse an instance):
 
 ```tut:book
 for(i <- 1 to 3) println(random[Int])
@@ -107,7 +112,8 @@ case class Cell(col: Char, row: Int)
 ```
 
 ```tut:book
-for(i <- 1 to 5) println(random[Cell])
+val rc = Random[Cell]
+for(i <- 1 to 5) println(rc.get)
 ```
 
 ### Random coproducts
@@ -163,7 +169,8 @@ we see something even more alarming:
 Our coproduct instances will throw exceptions 6.75% of the time!
 
 ```scala
-for(i <- 1 to 100) random[Light]
+val lr = Random[Light]
+for(i <- 1 to 100) lr.get
 // java.lang.Exception: Inconceivable!
 //   ...
 ```
@@ -204,7 +211,8 @@ With these modifications
 we can generate random values of any product or coproduct:
 
 ```tut:book
-for(i <- 1 to 5) println(random[Light])
+val lr = Random[Light]
+for(i <- 1 to 5) println(lr.get)
 ```
 
 Generating test data for ScalaCheck
