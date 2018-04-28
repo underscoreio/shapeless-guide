@@ -127,7 +127,7 @@ import shapeless.Generic
 
 implicit val iceCreamEncoder: CsvEncoder[IceCream] = {
   val gen = Generic[IceCream]
-  val enc = CsvEncoder[gen.Repr]
+  val enc = the[CsvEncoder[gen.Repr]]
   createEncoder(iceCream => enc.encode(gen.to(iceCream)))
 }
 ```
