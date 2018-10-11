@@ -1,0 +1,21 @@
+sudo: required
+services:
+- docker
+language: scala
+scala:
+- 2.12.2
+cache:
+  directories:
+  - "$HOME/.ivy2/cache"
+  - "$HOME/.sbt/boot"
+  - "$HOME/.cache/.coursier"
+script:
+- sudo mkdir .sbt
+- sudo mkdir dist
+- docker-compose run book npm install
+- docker-compose run book ./sbt.sh pdf html epub ; export SBT_RESULT=$?
+- test "$SBT_RESULT" == "0"
+after_success:
+- openssl aes-256-cbc -K $encrypted_232d7e8fc499_key -iv $encrypted_232d7e8fc499_iv
+  -in book_deploy_rsa.enc -out book_deploy_rsa -d
+- "./book_deploy.sh"
