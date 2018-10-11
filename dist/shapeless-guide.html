@@ -268,7 +268,7 @@ scalaVersion      := <span class="st">&quot;2.12.1&quot;</span></code></pre></di
 <p>Thanks to Miles Sabin, Richard Dallaway, Noel Welsh, and Travis Brown, for their invaluable contributions to this guide.</p>
 <p>Special thanks to Sam Halliday for this excellent workshop <a href="http://fommil.com/scalax15/">Shapeless for Mortals</a>, which provided the initial inspiration and skeleton, and to Rob Norris and his fellow contributors for the awesome <a href="https://github.com/tpolecat/tut">Tut</a>, which keeps our examples compiling correctly.</p>
 <p>Finally, thanks to everyone who has contributed on Github. Here is an alphabetical list of contributors:</p>
-<p>Aaron S. Hawley, Aleksandr Vinokurov, Aristotelis Dossas, Chris Birchall, Dani Rey, Dennis Hunziker, ErunamoJAZZ, Jasper Moeys, ltbs, Matt Kohl, Maximilien Riehl, Mike Limansky, Philippus Baalman, Piotr Gołębiewski, Richard Dallaway, ronanM, Tony Lottsm and Yoshimura Yuu</p>
+<p>Aaron S. Hawley, Aleksandr Vinokurov, Aristotelis Dossas, Chris Birchall, Dani Rey, Dennis Hunziker, ErunamoJAZZ, Evgeny Veretennikov, Jasper Moeys, ltbs, Matt Kohl, Maximilien Riehl, Mike Limansky, Philippus Baalman, Piotr Gołębiewski, Richard Dallaway, ronanM, s3ni0r, Tony Lottsm and Yoshimura Yuu</p>
 <p>A separately maintained French translation of this book is also available <a href="https://github.com/crakjie/shapeless-guide">on Github</a>. Thanks to etienne and fellow contributors for producing and maintaining it!</p>
 <p>If you spot an error or potential improvement, please raise an issue or submit a PR on the <a href="https://github.com/underscoreio/shapeless-guide">Github page</a>.</p>
 
@@ -916,10 +916,10 @@ CsvEncoder[Float]
 <span class="kw">import</span> shapeless.<span class="fu">ops</span>.<span class="fu">hlist</span>.<span class="fu">Last</span>
 
 <span class="kw">val</span> last1 = Last[String :: Int :: HNil]
-<span class="co">// last1: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil]{type Out = Int} = shapeless.ops.hlist$Last$$anon$34@2ef26e2d</span>
+<span class="co">// last1: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil]{type Out = Int} = shapeless.ops.hlist$Last$$anon$34@61ec391a</span>
 
 <span class="kw">val</span> last2 = Last[Int :: String :: HNil]
-<span class="co">// last2: shapeless.ops.hlist.Last[Int :: String :: shapeless.HNil]{type Out = String} = shapeless.ops.hlist$Last$$anon$34@597854a</span></code></pre></div>
+<span class="co">// last2: shapeless.ops.hlist.Last[Int :: String :: shapeless.HNil]{type Out = String} = shapeless.ops.hlist$Last$$anon$34@6e8428f7</span></code></pre></div>
 <p>Once we have summoned instances of <code>Last</code>, we can use them at the value level via their <code>apply</code> methods:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="fu">last1</span>(<span class="st">&quot;foo&quot;</span> :: <span class="dv">123</span> :: HNil)
 <span class="co">// res1: last1.Out = 123</span>
@@ -956,15 +956,15 @@ CsvEncoder[Float]
 <p>Note that the return type on <code>apply</code> is <code>Aux[L, O]</code>, not <code>Second[L]</code>. This is important. Using <code>Aux</code> ensures the <code>apply</code> method does not erase the type members on summoned instances. If we define the return type as <code>Second[L]</code>, the <code>Out</code> type member will be erased from the return type and the type class will not work correctly.</p>
 <p>The <code>implicitly</code> method from <code>scala.Predef</code> has this behaviour. Compare the type of an instance of <code>Last</code> summoned with <code>implicitly</code>:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">implicitly[Last[String :: Int :: HNil]]
-<span class="co">// res6: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil] = shapeless.ops.hlist$Last$$anon$34@7d1c7ca</span></code></pre></div>
+<span class="co">// res6: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil] = shapeless.ops.hlist$Last$$anon$34@68edec07</span></code></pre></div>
 <p>to the type of an instance summoned with <code>Last.apply</code>:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">Last[String :: Int :: HNil]
-<span class="co">// res7: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil]{type Out = Int} = shapeless.ops.hlist$Last$$anon$34@744f8711</span></code></pre></div>
+<span class="co">// res7: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil]{type Out = Int} = shapeless.ops.hlist$Last$$anon$34@7c4c0b1</span></code></pre></div>
 <p>The type summoned by <code>implicitly</code> has no <code>Out</code> type member. For this reason, we should avoid <code>implicitly</code> when working with dependently typed functions. We can either use custom summoner methods, or we can use shapeless’ replacement method, <code>the</code>:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">import</span> shapeless._
 
 the[Last[String :: Int :: HNil]]
-<span class="co">// res8: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil]{type Out = Int} = shapeless.ops.hlist$Last$$anon$34@56c3e5ad</span></code></pre></div>
+<span class="co">// res8: shapeless.ops.hlist.Last[String :: Int :: shapeless.HNil]{type Out = Int} = shapeless.ops.hlist$Last$$anon$34@121a56ea</span></code></pre></div>
 </div>
 <p>We only need a single instance, defined for <code>HLists</code> of at least two elements:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">import</span> Second._
@@ -977,10 +977,10 @@ the[Last[String :: Int :: HNil]]
   }</code></pre></div>
 <p>We can summon instances using <code>Second.apply</code>:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">val</span> second1 = Second[String :: Boolean :: Int :: HNil]
-<span class="co">// second1: Second[String :: Boolean :: Int :: shapeless.HNil]{type Out = Boolean} = $anon$1@c358f62</span>
+<span class="co">// second1: Second[String :: Boolean :: Int :: shapeless.HNil]{type Out = Boolean} = $anon$1@720adac2</span>
 
 <span class="kw">val</span> second2 = Second[String :: Int :: Boolean :: HNil]
-<span class="co">// second2: Second[String :: Int :: Boolean :: shapeless.HNil]{type Out = Int} = $anon$1@53b8f1f8</span></code></pre></div>
+<span class="co">// second2: Second[String :: Int :: Boolean :: shapeless.HNil]{type Out = Int} = $anon$1@6042fd10</span></code></pre></div>
 <p>Summoning is subject to similar constraints as <code>Last</code>. If we try to summon an instance for an incompatible <code>HList</code>, resolution fails and we get a compile error:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">Second[String :: HNil]
 <span class="co">// &lt;console&gt;:26: error: could not find implicit value for parameter inst: Second[String :: shapeless.HNil]</span>
@@ -1034,7 +1034,7 @@ the[Last[String :: Int :: HNil]]
 <p>The solution to our problem above is to separate implicit resolution into steps:</p>
 <ol style="list-style-type: decimal">
 <li>find a <code>Generic</code> with a suitable <code>Repr</code> for <code>A</code>;</li>
-<li>provide that the <code>Repr</code> has a head type <code>H</code>.</li>
+<li>provide the <code>Repr</code> that has a head type <code>H</code>.</li>
 </ol>
 <p>Here’s a revised version of the method using <code>=:=</code> to constrain <code>Repr</code>:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">def</span> getWrappedValue[A, Repr &lt;: HList, Head, Tail &lt;: HList](input: A)(
@@ -1783,7 +1783,7 @@ myPoly.<span class="fu">apply</span>(<span class="st">&quot;hello&quot;</span>)
     <span class="fu">at</span>((a, b) =&gt; a * b)
 
   <span class="kw">implicit</span> <span class="kw">val</span> intStrCase: Case.<span class="fu">Aux</span>[Int, String, String] =
-    <span class="fu">at</span>((a, b) =&gt; b.<span class="fu">toString</span> * a)
+    <span class="fu">at</span>((a, b) =&gt; b * a)
 }
 
 <span class="fu">multiply</span>(<span class="dv">3</span>, <span class="dv">4</span>)
