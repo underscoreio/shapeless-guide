@@ -235,7 +235,7 @@ implicit def genericObjectEncoder[A, H](
   implicit
   generic: LabelledGeneric.Aux[A, H],
   hEncoder: Lazy[JsonObjectEncoder[H]]
-): JsonEncoder[A] =
+): JsonObjectEncoder[A] =
   createObjectEncoder { value =>
     hEncoder.value.encode(generic.to(value))
   }
