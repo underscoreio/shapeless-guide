@@ -124,12 +124,10 @@ math.sqrt(4).narrow
 Until recently, Scala had no syntax for writing literal types.
 The types were there in the compiler
 but we couldn't express them directly in code.
-However, as of Lightbend Scala 2.12.1, Lightbend Scala 2.11.9,
-and Typelevel Scala 2.11.8 we have
-direct syntax support for literal types.
-In these versions of Scala
-we can use the `-Yliteral-types` compiler option
-and write declarations like the following:
+However, as of Typelevel Scala 2.11.8 we have
+direct syntax support for literal types which can be enabled via the `-Yliteral-types` compiler option.
+
+Lightbend Scala 2.13.0 will also gain literal types by default (with no compiler option needed or available) and allows you to write declarations like the following:
 
 ```tut:book
 val theAnswer: 42 = 42
